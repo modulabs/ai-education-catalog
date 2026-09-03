@@ -48,6 +48,22 @@
     .nl-row input:focus { outline:none; border-color:#EE3E4C; }
     .nl-hint { font-size:12px; color:#999; margin-top:7px; }
     .nl-status { font-size:13px; margin-top:8px; }
+    .mode-tabs { display:flex; gap:8px; margin:6px 0 18px; }
+    .mode-tab { flex:1; text-align:center; padding:12px; border:1.5px solid #e2e2e5; border-radius:12px; font-weight:700; font-size:14.5px; cursor:pointer; background:#fff; }
+    .mode-tab.on { border-color:#EE3E4C; background:#fff5f6; color:#C92434; }
+    .chat-wrap { display:flex; flex-direction:column; height:560px; border:1px solid #ebebeb; border-radius:14px; background:#fff; overflow:hidden; }
+    .chat-head { padding:12px 16px; background:#fafafa; border-bottom:1px solid #f0f0f2; display:flex; align-items:center; gap:10px; }
+    .chat-badge { font-size:12px; font-weight:800; color:#C92434; background:#fef0f0; padding:4px 10px; border-radius:99px; }
+    .chat-hint { font-size:12px; color:#999; }
+    .chat-log { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; }
+    .msg { max-width:82%; padding:11px 14px; border-radius:14px; font-size:14px; line-height:1.55; white-space:pre-wrap; }
+    .msg.bot { align-self:flex-start; background:#f5f6f8; border-bottom-left-radius:4px; }
+    .msg.user { align-self:flex-end; background:#EE3E4C; color:#fff; border-bottom-right-radius:4px; }
+    .msg .msg-who { font-size:11px; font-weight:800; color:#C92434; margin-bottom:3px; }
+    .chat-input-row { display:flex; gap:8px; padding:12px; border-top:1px solid #f0f0f2; background:#fafafa; }
+    .chat-input-row input { flex:1; padding:11px 14px; border:1.5px solid #ddd; border-radius:10px; font-size:14px; font-family:inherit; }
+    .chat-input-row input:focus { outline:none; border-color:#EE3E4C; }
+    .rc-desc { font-size:12.5px; color:#666; margin-top:6px; line-height:1.5; }
     .lead-box { background:#fff; border:2px solid #EE3E4C; border-radius:14px; padding:20px 22px; margin-top:22px; }
     .lead-box h2 { margin:0 0 6px; font-size:17px; }
     .lead-box p.lead-desc { font-size:13px; color:#888; margin:0 0 12px; }
@@ -102,6 +118,27 @@
         <p>6단계 입력만 하면 우리 조직에 맞는 과정·로드맵·예상 규모를 즉시 제안합니다. 추천은 분류체계(v1.3 · 158과목) 중 <strong>마스터 시트 등재 68과목</strong>을 대상으로 하며, 가격·과목은 확정 데이터만 사용합니다.</p>
       </header>
 
+      <div class="mode-tabs no-print">
+        <div class="mode-tab on" id="tabChat">💬 AI 상담사와 대화로 상담</div>
+        <div class="mode-tab" id="tabWizard">⚡ 빠른 선택 (6단계)</div>
+      </div>
+
+      <div id="chatMode">
+        <div class="chat-wrap no-print">
+          <div class="chat-head">
+            <span class="chat-badge" id="qBadge">질문 0/10</span>
+            <span class="chat-hint">상담사가 최소 5번, 최대 10번 질문드려요 · 답변은 짧게 편하게</span>
+          </div>
+          <div class="chat-log" id="chatLog"></div>
+          <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="예) 개발자 아닌 직원들이 AI를 무서워해서 시작이 어려워요" maxlength="500">
+            <button class="btn" id="chatSend">보내기</button>
+            <button class="btn ghost" id="chatSummary" style="display:none;" title="질문 5회 이상부터 가능">📋 요약·추천 받기</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="wizardMode" style="display:none;">
       <div class="nl-box no-print" id="nlBox" style="display:none;">
         <h3>✨ 대화로 시작</h3>
         <p style="font-size:13px;color:#888;margin:0 0 10px;">요구를 한 문장으로 적어보세요 — AI가 항목을 이해하면 단계 선택을 자동으로 채워 드립니다. (추천·견적은 규칙 엔진이 계산)</p>
@@ -115,6 +152,7 @@
       <div class="prefill-banner" id="prefillBanner"></div>
       <div class="progress" id="progress"></div>
       <div id="wizard"></div>
+      </div><!-- /wizardMode -->
 
       <div id="result" style="display:none;">
         <div class="pdf-action no-print" style="display:flex;gap:10px;align-items:center;">
@@ -232,6 +270,7 @@
       courses = d.courses;
       renderStep(0);
       initNL();
+      initChat();
     });
 
     function renderProgress(active) {
@@ -290,6 +329,97 @@
     window.renderStep = renderStep;  // 인라인 onclick(← 이전) 전역 노출
     window.prevStep = function () { renderStep(Math.max(0, stepIdx - 1)); };
 
+    // ===== P3.5 챗 상담 =====
+    var chatHistory = [];       // [{role, content}]
+    var chatReq = {};           // 최신 requirements
+    var qCount = 0;
+    var chatBusy = false;
+
+    function chatRender(who, text) {
+      var log = document.getElementById('chatLog');
+      var d = document.createElement('div');
+      d.className = 'msg ' + who;
+      d.innerHTML = (who === 'bot' ? '<div class="msg-who">🤖 모두연 상담사</div>' : '') + text.replace(/</g, '&lt;');
+      log.appendChild(d);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function updateQBadge() {
+      document.getElementById('qBadge').textContent = '질문 ' + qCount + '/10';
+      var btn = document.getElementById('chatSummary');
+      btn.style.display = qCount >= 5 ? 'inline-block' : 'none';
+      btn.disabled = qCount < 5;
+    }
+
+    async function chatSend(userText) {
+      if (chatBusy) return;
+      if (!userText) return;
+      chatBusy = true;
+      document.getElementById('chatSend').disabled = true;
+      chatRender('user', userText);
+      chatHistory.push({ role: 'user', content: userText });
+      document.getElementById('chatInput').value = '';
+      chatRender('bot', '…');
+      try {
+        var r = await fetch(CONSULT_API + '/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: chatHistory.slice(0, -1), q_count: qCount })
+        });
+        var d = await r.json();
+        if (!r.ok || !d.ok) throw new Error(d.error || ('http ' + r.status));
+        // 마지막 "…" 메시지 교체
+        var log = document.getElementById('chatLog');
+        log.lastChild.remove();
+        chatRender('bot', d.reply);
+        chatHistory.push({ role: 'assistant', content: d.reply });
+        qCount = d.q_count;
+        chatReq = Object.assign({}, chatReq, d.requirements || {});
+        if (d.forced_note && d.intent === 'ask') { /* 서버가 5회 미만 summarize 차단 */ }
+        updateQBadge();
+        if (d.done && d.intent !== 'ask') chatFinish();
+      } catch (e) {
+        var log2 = document.getElementById('chatLog');
+        if (log2.lastChild && log2.lastChild.textContent === '…') log2.lastChild.remove();
+        chatRender('bot', '죄송해요, 연결에 문제가 있어요. 잠시 후 다시 시도해 주시거나 아래 ⚡ 빠른 선택을 이용해 주세요.');
+      }
+      document.getElementById('chatSend').disabled = false;
+      chatBusy = false;
+    }
+
+    function chatFinish() {
+      // 채팅 requirements → 위자드 answers 변환 → 기존 추천 엔진 재사용
+      var map = { aud: 'aud', ind: 'ind', size: 'size', dur: 'dur', reg: 'reg' };
+      Object.keys(map).forEach(function (k) { if (chatReq[k]) answers[map[k]] = chatReq[k]; });
+      if (chatReq.topic && chatReq.topic.length) answers.topic = chatReq.topic;
+      answers.dur = answers.dur || 'any';
+      // 채팅 UI 숨기고 결과 표시
+      document.getElementById('chatMode').style.display = 'none';
+      document.querySelector('.mode-tabs').style.display = 'none';
+      showResult();
+      var b = document.getElementById('leadBtn'); if (b) b.onclick = submitLead;
+      document.getElementById('chatLog').scrollTop = 1e9;
+      window._chatReqSnapshot = JSON.parse(JSON.stringify(chatReq));
+    }
+
+    function initChat() {
+      if (!CONSULT_API) { document.getElementById('tabChat').style.display = 'none'; return; }
+      document.getElementById('chatSend').onclick = function () { chatSend(document.getElementById('chatInput').value.trim()); };
+      document.getElementById('chatInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') chatSend(this.value.trim()); });
+      document.getElementById('chatSummary').onclick = function () { if (qCount >= 5) chatFinish(); };
+      document.getElementById('tabChat').onclick = function () {
+        this.classList.add('on'); document.getElementById('tabWizard').classList.remove('on');
+        document.getElementById('chatMode').style.display = 'block'; document.getElementById('wizardMode').style.display = 'none';
+      };
+      document.getElementById('tabWizard').onclick = function () {
+        this.classList.add('on'); document.getElementById('tabChat').classList.remove('on');
+        document.getElementById('chatMode').style.display = 'none'; document.getElementById('wizardMode').style.display = 'block';
+      };
+      // 오프닝 메시지 + 첫 질문 자동 시작
+      chatRender('bot', '안녕하세요! 모두의연구소 AI 기업교육 상담사입니다 😊\n저희가 몇 가지 여쭤보고 나서, 우리 회사에 딱 맞는 교육과정과 로드맵을 만들어 드릴게요. (최소 5번, 최대 10번 질문드려요)');
+      chatSend('안녕하세요, 상담 부탁드립니다. 일단 AI 교육을 검토 중인데 어디서부터 시작해야 할지 모르겠어요.');
+    }
+
     // ===== 상담 요청 (Slack 연동) =====
     function buildSummary() {
       var cards = document.querySelectorAll('.result-card');
@@ -313,7 +443,8 @@
             company: company,
             contact: contact,
             message: (document.getElementById('prefillBanner').style.display !== 'none' ? document.getElementById('nlInput').value : ''),
-            summary: buildSummary()
+            summary: buildSummary(),
+            requirements: window._chatReqSnapshot || null
           })
         });
         var d = await r.json();
@@ -402,6 +533,7 @@
           + (c.is_new_202609 ? '<span class="rc-pill" style="background:#fef0f0;color:#c92434;">2026-09 신규</span>' : '')
           + '</div>'
           + (c._why.length ? '<div class="rc-why">▸ ' + c._why.join(' · ') + '</div>' : '')
+          + (c.description ? '<div class="rc-desc">📖 ' + c.description + '</div>' : '')
           + (c.case ? '<div class="rc-why" style="color:#999;">대표 사례 · ' + c.case + '</div>' : '');
         box.appendChild(d);
       });
