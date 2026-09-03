@@ -161,7 +161,7 @@
     var answers = {};
     var courses = [];
     var stepIdx = 0;
-    var CONSULT_API = '';  // P2 배포 후 Worker URL 입력. ''면 대화 모드 숨김(P1 위자드만 동작)
+    var CONSULT_API = 'https://modulabs-consult-proxy.modulabs-openclaw.workers.dev';  // P2 Worker (키 미등록/오류 시 503 → 위자드 폴백)
 
     // ===== P2: 대화로 시작 =====
     function initNL() {
