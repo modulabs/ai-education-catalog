@@ -48,6 +48,15 @@
     .nl-row input:focus { outline:none; border-color:#EE3E4C; }
     .nl-hint { font-size:12px; color:#999; margin-top:7px; }
     .nl-status { font-size:13px; margin-top:8px; }
+    .lead-box { background:#fff; border:2px solid #EE3E4C; border-radius:14px; padding:20px 22px; margin-top:22px; }
+    .lead-box h2 { margin:0 0 6px; font-size:17px; }
+    .lead-box p.lead-desc { font-size:13px; color:#888; margin:0 0 12px; }
+    .lead-row { display:flex; gap:8px; flex-wrap:wrap; }
+    .lead-row input { flex:1; min-width:180px; padding:11px 14px; border:1.5px solid #ddd; border-radius:10px; font-size:14px; font-family:inherit; }
+    .lead-row input:focus { outline:none; border-color:#EE3E4C; }
+    .lead-msg { font-size:13px; margin-top:10px; }
+    .lead-ok { color:#0e9f6e; font-weight:700; }
+    .lead-err { color:#c92434; }
     .prefill-banner { background:#eef4ff; border:1px solid #c9d8f7; color:#2563eb; border-radius:10px; padding:10px 14px; font-size:13px; margin-bottom:14px; display:none; }
   </style>
 </head>
@@ -121,6 +130,17 @@
         <h2>📦 표준 패키지 매핑</h2>
         <p style="font-size:13px;color:#888;">추천 과목군을 기존 검증 패키지로 묶어 제안할 수도 있습니다.</p>
         <div class="pkg-suggest" id="rPkgs"></div>
+        <div class="lead-box no-print" id="leadBox">
+          <h2>📩 이 상담 결과로 문의하기</h2>
+          <p class="lead-desc">아래 정보를 남겨주시면 모두의연구소 비즈팀이 위 추천 기준으로 맞춤 제안을 만들어 연락드립니다. (입력하신 정보는 상담 목적으로만 사용합니다)</p>
+          <div class="lead-row">
+            <input type="text" id="leadCompany" placeholder="회사/기관명 (필수)" maxlength="100">
+            <input type="text" id="leadContact" placeholder="회신 수단 — 이메일 또는 전화 (선택)" maxlength="150">
+            <button class="btn" id="leadBtn">상담 요청 보내기</button>
+          </div>
+          <div class="lead-msg" id="leadMsg"></div>
+        </div>
+
         <p class="src-note" style="margin-top:24px;">
           ※ 본 상담 결과는 공식 등재 과목 데이터 기반 규칙 엔진이 생성했습니다.
           예상 규모는 참고 단가(대기업 ₩500K/중견 ₩600K/대학·공공 ₩400K × 시간) 기준이며, 교육 규모별 할인(2과목 5% · 3과목 이상 10%)이 반영된 제안가입니다 — 최종 견적은 협의로 확정합니다.
@@ -270,6 +290,46 @@
     window.renderStep = renderStep;  // 인라인 onclick(← 이전) 전역 노출
     window.prevStep = function () { renderStep(Math.max(0, stepIdx - 1)); };
 
+    // ===== 상담 요청 (Slack 연동) =====
+    function buildSummary() {
+      var cards = document.querySelectorAll('.result-card');
+      var names = [];
+      cards.forEach(function (el) { names.push(el.querySelector('.rc-name').textContent.trim()); });
+      var est = document.getElementById('rEstimate') ? document.getElementById('rEstimate').innerText.replace(/\s+/g, ' ').slice(0, 120) : '';
+      return '추천 ' + names.length + '과목: ' + names.slice(0, 5).join(' / ') + (names.length > 5 ? ' 외' : '') + (est ? ' | ' + est : '');
+    }
+    async function submitLead() {
+      var company = document.getElementById('leadCompany').value.trim();
+      var contact = document.getElementById('leadContact').value.trim();
+      var msg = document.getElementById('leadMsg');
+      if (!company) { msg.innerHTML = '<span class="lead-err">회사/기관명을 입력해 주세요.</span>'; return; }
+      var btn = document.getElementById('leadBtn');
+      btn.disabled = true; msg.textContent = '전송 중…';
+      try {
+        var r = await fetch(CONSULT_API + '/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            company: company,
+            contact: contact,
+            message: (document.getElementById('prefillBanner').style.display !== 'none' ? document.getElementById('nlInput').value : ''),
+            summary: buildSummary()
+          })
+        });
+        var d = await r.json();
+        if (!r.ok || !d.ok) throw new Error(d.error || ('http ' + r.status));
+        msg.innerHTML = '<span class="lead-ok">✅ 상담 요청이 접수되었습니다 — 비즈팀이 곧 연락드립니다.</span>';
+        btn.textContent = '접수 완료';
+      } catch (e) {
+        msg.innerHTML = '<span class="lead-err">전송 실패 — modu.biz@modulabs.co.kr로 문의해 주세요. (' + String(e.message || e).slice(0, 60) + ')</span>';
+        btn.disabled = false;
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function () {});
+    // 결과 화면 렌더 후 버튼 바인딩 (동적 요소)
+    var _origShow = showResult;
+    showResult = function () { _origShow(); var b = document.getElementById('leadBtn'); if (b) b.onclick = submitLead; };
+
     // ===== 스코어링 =====
     function durBand(h) {
       if (h == null) return 'na';
@@ -370,7 +430,7 @@
       var net = Math.round(gross * (1 - dc));
       document.getElementById('rEstimate').innerHTML =
         '<div class="est-box"><div class="big">총 ' + hours + 'H · 예상 ' + fmt(gross) + (dc ? ' → 규모별 할인 후 ' + fmt(net) : '') + '</div>'
-        + '<div class="sub">참고 단가(' + fmt(rate) + '/H × ' + hours + 'H) 기준 · 과목 ' + picks.length + '개 '
+        + '<div class="sub">임시 표준단가(' + fmt(rate) + '/H × ' + hours + 'H) 기준 · 과목 ' + picks.length + '개 '
         + (dc ? '→ 교육 규모별 할인 ' + Math.round(dc * 100) + '% 적용가' : '→ 2과목 5% · 3과목+ 10% 규모별 할인 가능') + ' · 정가는 별도 협의</div></div>';
 
       // 패키지 매핑
