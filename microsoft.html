@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microsoft 4H 표준 커리큘럼 — Copilot · Azure | 모두의연구소 표준 제안서 덱</title>
+  <meta name="description" content="Microsoft Copilot · Azure 4시간 표준 원데이 커리큘럼 6종 — 3단계 로드맵 (공통→직무별·실무→전문가·운영)">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .ms-wrap { max-width: 960px; }
+    .track-toggle { display:flex; gap:8px; margin:16px 0; }
+    .track-btn { flex:1; text-align:center; padding:14px; border:1.5px solid #e2e2e5; border-radius:12px; font-weight:800; font-size:15px; cursor:pointer; background:#fff; }
+    .track-btn.on { border-color:#0078D4; background:#eff6ff; color:#004e8c; }
+    .track-btn small { display:block; font-weight:500; font-size:11.5px; color:#888; margin-top:3px; }
+    .stage-flow { display:flex; gap:10px; margin:14px 0 20px; flex-wrap:wrap; }
+    .stage-box { flex:1; min-width:220px; border-radius:12px; padding:13px 15px; border:1px solid #e3e3e6; background:#fafafa; }
+    .stage-box .sn { font-size:11px; font-weight:800; color:#0078D4; }
+    .stage-box .st { font-size:14px; font-weight:800; margin-top:2px; }
+    .stage-box .sd { font-size:12px; color:#777; margin-top:4px; line-height:1.45; }
+    .stage-box .sc { font-size:11.5px; color:#0078D4; font-weight:700; margin-top:6px; }
+    .stage-box + .stage-box::before { content:none; }
+    .ms-course { background:#fff; border:1px solid #ebebeb; border-radius:14px; margin-bottom:14px; overflow:hidden; }
+    .ms-course > summary { cursor:pointer; padding:18px 20px; list-style:none; display:flex; align-items:center; gap:12px; }
+    .ms-course > summary::-webkit-details-marker { display:none; }
+    .ms-course > summary .mc-eyebrow { font-size:11px; font-weight:800; color:#0078D4; letter-spacing:.04em; }
+    .ms-course > summary h3 { margin:2px 0 0; font-size:16.5px; }
+    .ms-course > summary .mc-meta { margin-left:auto; display:flex; gap:6px; flex-wrap:wrap; }
+    .ms-course > summary .mc-meta span { font-size:11.5px; font-weight:700; background:#f5f6f8; color:#555; padding:4px 10px; border-radius:99px; white-space:nowrap; }
+    .ms-course > summary .mc-meta span.h { background:#eef6ff; color:#004e8c; }
+    .ms-body { padding:0 20px 20px; border-top:1px solid #f0f0f2; }
+    .ms-body p.desc { font-size:13.5px; color:#555; margin:14px 0 12px; line-height:1.6; }
+    table.kyosi { width:100%; border-collapse:collapse; font-size:13px; }
+    table.kyosi th { background:#111; color:#fff; text-align:left; padding:9px 11px; font-size:12px; }
+    table.kyosi th:nth-child(1) { width:52px; } table.kyosi th:nth-child(2) { width:32%; }
+    table.kyosi td { padding:9px 11px; border-bottom:1px solid #f0f0f2; vertical-align:top; line-height:1.5; }
+    table.kyosi td.gi { font-weight:800; color:#0078D4; text-align:center; white-space:nowrap; }
+    .ms-notes { font-size:12.5px; color:#777; background:#fafafa; border:1px solid #f0f0f2; border-radius:10px; padding:11px 14px; margin-top:12px; line-height:1.55; }
+    .role-matrix td { font-size:12.5px; }
+    .cert-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:12px 0; font-size:13px; }
+    .cert-pill { background:#eef6ff; color:#004e8c; font-weight:700; border-radius:99px; padding:7px 14px; font-size:12.5px; }
+    .cert-arrow { color:#999; font-weight:800; }
+    .ms-h2 { font-size:19px; font-weight:800; margin:30px 0 4px; }
+    .ms-h2 .sub { display:block; font-size:12.5px; color:#888; font-weight:500; margin-top:3px; }
+  </style>
+</head>
+<body>
+  <div class="mobile-header"><button id="sidebar-toggle">☰ 메뉴</button></div>
+  <div class="layout">
+    <aside class="sidebar"><div class="brand"><div class="brand-mark">모</div><div>모두의연구소<br><span style="font-size:11px;color:#888;font-weight:500;">표준 제안서 덱</span></div></div>
+      <nav>
+        <div class="nav-section">개요</div>
+        <a href="index.html"><span class="nav-icon">📚</span> 카탈로그</a>
+        <a href="catalog.html"><span class="nav-icon">🗂</span> 과목 카탈로그 158</a>
+        <a href="microsoft.html" class="active"><span class="nav-icon">🪟</span> Microsoft 4H 커리큘럼 🆕</a>
+        <a href="matrix.html"><span class="nav-icon">▦</span> MECE 매트릭스</a>
+        <div class="nav-section">영업 도구</div>
+        <a href="consult.html"><span class="nav-icon">🤖</span> 맞춤 상담 (베타)</a>
+        <a href="decision-tree.html"><span class="nav-icon">🧭</span> 결정 트리</a>
+        <a href="estimator.html"><span class="nav-icon">💰</span> 견적 계산기</a>
+        <a href="industry.html"><span class="nav-icon">🏭</span> 산업별 가이드</a>
+        <div class="nav-section">표준 패키지 12종</div>
+        <a href="packages/01.html"><span class="nav-icon">01</span> 임원 전략 세미나</a>
+        <a href="packages/02.html"><span class="nav-icon">02</span> AX 로드맵</a>
+        <a href="packages/03.html"><span class="nav-icon">03</span> AI 리터러시</a>
+        <a href="packages/04.html"><span class="nav-icon">04</span> 직무별 워크샵</a>
+        <a href="packages/05.html"><span class="nav-icon">05</span> 실무 전환 캠프</a>
+        <a href="packages/06.html"><span class="nav-icon">06</span> 에이전틱 코딩</a>
+        <a href="packages/07.html"><span class="nav-icon">07</span> RAG/Agent 심화</a>
+        <a href="packages/08.html"><span class="nav-icon">08</span> 하네스 PoC</a>
+        <a href="packages/09.html"><span class="nav-icon">09</span> 학생 세미나</a>
+        <a href="packages/10.html"><span class="nav-icon">10</span> AI 부트캠프</a>
+        <a href="packages/11.html"><span class="nav-icon">11</span> 클라우드 AI 에이전트 🆕</a>
+        <a href="packages/12.html"><span class="nav-icon">12</span> AI 인프라 구축 🆕</a>
+      </nav>
+    </aside>
+    <main class="main ms-wrap">
+      <header class="page-header">
+        <div class="eyebrow">Microsoft 표준 커리큘럼 · 4H 원데이 · 2026-09</div>
+        <h1>Microsoft 4H 표준 커리큘럼</h1>
+        <p>Copilot과 Azure(Microsoft Foundry)를 4시간 원데이 표준과정으로 제안합니다 — 각 트랙은 <strong>3단계 로드맵</strong>(공통 → 직무별·실무 → 전문가·운영)으로 이어지며, 단계별로 여러 과정을 조합할 수 있습니다.</p>
+      </header>
+
+      <div class="track-toggle">
+        <div class="track-btn on" id="btnCopilot" onclick="showTrack('copilot')">🪟 M365 Copilot 트랙<small>전 직원 → 직무별 → 개발자 CLI</small></div>
+        <div class="track-btn" id="btnAzure" onclick="showTrack('azure')">☁️ Azure AI (Foundry) 트랙<small>입문 → RAG 실무 → 평가·운영</small></div>
+      </div>
+
+      <!-- ================= COPILOT ================= -->
+      <div id="track-copilot">
+        <div class="stage-flow">
+          <div class="stage-box"><div class="sn">STEP 1 · 공통 (필수)</div><div class="st">에이전트 활용·업무자동화</div><div class="sd">전 직원 공통 기본 — GCSE 프롬프트, 내장 에이전트, Notebooks, 첫 에이전트 제작</div><div class="sc">MS-101 · 4H</div></div>
+          <div class="stage-box"><div class="sn">STEP 2 · 직무별 심화</div><div class="st">직무 핵심 도구 중심</div><div class="sd">영업/재무/마케팅/HR/IT 트랙 선택형 — 직무별 TOP 유스케이스·핵심 앱 실습 (앱별 심화: PPT·Excel 7H 연계)</div><div class="sc">MS-102 · 4H (직무트랙)</div></div>
+          <div class="stage-box"><div class="sn">STEP 3 · 전문가</div><div class="st">Copilot CLI 활용</div><div class="sd">개발자·기술직 — 에이전트형 터미널 개발, /pr /review 자동화, CI/CD 연동</div><div class="sc">MS-103 · 4H</div></div>
+        </div>
+
+        <details class="ms-course" open>
+          <summary>
+            <div><div class="mc-eyebrow">MS-101 · STEP 1 공통필수 · 생-전-2-006</div><h3>Copilot 에이전트 활용 및 업무자동화</h3></div>
+            <div class="mc-meta"><span class="h">4H</span><span>전 직원</span><span>초급</span></div>
+          </summary>
+          <div class="ms-body">
+            <p class="desc">2026년 Copilot은 "도구"가 아니라 <b>업무를 위임하는 에이전트</b>입니다. Work IQ 그라운딩, GCSE 프롬프트 프레임워크, Researcher·Analyst 내장 에이전트, Notebooks 지식관리를 거쳐 <b>자기 업무용 에이전트 1개를 직접 만들어</b> 나가는 4H입니다. 수료 산출물: 개인 프롬프트 라이브러리 + 나만의 에이전트 + 30일 액션플랜.</p>
+            <table class="kyosi">
+              <thead><tr><th>교시</th><th>주요 주제</th><th>세부 내용</th></tr></thead>
+              <tbody>
+                <tr><td class="gi">1교시</td><td>Copilot Chat과 안전한 업무 그라운딩</td><td>Work IQ 토글(Graph/웹) · Copilot Pages · 라이선스별 차이 · <b>GCSE 프롬프트</b>(Goal-Context-Source-Expectations) · 검증 책임</td></tr>
+                <tr><td class="gi">2교시</td><td>문서·데이터 업무 가속화</td><td>Word/Excel/PowerPoint 에이전트 · Outlook·Teams 요약 · <b>Researcher</b>(심층 리서치) · <b>Analyst</b>(Python 기반 분석) 실습</td></tr>
+                <tr><td class="gi">3교시</td><td>지식 관리 — Copilot Notebooks</td><td>참조자료 큐레이션 · Audio Overview · 퀴즈/플래시카드 생성 · 팀 공유 워크스페이스 구축</td></tr>
+                <tr><td class="gi">4교시</td><td>[워크샵] 나만의 에이전트 만들기</td><td>Agent Builder 무코딩 에이전트 · SharePoint 지식 연결 · 프롬프트 라이브러리화 · 30일 실행계획 수립</td></tr>
+              </tbody>
+            </table>
+            <div class="ms-notes">실습 전제: M365 Copilot 라이선스 권장(Researcher·Analyst 월 25회 포함) · Copilot Chat(무료)로도 1·3·4교시 소화 가능 · 근거: WTI 2026(월 9시간 절감·ROI 116%), "11-by-11" 습관 임계(하루 11분×11주)</div>
+          </div>
+        </details>
+
+        <details class="ms-course">
+          <summary>
+            <div><div class="mc-eyebrow">MS-102 · STEP 2 직무별 심화 · 직-전--010</div><h3>직무별 Copilot 심화 — 직무 핵심 도구 중심</h3></div>
+            <div class="mc-meta"><span class="h">4H</span><span>직무트랙 선택형</span><span>중급</span></div>
+          </summary>
+          <div class="ms-body">
+            <p class="desc">MS 공식 <b>Scenario Library</b>의 직무별 유스케이스·KPI를 커리큘럼으로 이식한 선택형 심화과정. 수강 직무군에 맞춰 <b>영업/재무/마케팅/HR/IT 5개 트랙 중 1개</b>를 편성하며, "직무의 하루"를 Copilot으로 재현하는 워크샵으로 마무리합니다. (기존 앱별 심화 7H — PPT Copilot 실전·Excel Copilot 실전 — 병행 운영 가능)</p>
+            <table class="kyosi">
+              <thead><tr><th>교시</th><th>주요 주제</th><th>세부 내용</th></tr></thead>
+              <tbody>
+                <tr><td class="gi">1교시</td><td>해당 직무의 하루 워크스루</td><td>MS Day-in-the-Life 가이드 기반 — 직무 KPI와 Copilot 활용점 매핑 · TOP3 유스케이스 선정</td></tr>
+                <tr><td class="gi">2교시</td><td>핵심 앱 실습 ①</td><td>직무 유스케이스 1번째를 실 데이터(샌드박스)로 — 예: 영업 "고객 미팅 준비 20분 완성"(Researcher+Outlook)</td></tr>
+                <tr><td class="gi">3교시</td><td>핵심 앱 실습 ② + 직무 도구</td><td>유스케이스 2번째 — 예: 재무 Analyst 예측 분석 · 마케팅 브리프 에이전트 · HR 채용 랭킹 · IT 헬프데스크 에이전트</td></tr>
+                <tr><td class="gi">4교시</td><td>[워크샵] 내 실무 유스케이스 완성</td><td>자기 업무 프로세스 1개를 Copilot 워크플로우로 before/after 문서화 · 2분 라이트닝 발표</td></tr>
+              </tbody>
+            </table>
+            <table class="kyosi role-matrix" style="margin-top:12px;">
+              <thead><tr><th>직무 트랙</th><th>TOP 유스케이스 (MS Scenario Library)</th><th>핵심 도구</th></tr></thead>
+              <tbody>
+                <tr><td><b>영업</b></td><td>고객 미팅 준비(RFP·피치) · 리드 발굴 · 업셀 기회</td><td>Outlook·Teams·Researcher·<b>Copilot for Sales</b></td></tr>
+                <tr><td><b>재무</b></td><td>재무질의 응대 · 실적 분석·비즈니스 케이스 · DSO 개선</td><td>Excel·<b>Analyst</b>·Dynamics 365</td></tr>
+                <tr><td><b>마케팅</b></td><td>시장조사 인사이트 · 캠페인 브리프 · 콘텐츠 현지화</td><td>Researcher·Designer·Agent Builder</td></tr>
+                <tr><td><b>HR</b></td><td>채용(기술서·후보 랭킹) · 온보딩 에이전트 · 정책 Q&A</td><td>Teams·<b>SharePoint 에이전트</b></td></tr>
+                <tr><td><b>IT</b></td><td>헬프데스크 셀프서비스 · 근본원인 분석 · QA 자동화</td><td>Copilot Studio·Security Copilot</td></tr>
+              </tbody>
+            </table>
+            <div class="ms-notes">실습 전제: MS-101 수료 또는 동급 이해 · 직무별 데모 데이터(샌드박스 테넌트) · 직무 유료 SKU(영업 등) 보유 시 심화 범위 확장</div>
+          </div>
+        </details>
+
+        <details class="ms-course">
+          <summary>
+            <div><div class="mc-eyebrow">MS-103 · STEP 3 전문가 · 에-개-2-002</div><h3>Copilot CLI 활용 — 에이전트형 터미널 개발</h3></div>
+            <div class="mc-meta"><span class="h">4H</span><span>개발자·기술직</span><span>중급</span></div>
+          </summary>
+          <div class="ms-body">
+            <p class="desc">2026년 2월 GA된 <b>GitHub Copilot CLI</b>로 터미널에서 에이전트형 개발을 시작하는 과정. 대화형 질의부터 <code>/pr</code>·<code>/review</code>·<code>/delegate</code> 자동화, 비대화형 <code>-p</code> 모드의 CI/CD 삽입까지 — 수료 산출물: <b>자기 프로젝트용 CLI 자동화 워크플로우 1개</b>(GitHub Actions).</p>
+            <table class="kyosi">
+              <thead><tr><th>교시</th><th>주요 주제</th><th>세부 내용</th></tr></thead>
+              <tbody>
+                <tr><td class="gi">1교시</td><td>CLI 첫걸음 — 설치·인증·대화형</td><td>에이전트형 터미널 도구 정체 · <code>npm i -g @github/copilot</code> · <code>/login</code> · <code>? @ /</code> 구문 · <code>/init</code>(copilot-instructions.md) · <code>/model</code></td></tr>
+                <tr><td class="gi">2교시</td><td>에이전트형 개발 워크플로우</td><td><code>/pr</code> PR 생성·수정 · <code>/review</code> 코드리뷰 에이전트 · <code>/delegate</code> 클라우드 위임 · 권한 모델(<code>--allow-tool / --deny-tool</code>) — 실습: 이슈→구현→PR 사이클</td></tr>
+                <tr><td class="gi">3교시</td><td>자동화 — 비대화형·CI/CD</td><td><code>copilot -p "…" -s --no-ask-user</code> · GitHub Actions 삽입 · <code>/every</code> 예약 실행 — 실습: <b>테스트 커버리지 리포트 자동화</b></td></tr>
+                <tr><td class="gi">4교시</td><td>[워크샵] 확장·보안</td><td>MCP 서버 연결 · Skills·Plugin · preToolUse 훅 정책 · 최소권한 원칙 — 자기 프로젝트 워크플로우 구축·발표</td></tr>
+              </tbody>
+            </table>
+            <div class="ms-notes">실습 전제: GitHub Copilot 구독(Business 권장 $19/시트·월 1,900 AI크레딧, 조직 정책에서 CLI 활성화 필수) · Node.js 22+(Windows PowerShell v6+) · 모든 Copilot 플랜에서 사용 가능</div>
+          </div>
+        </details>
+      </div>
+
+      <!-- ================= AZURE ================= -->
+      <div id="track-azure" style="display:none;">
+        <div class="stage-flow">
+          <div class="stage-box"><div class="sn">STEP 1 · 입문</div><div class="st">첫 AI 에이전트 만들기</div><div class="sd">Microsoft Foundry 포털+SDK로 모델 배포부터 첫 에이전트·클라이언트 앱까지 — 공식 60분 랩 기반</div><div class="sc">AZ-101 · 4H · 클-전-2-002</div></div>
+          <div class="stage-box"><div class="sn">STEP 2 · 실무</div><div class="st">RAG 앱 만들기</div><div class="sd">Azure AI Search 연결 — 문서 인덱싱 → grounded 채팅 → 하이브리드 검색까지 자사 문서 기반 RAG 완성</div><div class="sc">AZ-102 · 4H · 클-전-2-003</div></div>
+          <div class="stage-box"><div class="sn">STEP 3 · 운영</div><div class="st">평가·안전 운영</div><div class="sd">내장 평가자·리스크 평가·Prompt Shields·Guardrails — STEP 1·2 산출물을 평가 대상으로 재사용</div><div class="sc">AZ-103 · 4H · 클-전-3-001</div></div>
+        </div>
+
+        <details class="ms-course" open>
+          <summary>
+            <div><div class="mc-eyebrow">AZ-101 · STEP 1 입문 · 클-전-2-002</div><h3>Microsoft Foundry 첫 AI 에이전트 만들기</h3></div>
+            <div class="mc-meta"><span class="h">4H</span><span>비개발자~주니어</span><span>입문</span></div>
+          </summary>
+          <div class="ms-body">
+            <p class="desc">MS 공식 학습 랩 "Develop your first AI agent"(약 60분)을 4H로 확장 — 포털에서 프로젝트·모델 배포, 프롬프트 에이전트 저장, SDK 코드화, 함수 툴 확장까지 <b>첫 에이전트와 클라이언트 앱</b>을 완성합니다. 예산 없는 수강생은 <b>Foundry Local</b>(무료·구독 불필요)로 대체 실습 가능.</p>
+            <table class="kyosi">
+              <thead><tr><th>교시</th><th>주요 주제</th><th>세부 내용</th></tr></thead>
+              <tbody>
+                <tr><td class="gi">1교시</td><td>Foundry 첫걸음 — 프로젝트·모델 배포</td><td>신 포털 구조(Build/Discover) · 프로젝트 생성 · gpt-5-mini 배포 · 플레이그라운드 · 모델 카탈로그(instant access)</td></tr>
+                <tr><td class="gi">2교시</td><td>첫 에이전트 (포털+프롬프트)</td><td>시스템 프롬프트 설계 · 웹검색 툴 부착 · Save as agent(YAML 정의) · 프롬프트 에이전트 개념</td></tr>
+                <tr><td class="gi">3교시</td><td>SDK로 코드화</td><td>AIProjectClient · create_version(PromptAgentDefinition) · 멀티턴 대화 · Responses API</td></tr>
+                <tr><td class="gi">4교시</td><td>툴 확장 + 클라이언트 앱</td><td>커스텀 함수 툴 · MCP 연결 소개(심화 예고) · Flask 클라이언트로 에이전트 호출·시연</td></tr>
+              </tbody>
+            </table>
+            <div class="ms-notes">실습 전제: Azure 구독(무료 계정 $200 크레딧) · Python 3.10+/VS Code · 토큰 비용 미미 · 대안: Foundry Local(무료, GPU 권장)</div>
+          </div>
+        </details>
+
+        <details class="ms-course">
+          <summary>
+            <div><div class="mc-eyebrow">AZ-102 · STEP 2 실무 · 클-전-2-003</div><h3>Foundry + Azure AI Search RAG 앱 만들기</h3></div>
+            <div class="mc-meta"><span class="h">4H</span><span>개발자</span><span>중급</span></div>
+          </summary>
+          <div class="ms-body">
+            <p class="desc">MS 공식 RAG 튜토리얼 3부(환경구축·빌드·평가)를 4H로 압축 — 포털형 RAG(문서 업로드→인덱싱→grounded 채팅)에서 시작해 SDK형 RAG(벡터 검색·Prompty 템플릿)까지. 수료 산출물: <b>자사 문서 기반 RAG 챗앱</b>(인용 포함).</p>
+            <table class="kyosi">
+              <thead><tr><th>교시</th><th>주요 주제</th><th>세부 내용</th></tr></thead>
+              <tbody>
+                <tr><td class="gi">1교시</td><td>RAG 개념 + 데이터 연결</td><td>Retrieve→Augment→Generate 3단계 · 임베딩/인덱스 개념 · chat+embedding 모델 2개 배포 · AI Search 연결</td></tr>
+                <tr><td class="gi">2교시</td><td>포털형 RAG</td><td>문서 업로드 · 인덱스 자동 생성 · grounded 채팅 · citations 확인</td></tr>
+                <tr><td class="gi">3교시</td><td>SDK형 RAG 코드</td><td>SearchClient + VectorizedQuery · intent mapping(검색어 변환) · Prompty 템플릿 · grounded chat 완성</td></tr>
+                <tr><td class="gi">4교시</td><td>하이브리드 검색 + 심화 예고</td><td>BM25+벡터 하이브리드 · 리랭킹·청킹 전략 · agentic retrieval(MCP) 데모 — 심화 12H(클-개-3-002) 브리징</td></tr>
+              </tbody>
+            </table>
+            <div class="ms-notes">실습 전제: AZ-101 수료 권장 · Azure AI Search Free 티어(50MB·3인덱스 무료) 또는 Basic · <b>수업 후 리소스 삭제 권장</b>(provisioned 과금)</div>
+          </div>
+        </details>
+
+        <details class="ms-course">
+          <summary>
+            <div><div class="mc-eyebrow">AZ-103 · STEP 3 운영 · 클-전-3-001</div><h3>Foundry 에이전트 평가·안전 운영</h3></div>
+            <div class="mc-meta"><span class="h">4H</span><span>개발자·플랫폼</span><span>중상급</span></div>
+          </summary>
+          <div class="ms-body">
+            <p class="desc">AZ-101의 에이전트와 AZ-102의 RAG 앱을 <b>평가 대상으로 그대로 재사용</b>하는 누적형 과정. 내장 평가자(품질·에이전트·리스크)로 정량 평가하고, Prompt Shields·Guardrails로 안전장치를 적용 — <b>AI-103 시험의 최대 비중 도메인</b>을 직격 커버합니다.</p>
+            <table class="kyosi">
+              <thead><tr><th>교시</th><th>주요 주제</th><th>세부 내용</th></tr></thead>
+              <tbody>
+                <tr><td class="gi">1교시</td><td>품질 평가 개념 + 내장 평가자</td><td>coherence·fluency·relevance·groundedness / intent_resolution·task_adherence · 플레이그라운드 내장 평가 체험</td></tr>
+                <tr><td class="gi">2교시</td><td>평가 실행 — 데이터셋→런→리포트</td><td>JSONL 테스트셋 작성 · eval.yaml/포털 위저드 · 루브릭 평가자 · 임계값 설정·해석</td></tr>
+                <tr><td class="gi">3교시</td><td>안전 평가 + Red Teaming</td><td>4대 리스크 카테고리(0-7 심각도) · 간접 프롬프트 인젝션(XPIA) · AI red teaming 에이전트 소개</td></tr>
+                <tr><td class="gi">4교시</td><td>[워크샵] Guardrails + 운영화</td><td>콘텐츠 필터(심각도 슬라이더) · <b>Prompt Shields</b>(프롬프트+문서 공격) · tracing·Azure Monitor 알림 구성</td></tr>
+              </tbody>
+            </table>
+            <div class="ms-notes">실습 전제: AZ-101·AZ-102 산출물 보유(평가 대상) · 평가·안전 평가자는 소비량 기반 과금(리전 제한 확인)</div>
+          </div>
+        </details>
+      </div>
+
+      <!-- 자격증 로드맵 -->
+      <h2 class="ms-h2">자격증 로드맵 <span class="sub">2026년 MS 자격증 대개편 반영 — AI-900/MS-900/AI-102 은퇴, AI-901·AI-103·AB 시리즈로 교체 완료</span></h2>
+      <div class="cert-flow">
+        <span class="cert-pill">Copilot 트랙: MS-101·102 수료</span><span class="cert-arrow">→</span>
+        <span class="cert-pill">AB-730 AI Business Professional</span><span class="cert-arrow">→</span>
+        <span class="cert-pill">IT관리자: AB-900</span>
+      </div>
+      <div class="cert-flow">
+        <span class="cert-pill">CLI: MS-103 수료</span><span class="cert-arrow">→</span>
+        <span class="cert-pill">AI-901 Fundamentals</span><span class="cert-arrow">→</span>
+        <span class="cert-pill">AI-103 Azure AI Apps &amp; Agents Developer</span>
+      </div>
+      <div class="ms-notes">Azure 트랙 3종(4H×3)은 AI-901 실기 범위("Implement AI solutions using Microsoft Foundry" 55-60%)를 실습으로 완주하고, AI-103 최대 비중 도메인(GenAI+에이전트 30-35%)을 선행 학습합니다. 장과정 연계: Azure 3종 → <a href="packages/11.html">패키지 11 클라우드 AI 에이전트 심화 12H</a>.</div>
+
+      <h2 class="ms-h2">이수 조합 예시 <span class="sub">3단계 로드맵 안에서 기업 상황별 조합</span></h2>
+      <div class="ms-notes" style="font-size:13px;">
+        · <b>전사 확산</b>: MS-101(전원) → MS-102(직무군별 분반) → 유지 · <b>개발 조직</b>: MS-101 → MS-103 CLI → Azure 트랙(AZ-101→102→103) · <b>AI 서비스팀</b>: AZ-101 → AZ-102 → <a href="packages/11.html">패키지 11 심화(12H)</a> → AZ-103 · <b>1일 8H 압축</b>: MS-101 + MS-102(오전/오후) 또는 AZ-101 + AZ-102
+      </div>
+
+      <footer class="page-footer"><p>© 2026 모두의연구소 · 비즈팀 · modu.biz@modulabs.co.kr</p></footer>
+    </main>
+  </div>
+  <script src="assets/js/main.js"></script>
+  <script>
+  function showTrack(t) {
+    document.getElementById('track-copilot').style.display = t === 'copilot' ? 'block' : 'none';
+    document.getElementById('track-azure').style.display = t === 'azure' ? 'block' : 'none';
+    document.getElementById('btnCopilot').classList.toggle('on', t === 'copilot');
+    document.getElementById('btnAzure').classList.toggle('on', t === 'azure');
+  }
+  </script>
+</body>
+</html>
