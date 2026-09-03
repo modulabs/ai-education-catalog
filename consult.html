@@ -329,6 +329,27 @@
     window.renderStep = renderStep;  // 인라인 onclick(← 이전) 전역 노출
     window.prevStep = function () { renderStep(Math.max(0, stepIdx - 1)); };
 
+    // ===== 챗 상담 상태 캐시 (localStorage, 24h) =====
+    var CACHE_KEY = 'modu_consult_v1';
+    function saveChatState(finished) {
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          ts: Date.now(), history: chatHistory, reqs: chatReq, q: qCount, finished: !!finished
+        }));
+      } catch (e) { /* 저장 실패 무시 */ }
+    }
+    function loadChatState() {
+      try {
+        var raw = localStorage.getItem(CACHE_KEY);
+        if (!raw) return null;
+        var s = JSON.parse(raw);
+        if (!s || !Array.isArray(s.history) || !s.history.length) return null;
+        if (Date.now() - s.ts > 24 * 3600 * 1000) { localStorage.removeItem(CACHE_KEY); return null; }
+        return s;
+      } catch (e) { return null; }
+    }
+    function clearChatState() { try { localStorage.removeItem(CACHE_KEY); } catch (e) {} }
+
     // ===== P3.5 챗 상담 =====
     var chatHistory = [];       // [{role, content}]
     var chatReq = {};           // 최신 requirements
@@ -385,6 +406,7 @@
         });
         if (d.forced_note && d.intent === 'ask') { /* 서버가 5회 미만 summarize 차단 */ }
         updateQBadge();
+        saveChatState(false);
         if (d.done && d.intent !== 'ask') chatFinish();
       } catch (e) {
         var log2 = document.getElementById('chatLog');
@@ -412,6 +434,23 @@
       var b = document.getElementById('leadBtn'); if (b) b.onclick = submitLead;
       document.getElementById('chatLog').scrollTop = 1e9;
       window._chatReqSnapshot = JSON.parse(JSON.stringify(chatReq));
+      saveChatState(true);
+      // 대화로 돌아가기 버튼 표시 (챗 상담 이력 있을 때)
+      var actions = document.querySelector('.pdf-action.no-print');
+      if (actions && document.getElementById('backToChat') === null) {
+        var backBtn = document.createElement('span');
+        backBtn.className = 'restart'; backBtn.id = 'backToChat';
+        backBtn.style.cssText = 'cursor:pointer;color:#2563eb;font-size:13px;text-decoration:underline;margin-left:10px;';
+        backBtn.textContent = '← 대화로 돌아가기';
+        backBtn.onclick = function () {
+          document.getElementById('result').style.display = 'none';
+          document.querySelector('.mode-tabs').style.display = 'flex';
+          document.getElementById('chatMode').style.display = 'block';
+          saveChatState(false);
+          var log = document.getElementById('chatLog'); log.scrollTop = log.scrollHeight;
+        };
+        actions.appendChild(backBtn);
+      }
     }
 
     function initChat() {
@@ -427,6 +466,38 @@
         this.classList.add('on'); document.getElementById('tabChat').classList.remove('on');
         document.getElementById('chatMode').style.display = 'none'; document.getElementById('wizardMode').style.display = 'block';
       };
+      // 새 상담(초기화) 버튼 — 채팅 헤더에
+      var head = document.querySelector('.chat-head');
+      var resetBtn = document.createElement('span');
+      resetBtn.textContent = '🔄 새 상담';
+      resetBtn.style.cssText = 'margin-left:auto;cursor:pointer;font-size:12px;color:#888;text-decoration:underline;';
+      resetBtn.onclick = function () {
+        clearChatState();
+        chatHistory = []; chatReq = {}; qCount = 0;
+        document.getElementById('chatLog').innerHTML = '';
+        updateQBadge();
+        chatRender('bot', '안녕하세요! 모두의연구소 AI 기업교육 상담사입니다 😊\n저희가 몇 가지 여쭤보고 나서, 우리 회사에 딱 맞는 교육과정과 로드맵을 만들어 드릴게요. (최소 5번, 최대 10번 질문드려요)');
+        chatSend('안녕하세요, 상담 부탁드립니다. 일단 AI 교육을 검토 중인데 어디서부터 시작해야 할지 모르겠어요.');
+      };
+      head.appendChild(resetBtn);
+
+      // 이전 상담 복원
+      var saved = loadChatState();
+      if (saved) {
+        chatHistory = saved.history; chatReq = saved.reqs || {}; qCount = saved.q || 0;
+        saved.history.forEach(function (m) {
+          chatRender(m.role === 'assistant' ? 'bot' : 'user', m.content);
+        });
+        updateQBadge();
+        if (saved.finished && chatReq.aud) {
+          // 요약까지 봤던 상담 — 대화 복원 + 상단 안내
+          chatRender('bot', '이전 상담을 이어서 보여드릴게요. 더 답변하시거나, 아래 입력창 옆 📋 버튼으로 바로 추천을 다시 보실 수 있어요.');
+          chatFinish();
+        } else {
+          chatRender('bot', '이전에 나눈 대화를 이어서 계속할게요!');
+        }
+        return;
+      }
       // 오프닝 메시지 + 첫 질문 자동 시작
       chatRender('bot', '안녕하세요! 모두의연구소 AI 기업교육 상담사입니다 😊\n저희가 몇 가지 여쭤보고 나서, 우리 회사에 딱 맞는 교육과정과 로드맵을 만들어 드릴게요. (최소 5번, 최대 10번 질문드려요)');
       chatSend('안녕하세요, 상담 부탁드립니다. 일단 AI 교육을 검토 중인데 어디서부터 시작해야 할지 모르겠어요.');
@@ -463,6 +534,7 @@
         if (!r.ok || !d.ok) throw new Error(d.error || ('http ' + r.status));
         msg.innerHTML = '<span class="lead-ok">✅ 상담 요청이 접수되었습니다 — 비즈팀이 곧 연락드립니다.</span>';
         btn.textContent = '접수 완료';
+        clearChatState();
       } catch (e) {
         msg.innerHTML = '<span class="lead-err">전송 실패 — modu.biz@modulabs.co.kr로 문의해 주세요. (' + String(e.message || e).slice(0, 60) + ')</span>';
         btn.disabled = false;
