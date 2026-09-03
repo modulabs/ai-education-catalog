@@ -374,7 +374,15 @@
         chatRender('bot', d.reply);
         chatHistory.push({ role: 'assistant', content: d.reply });
         qCount = d.q_count;
-        chatReq = Object.assign({}, chatReq, d.requirements || {});
+        // null/빈값은 기존 파악값을 덮어쓰지 않음 (LLM이 턴마다 누적 반환 안 하는 대응)
+        var dr = d.requirements || {};
+        Object.keys(dr).forEach(function (k) {
+          var v = dr[k];
+          if (v === null || v === undefined) return;
+          if (Array.isArray(v) && v.length === 0) return;
+          if (typeof v === 'string' && !v.trim()) return;
+          chatReq[k] = v;
+        });
         if (d.forced_note && d.intent === 'ask') { /* 서버가 5회 미만 summarize 차단 */ }
         updateQBadge();
         if (d.done && d.intent !== 'ask') chatFinish();
@@ -388,6 +396,10 @@
     }
 
     function chatFinish() {
+      if (!chatReq.aud && !(chatReq.topic && chatReq.topic.length)) {
+        chatRender('bot', '아직 파악된 정보가 부족해요. 한두 가지만 더 알려주시면 정확한 추천을 드릴 수 있어요 — 교육 대상이나 관심 주제를 짧게 알려주시겠어요?');
+        return;
+      }
       // 채팅 requirements → 위자드 answers 변환 → 기존 추천 엔진 재사용
       var map = { aud: 'aud', ind: 'ind', size: 'size', dur: 'dur', reg: 'reg' };
       Object.keys(map).forEach(function (k) { if (chatReq[k]) answers[map[k]] = chatReq[k]; });
