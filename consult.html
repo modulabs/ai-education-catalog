@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>맞춤 교육과정 상담 (베타) | 모두의연구소 표준 제안서 덱</title>
+  <meta name="description" content="6단계 입력으로 마스터 등재 과목에서 맞춤 교육과정·로드맵·예상 규모를 즉시 제안">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .consult-wrap { max-width: 860px; }
+    .step-card { background:#fff; border:1px solid #ebebeb; border-radius:14px; padding:22px 24px; margin-bottom:14px; }
+    .step-q { font-size:17px; font-weight:800; margin:0 0 4px; }
+    .step-hint { font-size:13px; color:#888; margin-bottom:14px; }
+    .opt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:9px; }
+    .opt-chip { border:1.5px solid #e2e2e5; border-radius:10px; padding:11px 13px; cursor:pointer; font-size:14px; font-weight:600; background:#fff; transition:all .12s; text-align:left; }
+    .opt-chip:hover { border-color:#EE3E4C; }
+    .opt-chip.sel { border-color:#EE3E4C; background:#fff5f6; color:#C92434; }
+    .opt-chip small { display:block; font-size:11.5px; color:#999; font-weight:500; margin-top:2px; }
+    .topic-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .progress { display:flex; gap:6px; margin:6px 0 20px; }
+    .progress .p { flex:1; height:4px; border-radius:99px; background:#eee; }
+    .progress .p.on { background:#EE3E4C; }
+    .consult-actions { display:flex; gap:10px; margin-top:6px; }
+    .result-card { background:#fff; border:1px solid #ebebeb; border-left:4px solid #EE3E4C; border-radius:12px; padding:16px 18px; margin-bottom:10px; }
+    .rc-top { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+    .rc-code { font-family:ui-monospace,monospace; font-size:12px; font-weight:800; color:#EE3E4C; }
+    .rc-name { font-size:15.5px; font-weight:800; }
+    .rc-meta { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+    .rc-pill { font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:99px; background:#f5f6f8; color:#555; }
+    .rc-pill.ax { background:#eef4ff; color:#2563eb; }
+    .rc-why { font-size:12.5px; color:#777; margin-top:8px; line-height:1.5; }
+    .roadmap { display:flex; gap:10px; margin:14px 0; flex-wrap:wrap; }
+    .rm-stage { flex:1; min-width:220px; background:#fafafa; border:1px solid #ececef; border-radius:12px; padding:14px 16px; }
+    .rm-stage h4 { margin:0 0 8px; font-size:13px; color:#EE3E4C; }
+    .rm-stage .rm-i { font-size:13px; font-weight:600; padding:5px 0; border-bottom:1px dashed #e5e5e8; }
+    .rm-stage .rm-i:last-child { border-bottom:none; }
+    .est-box { background:linear-gradient(135deg,#EE3E4C,#C92434); color:#fff; border-radius:12px; padding:18px 22px; margin:16px 0; }
+    .est-box .big { font-size:24px; font-weight:800; }
+    .est-box .sub { font-size:12.5px; opacity:.92; margin-top:4px; line-height:1.5; }
+    .pkg-suggest { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .pkg-chip { border:1.5px solid #EE3E4C; color:#C92434; border-radius:10px; padding:9px 14px; font-size:13.5px; font-weight:700; text-decoration:none; background:#fff; }
+    .pkg-chip:hover { background:#fff5f6; }
+    .restart { cursor:pointer; color:#888; font-size:13px; text-decoration:underline; }
+    .nl-box { background:linear-gradient(135deg,#fff5f6,#fdeef0); border:1px solid #f4ccd0; border-radius:14px; padding:18px 20px; margin-bottom:16px; }
+    .nl-box h3 { margin:0 0 6px; font-size:15px; }
+    .nl-row { display:flex; gap:8px; }
+    .nl-row input { flex:1; padding:11px 14px; border:1.5px solid #e5c8cc; border-radius:10px; font-size:14px; font-family:inherit; }
+    .nl-row input:focus { outline:none; border-color:#EE3E4C; }
+    .nl-hint { font-size:12px; color:#999; margin-top:7px; }
+    .nl-status { font-size:13px; margin-top:8px; }
+    .prefill-banner { background:#eef4ff; border:1px solid #c9d8f7; color:#2563eb; border-radius:10px; padding:10px 14px; font-size:13px; margin-bottom:14px; display:none; }
+  </style>
+</head>
+<body>
+  <div class="mobile-header">
+    <button id="sidebar-toggle">☰ 메뉴</button>
+  </div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">모</div>
+        <div>모두의연구소<br><span style="font-size:11px;color:#888;font-weight:500;">표준 제안서 덱</span></div>
+      </div>
+      <nav>
+        <div class="nav-section">개요</div>
+        <a href="index.html"><span class="nav-icon">📚</span> 카탈로그</a>
+        <a href="catalog.html"><span class="nav-icon">🗂</span> 과목 카탈로그 158</a>
+        <a href="matrix.html"><span class="nav-icon">▦</span> MECE 매트릭스</a>
+        <div class="nav-section">영업 도구</div>
+        <a href="consult.html" class="active"><span class="nav-icon">🤖</span> 맞춤 상담 (베타)</a>
+        <a href="decision-tree.html"><span class="nav-icon">🧭</span> 결정 트리</a>
+        <a href="estimator.html"><span class="nav-icon">💰</span> 견적 계산기</a>
+        <a href="industry.html"><span class="nav-icon">🏭</span> 산업별 가이드</a>
+        <div class="nav-section">표준 패키지 12종</div>
+        <a href="packages/01.html"><span class="nav-icon">01</span> 임원 전략 세미나</a>
+        <a href="packages/02.html"><span class="nav-icon">02</span> AX 로드맵</a>
+        <a href="packages/03.html"><span class="nav-icon">03</span> AI 리터러시</a>
+        <a href="packages/04.html"><span class="nav-icon">04</span> 직무별 워크샵</a>
+        <a href="packages/05.html"><span class="nav-icon">05</span> 실무 전환 캠프</a>
+        <a href="packages/06.html"><span class="nav-icon">06</span> 에이전틱 코딩</a>
+        <a href="packages/07.html"><span class="nav-icon">07</span> RAG/Agent 심화</a>
+        <a href="packages/08.html"><span class="nav-icon">08</span> 하네스 PoC</a>
+        <a href="packages/09.html"><span class="nav-icon">09</span> 학생 세미나</a>
+        <a href="packages/10.html"><span class="nav-icon">10</span> AI 부트캠프</a>
+        <a href="packages/11.html"><span class="nav-icon">11</span> 클라우드 AI 에이전트 🆕</a>
+        <a href="packages/12.html"><span class="nav-icon">12</span> AI 인프라 구축 🆕</a>
+      </nav>
+    </aside>
+    <main class="main consult-wrap">
+      <header class="page-header">
+        <div class="eyebrow">AI Consultation · 규칙 엔진 기반 · Beta</div>
+        <h1>맞춤 교육과정 상담</h1>
+        <p>6단계 입력만 하면 우리 조직에 맞는 과정·로드맵·예상 규모를 즉시 제안합니다. 추천은 분류체계(v1.3 · 158과목) 중 <strong>마스터 시트 등재 68과목</strong>을 대상으로 하며, 가격·과목은 확정 데이터만 사용합니다.</p>
+      </header>
+
+      <div class="nl-box no-print" id="nlBox" style="display:none;">
+        <h3>✨ 대화로 시작</h3>
+        <p style="font-size:13px;color:#888;margin:0 0 10px;">요구를 한 문장으로 적어보세요 — AI가 항목을 이해하면 단계 선택을 자동으로 채워 드립니다. (추천·견적은 규칙 엔진이 계산)</p>
+        <div class="nl-row">
+          <input type="text" id="nlInput" placeholder="예) 금융권이라 망분리가 필요하고, 개발팀 15명이 온프레 LLM 구축 교육을 2주에 받고 싶어요" maxlength="300">
+          <button class="btn" id="nlBtn">이해하기</button>
+        </div>
+        <div class="nl-status" id="nlStatus"></div>
+        <div class="nl-hint">예시 · "비개발 직원 100명 반나절 리터러시" · "RAG 심화로 개발자 5일 캠프" · "임원 대상 전략 세미나"</div>
+      </div>
+      <div class="prefill-banner" id="prefillBanner"></div>
+      <div class="progress" id="progress"></div>
+      <div id="wizard"></div>
+
+      <div id="result" style="display:none;">
+        <div class="pdf-action no-print" style="display:flex;gap:10px;align-items:center;">
+          <button class="btn" onclick="window.print()">📄 제안서 PDF로 저장</button>
+          <span class="restart" onclick="location.reload()">↺ 처음부터</span>
+        </div>
+        <h2 style="margin-top:18px;">🎯 추천 교육과정 <span id="rCount" style="font-size:14px;color:#888;font-weight:600;"></span></h2>
+        <div id="rCourses"></div>
+        <h2>🛤️ 단계별 로드맵</h2>
+        <div class="roadmap" id="rRoadmap"></div>
+        <h2>💰 예상 규모</h2>
+        <div id="rEstimate"></div>
+        <h2>📦 표준 패키지 매핑</h2>
+        <p style="font-size:13px;color:#888;">추천 과목군을 기존 검증 패키지로 묶어 제안할 수도 있습니다.</p>
+        <div class="pkg-suggest" id="rPkgs"></div>
+        <p class="src-note" style="margin-top:24px;">
+          ※ 본 상담 결과는 공식 등재 과목 데이터 기반 규칙 엔진이 생성했습니다.
+          예상 규모는 참고 단가(대기업 ₩500K/중견 ₩600K/대학·공공 ₩400K × 시간) 기준이며, 교육 규모별 할인(2과목 5% · 3과목 이상 10%)이 반영된 제안가입니다 — 최종 견적은 협의로 확정합니다.
+          © 2026 모두의연구소 · 비즈팀 · modu.biz@modulabs.co.kr
+        </p>
+      </div>
+    </main>
+  </div>
+  <script src="assets/js/main.js"></script>
+  <script>
+  (function () {
+    // ===== 상수 =====
+    var RATE = { enterprise: 500000, sme: 600000, university: 400000, public: 400000 };
+    var PKG_MAP = {
+      '생': ['packages/03.html', '03 AI 리터러시'], '직': ['packages/04.html', '04 직무별 워크샵'],
+      '자': ['packages/05.html', '05 실무 전환 캠프'], '바': ['packages/04.html', '04 직무별 워크샵'],
+      '에': ['packages/06.html', '06 에이전틱 코딩'], 'R': ['packages/07.html', '07 RAG/Agent 심화'],
+      '클': ['packages/11.html', '11 클라우드 AI 에이전트 🆕'], '인': ['packages/12.html', '12 AI 인프라 구축 🆕'],
+      '보': ['packages/12.html', '12 AI 인프라 구축 🆕'], 'AX': ['packages/02.html', '02 AX 로드맵'],
+      '피': ['packages/10.html', '10 AI 부트캠프'], '임': ['packages/10.html', '10 AI 부트캠프'],
+      '데': ['packages/07.html', '07 RAG/Agent 심화']
+    };
+    var STEPS = [
+      { key: 'aud', q: '교육 대상은 누구인가요?', hint: '주 참석자의 직군을 선택하세요',
+        opts: [ {v:'전', l:'전사 비개발·실무자', s:'사무·기획·마케팅 등'}, {v:'개', l:'개발자·엔지니어', s:'사내 개발팀'}, {v:'관', l:'임원·경영진', s:'의사결정권자'}, {v:'대', l:'대학생·취준생', s:'대학·청년 프로그램'} ], multi: false },
+      { key: 'ind', q: '소속 산업군을 선택하세요', hint: '예상 규모 산정 단가에 적용됩니다',
+        opts: [ {v:'enterprise', l:'대기업', s:'₩500K/H'}, {v:'sme', l:'중견·중소', s:'₩600K/H'}, {v:'university', l:'대학', s:'₩400K/H'}, {v:'public', l:'공공', s:'₩400K/H'} ], multi: false },
+      { key: 'size', q: '예상 참석 인원', hint: '운영 형태 참고용',
+        opts: [ {v:'s', l:'~20명', s:'밀착 코칭형'}, {v:'m', l:'20~50명', s:'실무 실습형'}, {v:'l', l:'50명+', s:'전사 확산형'} ], multi: false },
+      { key: 'topic', q: '관심 주제를 모두 선택하세요 (복수)', hint: '선택하지 않으면 전체에서 균형 있게 추천합니다',
+        opts: [ {v:'자', l:'업무 자동화·에이전트'}, {v:'생', l:'생성형 AI 실무'}, {v:'바', l:'바이브코딩·AI 코딩'}, {v:'R', l:'RAG·AI 서비스 개발'}, {v:'데', l:'데이터 분석·Lakehouse'}, {v:'클', l:'클라우드 에이전트'}, {v:'인', l:'AI 인프라·온프레'}, {v:'보', l:'AI 보안·거버넌스'}, {v:'AX', l:'전략·로드맵'}, {v:'피', l:'Physical·임베디드'} ], multi: true },
+      { key: 'dur', q: '교육 기간 규모', hint: '과목 소요 시간 필터에 적용됩니다',
+        opts: [ {v:'half', l:'반일 이하', s:'~7H'}, {v:'day', l:'1~2일', s:'8~21H'}, {v:'week', l:'1주 집중', s:'21~45H'}, {v:'long', l:'2주 이상·과정', s:'45H+'}, {v:'any', l:'기간 무관', s:'전체 탐색'} ], multi: false },
+      { key: 'reg', q: '규제 환경이 있나요?', hint: '망분리·폐쇄망 환경이면 온프레·보안 과목을 우선 추천합니다',
+        opts: [ {v:'none', l:'해당 없음'}, {v:'closed', l:'망분리·폐쇄망 필요', s:'금융·공공 등'} ], multi: false }
+    ];
+
+    var answers = {};
+    var courses = [];
+    var stepIdx = 0;
+    var CONSULT_API = '';  // P2 배포 후 Worker URL 입력. ''면 대화 모드 숨김(P1 위자드만 동작)
+
+    // ===== P2: 대화로 시작 =====
+    function initNL() {
+      var box = document.getElementById('nlBox');
+      if (!CONSULT_API) return;  // 미설정 → 숨김, 위자드만
+      box.style.display = 'block';
+      document.getElementById('nlBtn').onclick = submitNL;
+      document.getElementById('nlInput').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') submitNL();
+      });
+    }
+    async function submitNL() {
+      var msg = document.getElementById('nlInput').value.trim();
+      var st = document.getElementById('nlStatus');
+      if (!msg) return;
+      st.textContent = '⏳ 이해하는 중…';
+      document.getElementById('nlBtn').disabled = true;
+      try {
+        var r = await fetch(CONSULT_API + '/api/slots', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg })
+        });
+        if (!r.ok) throw new Error('proxy ' + r.status);
+        var d = await r.json();
+        if (!d.ok) throw new Error('slots');
+        // 슬롯 병합 (기존 답변 유지하며 null만 채움 — 사용자가 이미 선택한 것은 덮지 않음)
+        ['aud', 'ind', 'size', 'dur', 'reg'].forEach(function (k) {
+          if (d.slots[k] && !answers[k]) answers[k] = d.slots[k];
+        });
+        if (d.slots.topic && d.slots.topic.length && !(answers.topic && answers.topic.length)) {
+          answers.topic = d.slots.topic;
+        }
+        // 배너 + 배지
+        var b = document.getElementById('prefillBanner');
+        b.style.display = 'block';
+        b.innerHTML = '🤖 <strong>AI가 이해한 요구</strong> — ' + (d.note || msg.slice(0, 40)) +
+          '<br>아래 선택지에 미리 반영했습니다. 다르면 수정하고, 빠진 항목은 선택해 주세요.';
+        st.textContent = '';
+        renderStep(0);  // 프리필 표시로 재렌더
+      } catch (e) {
+        st.innerHTML = '⚠️ 대화 모드를 사용할 수 없습니다 — 아래 단계별 선택을 이용해 주세요. <span style="color:#bbb">(' + String(e.message || e).slice(0, 60) + ')</span>';
+      }
+      document.getElementById('nlBtn').disabled = false;
+    }
+
+    fetch('data/courses.json').then(function (r) { return r.json(); }).then(function (d) {
+      courses = d.courses;
+      renderStep(0);
+      initNL();
+    });
+
+    function renderProgress(active) {
+      var p = document.getElementById('progress');
+      p.innerHTML = '';
+      for (var i = 0; i < STEPS.length; i++) {
+        var d = document.createElement('div');
+        d.className = 'p' + (i <= active ? ' on' : '');
+        p.appendChild(d);
+      }
+    }
+
+    function renderStep(idx) {
+      if (idx >= STEPS.length) { showResult(); return; }
+      stepIdx = idx;
+      renderProgress(idx);
+      var st = STEPS[idx];
+      var w = document.getElementById('wizard');
+      var html = '<div class="step-card"><p class="step-q">' + (idx + 1) + '. ' + st.q + '</p><p class="step-hint">' + st.hint + '</p>';
+      html += st.multi ? '<div class="topic-grid" id="opts"></div>' : '<div class="opt-grid" id="opts"></div>';
+      html += '<div class="consult-actions"><button class="btn" id="nextBtn" disabled>다음 →</button>';
+      if (idx > 0) html += ' <span class="restart" onclick="prevStep()">← 이전</span>';
+      html += '</div></div>';
+      w.innerHTML = html;
+      var sel = st.multi ? {} : null;
+      var box = document.getElementById('opts');
+      st.opts.forEach(function (o) {
+        var b = document.createElement('button');
+        b.className = 'opt-chip';
+        b.type = 'button';
+        b.innerHTML = o.l + (o.s ? '<small>' + o.s + '</small>' : '');
+        var pre = answers[st.key];
+        if (st.multi ? (pre && pre.indexOf(o.v) !== -1) : pre === o.v) {
+          b.classList.add('sel');
+          if (sel) sel[o.v] = true;
+          document.getElementById('nextBtn').disabled = false;
+        }
+        b.onclick = function () {
+          if (st.multi) {
+            b.classList.toggle('sel');
+            sel[o.v] = b.classList.contains('sel');
+            answers[st.key] = Object.keys(sel).filter(function (k) { return sel[k]; });
+            document.getElementById('nextBtn').disabled = false; // 멀티는 0개도 허용
+          } else {
+            box.querySelectorAll('.opt-chip').forEach(function (x) { x.classList.remove('sel'); });
+            b.classList.add('sel');
+            answers[st.key] = o.v;
+            document.getElementById('nextBtn').disabled = false;
+            setTimeout(function () { renderStep(idx + 1); }, 180);
+          }
+        };
+        box.appendChild(b);
+      });
+      document.getElementById('nextBtn').onclick = function () { renderStep(idx + 1); };
+    }
+    window.renderStep = renderStep;  // 인라인 onclick(← 이전) 전역 노출
+    window.prevStep = function () { renderStep(Math.max(0, stepIdx - 1)); };
+
+    // ===== 스코어링 =====
+    function durBand(h) {
+      if (h == null) return 'na';
+      if (h <= 7) return 'half';
+      if (h <= 20) return 'day';
+      if (h <= 45) return 'week';
+      return 'long';
+    }
+
+    function score(c) {
+      var s = 0, whys = [];
+      // ① 대상 30
+      if (c.audience === answers.aud) { s += 30; whys.push('대상 직군 정확 매칭'); }
+      else if (c.audience === '전' && answers.aud !== '개') { s += 18; whys.push('전사 대상 과목'); }
+      else if (answers.aud === '관' && c.category === 'AX') { s += 25; whys.push('경영진 전략 과목'); }
+      else if (answers.aud === '대' && (c.audience === '대' || c.category === '피')) { s += 22; }
+      else { s += 6; }
+      // ② 기간·AX 적합 20
+      var band = durBand(c.hours);
+      if (answers.dur === 'any' || band === 'na') { s += 12; }
+      else if (band === answers.dur) { s += 20; whys.push('요청 기간에 적합'); }
+      else { s += 7; }
+      // ③ 주제 관심 25
+      var topics = answers.topic || [];
+      if (!topics.length) { s += 12; }
+      else if (topics.indexOf(c.category) !== -1) { s += 25; whys.push('선택 주제(' + c.category + ') 직결'); }
+      else { s += 4; }
+      // ④ 검증 보너스 +10
+      if (c.case && c.case.length > 3) { s += 6; whys.push('대표 수행 사례 보유'); }
+      if (c.hours && c.hours >= 7) { s += 4; }
+      // ⑤ 규제 보너스 +15
+      if (answers.reg === 'closed' && (c.category === '인' || c.category === '보')) { s += 15; whys.push('망분리·폐쇄망 대응'); }
+      return { score: s, whys: whys };
+    }
+
+    function fmt(n) {
+      if (n >= 100000000) return '₩' + (n / 100000000).toFixed(2) + '억';
+      if (n >= 10000) return '₩' + Math.round(n / 10000).toLocaleString() + '만';
+      return '₩' + n.toLocaleString();
+    }
+
+    function showResult() {
+      renderProgress(STEPS.length - 1);
+      document.getElementById('wizard').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+
+      var all = courses.map(function (c) {
+        var r = score(c);
+        return Object.assign({}, c, { _s: r.score, _why: r.whys });
+      }).sort(function (a, b) { return b._s - a._s; });
+      var scored = all.filter(function (c) { return c._s >= 30; }).slice(0, 8);
+      var relaxed = false;
+      if (!scored.length) { relaxed = true; scored = all.slice(0, 6); }
+
+      // 로드맵용 AX 정렬 (선택 상위 6~8과목)
+      var picks = scored.slice(0, Math.min(scored.length, answers.dur === 'long' ? 8 : 6));
+
+      // 과목 카드
+      var box = document.getElementById('rCourses');
+      box.innerHTML = '';
+      document.getElementById('rCount').textContent = (relaxed ? '유사 과정 상위 ' : '상위 ') + picks.length + '과목 (마스터 등재 ' + courses.length + '과목 중)' + (relaxed ? ' · 조건이 엄격해 폭을 넓혔습니다' : '');
+      picks.forEach(function (c, i) {
+        var d = document.createElement('div');
+        d.className = 'result-card';
+        d.innerHTML = '<div class="rc-top"><span class="rc-code">' + c.subcode + '</span><span class="rc-name">' + c.name + '</span></div>'
+          + '<div class="rc-meta">'
+          + '<span class="rc-pill">' + c.category + ' · ' + c.category_name + '</span>'
+          + (c.ax_stage ? '<span class="rc-pill ax">AX ' + c.ax_stage + '</span>' : '')
+          + (c.hours ? '<span class="rc-pill">' + c.hours + 'H</span>' : '')
+          + (c.is_new_202609 ? '<span class="rc-pill" style="background:#fef0f0;color:#c92434;">2026-09 신규</span>' : '')
+          + '</div>'
+          + (c._why.length ? '<div class="rc-why">▸ ' + c._why.join(' · ') + '</div>' : '')
+          + (c.case ? '<div class="rc-why" style="color:#999;">대표 사례 · ' + c.case + '</div>' : '');
+        box.appendChild(d);
+      });
+
+      // 로드맵 (AX 오름차순 3스테이지)
+      var stages = { intro: [], build: [], adv: [] };
+      picks.forEach(function (c) {
+        var ax = parseInt(c.ax_stage, 10) || 2;
+        if (ax <= 1) stages.intro.push(c);
+        else if (ax <= 2) stages.intro.push(c);
+        else if (ax === 3) stages.build.push(c);
+        else stages.adv.push(c);
+      });
+      if (!stages.intro.length && stages.build.length) { stages.intro = stages.build.splice(0, 2); }
+      var rm = document.getElementById('rRoadmap');
+      rm.innerHTML =
+        '<div class="rm-stage"><h4>① 도입 · 인식 전환</h4>' + (stages.intro.map(function (c) { return '<div class="rm-i">' + c.name + (c.hours ? ' · ' + c.hours + 'H' : '') + '</div>'; }).join('') || '<div class="rm-i" style="color:#999;">해당 없음</div>') + '</div>'
+        + '<div class="rm-stage"><h4>② 구축 · 실무 적용</h4>' + (stages.build.map(function (c) { return '<div class="rm-i">' + c.name + (c.hours ? ' · ' + c.hours + 'H' : '') + '</div>'; }).join('') || '<div class="rm-i" style="color:#999;">해당 없음</div>') + '</div>'
+        + '<div class="rm-stage"><h4>③ 심화 · 운영·거버넌스</h4>' + (stages.adv.map(function (c) { return '<div class="rm-i">' + c.name + (c.hours ? ' · ' + c.hours + 'H' : '') + '</div>'; }).join('') || '<div class="rm-i" style="color:#999;">해당 없음</div>') + '</div>';
+
+      // 예상 규모 (임시 단가 + 규모별 할인 안내)
+      var hours = picks.reduce(function (a, c) { return a + (c.hours || 0); }, 0);
+      var rate = RATE[answers.ind] || 500000;
+      var gross = hours * rate;
+      var dc = picks.length >= 3 ? 0.10 : picks.length === 2 ? 0.05 : 0;
+      var net = Math.round(gross * (1 - dc));
+      document.getElementById('rEstimate').innerHTML =
+        '<div class="est-box"><div class="big">총 ' + hours + 'H · 예상 ' + fmt(gross) + (dc ? ' → 규모별 할인 후 ' + fmt(net) : '') + '</div>'
+        + '<div class="sub">참고 단가(' + fmt(rate) + '/H × ' + hours + 'H) 기준 · 과목 ' + picks.length + '개 '
+        + (dc ? '→ 교육 규모별 할인 ' + Math.round(dc * 100) + '% 적용가' : '→ 2과목 5% · 3과목+ 10% 규모별 할인 가능') + ' · 정가는 별도 협의</div></div>';
+
+      // 패키지 매핑
+      var seen = {}, pk = document.getElementById('rPkgs');
+      pk.innerHTML = '';
+      picks.forEach(function (c) {
+        var m = PKG_MAP[c.category];
+        if (m && !seen[m[0]]) {
+          seen[m[0]] = 1;
+          var a = document.createElement('a');
+          a.className = 'pkg-chip';
+          a.href = m[0];
+          a.textContent = '📦 ' + m[1];
+          pk.appendChild(a);
+        }
+      });
+      if (!pk.children.length) pk.innerHTML = '<span style="font-size:13px;color:#999;">매칭 표준 패키지 없음 — 맞춤 구성으로 제안합니다.</span>';
+    }
+  })();
+  </script>
+</body>
+</html>

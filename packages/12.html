@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Package 12 — 온프레·하이브리드 AI 인프라 구축 | 모두의연구소 표준 제안서 덱</title>
+  <meta name="description" content="vLLM·KServe·LiteLLM — 온프레 LLM 서빙부터 하이브리드 게이트웨이·LLMOps·GPU 클러스터까지">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <div class="mobile-header">
+    <button id="sidebar-toggle">☰ 메뉴</button>
+  </div>
+  <div class="layout">
+    <aside class="sidebar"><div class="brand"><div class="brand-mark">모</div><div>모두의연구소<br><span style="font-size:11px;color:#888;font-weight:500;">표준 제안서 덱</span></div></div>
+      <nav>
+<div class="nav-section">개요</div>
+<a href="../index.html"><span class="nav-icon">📚</span> 카탈로그</a>
+<a href="../catalog.html"><span class="nav-icon">🗂</span> 과목 카탈로그 158</a>
+<a href="../matrix.html"><span class="nav-icon">▦</span> MECE 매트릭스</a>
+<div class="nav-section">영업 도구</div>
+<a href="../consult.html"><span class="nav-icon">🤖</span> 맞춤 상담 (베타)</a>
+<a href="../decision-tree.html"><span class="nav-icon">🧭</span> 결정 트리</a>
+<a href="../estimator.html"><span class="nav-icon">💰</span> 견적 계산기</a>
+<a href="../industry.html"><span class="nav-icon">🏭</span> 산업별 가이드</a>
+<div class="nav-section">표준 패키지 12종</div>
+<a href="01.html"><span class="nav-icon">01</span> AI 경영 전략 세미나</a>
+<a href="02.html"><span class="nav-icon">02</span> AX 로드맵 (연간)</a>
+<a href="03.html"><span class="nav-icon">03</span> AI 리터러시 인식전환</a>
+<a href="04.html"><span class="nav-icon">04</span> 직무별 AI 실무 워크샵 ⭐</a>
+<a href="05.html"><span class="nav-icon">05</span> AI 실무 전환 캠프</a>
+<a href="06.html"><span class="nav-icon">06</span> 에이전틱 코딩 Level 1</a>
+<a href="07.html"><span class="nav-icon">07</span> RAG/Agent 엔지니어링</a>
+<a href="08.html"><span class="nav-icon">08</span> 하네스 엔지니어링 PoC</a>
+<a href="09.html"><span class="nav-icon">09</span> 대학생 AI 세미나/해커톤</a>
+<a href="10.html"><span class="nav-icon">10</span> AI 부트캠프 (1-4주)</a>
+<a href="11.html"><span class="nav-icon">11</span> 클라우드 AI 에이전트 🆕</a>
+<a href="12.html" class="active"><span class="nav-icon">12</span> AI 인프라 구축 🆕</a>
+</nav></aside>
+    <main class="main">
+      <header class="page-header">
+        <div class="eyebrow">Package 12 · L3 개발자 × D4 혁신 · 2026-09 신설</div>
+        <h1>온프레·하이브리드 AI 인프라 구축</h1>
+        <p>AI Native 기업의 기술 뼈대 — vLLM·KServe·LiteLLM·LLMOps·GPU 클러스터</p>
+      </header>
+
+      <div class="tag-row">
+        <span class="tag dark">PACKAGE 12</span>
+        <span class="tag">L3 개발자 × D4 혁신</span>
+        <span class="tag" style="background:#EE3E4C;color:white;border-color:#EE3E4C;">★ 2026 신설 · 인 카테고리 8과목</span>
+      </div>
+
+      <div class="pdf-action no-print">
+        <button class="btn" onclick="window.print()">📄 PDF로 저장</button>
+      </div>
+
+      <h2>💰 단가</h2>
+      <p style="font-size:18px;color:#EE3E4C;font-weight:700;">₩14,000,000 ~ ₩16,800,000 (코어 4일 28H · VAT 별도)</p>
+      <p style="font-size:13px;color:#888;">※ 참고 견적 (표준 단가 기준) — 최종 견적은 협의로 확정합니다. 풀 로드맵 확장 시 91H 구성 가능 (전략 7H + 입문 7H + 코어 28H + K8s 14H + LLMOps 14H + 보안 7H + GPU 고급 21H 중 선택).</p>
+
+      <h2>🎯 타겟</h2>
+      <ul>
+        <li><strong>대상</strong>: 인프라 · MLOps · 플랫폼 엔지니어 (Linux·Kubernetes 기초 경험 권장)</li>
+        <li><strong>기간</strong>: 코어 4일 28H + 확장 트랙 선택제 (7~21H)</li>
+        <li><strong>AX 단계</strong>: 3~4단계 (구축·운영 → 심화·거버넌스)</li>
+      </ul>
+
+      <h2>📝 과정 소개</h2>
+      <p>금융 망분리 · 공공 폐쇄망 · 제조 기밀 보호 등 규제 환경에서 자체 AI 인프라를 구축·운영하는 역량을 키우는 과정입니다. 2026년 표준 스택(vLLM·SGLang 추론 + KServe 서빙 + LiteLLM 하이브리드 게이트웨이 + Prometheus/Langfuse 관측)으로 온프레 LLM을 직접 구축하고, 민감데이터는 온프레·일반 트래픽은 클라우드로 라우팅하는 하이브리드 아키텍처를 실습합니다. 국내 AI Enterprise 서비스(HyperCLOVA X · SKT A.X · KT LLM Station · 삼성SDS Brity) 선정 가이드와 Azure Local·Google GDC 비교까지 포함합니다.</p>
+
+      <h2>🎯 교육 목표</h2>
+      <p><ul><li>vLLM·SGLang 추론 서빙 구축과 양자화·처리량 최적화</li><li>LiteLLM 게이트웨이로 정책 기반 라우팅(PII→온프레/일반→클라우드)·폴백·비용 통계 구현</li><li>Prometheus·Grafana·Langfuse 관측 스택과 배포·롤백 운영 확립</li><li>망분리·전자금융감독규정 등 규제 요건을 반영한 보안 아키텍처 설계</li></ul></p>
+
+      <h2>🔧 핵심 도구</h2>
+      <div class="tag-row">
+        <span class="tag muted">vLLM</span><span class="tag muted">SGLang</span><span class="tag muted">KServe</span><span class="tag muted">LiteLLM</span><span class="tag muted">Kubernetes</span><span class="tag muted">Prometheus</span><span class="tag muted">Langfuse</span><span class="tag muted">llm-guard-ko</span><span class="tag muted">EXAONE/Llama</span>
+      </div>
+
+      <h2>🛤️ 트랙별 상세 커리큘럼</h2>
+<div class="track-list">
+<div class="track-block">
+<div class="track-header">
+<span class="track-label">TRACK 01 · 코어 (필수)</span>
+<span class="track-title">온프레 구축 + 하이브리드 게이트웨이</span>
+<span class="track-meta">총 28시간 (4일) · 시트 등재 인-개-3-001/003</span>
+</div>
+<table>
+<tr><th>모듈</th><th>내용</th><th>시간</th></tr>
+<tr><td>온프레 LLM 구축·운영 실무</td><td>vLLM(PagedAttention)·SGLang 비교 · 양자화(GPTQ/AWQ) · 처리량·지연 최적화 · 부하 테스트</td><td>14H</td></tr>
+<tr><td>하이브리드 AI 게이트웨이</td><td>LiteLLM 정책 라우팅 · PII 감지 마스킹(llm-guard-ko) · 폴백·예산 캡 · 감사로그 설계</td><td>14H</td></tr>
+</table>
+</div>
+<div class="track-block">
+<div class="track-header">
+<span class="track-label">TRACK 02 · 확장 (선택)</span>
+<span class="track-title">운영 고도화 · 플랫폼 · 보안 · GPU</span>
+<span class="track-meta">선택제 7~21H · 시트 등재 인-개-3-002/004, 인-개-4-001/002, 인-전-2-001, 인-개-2-001</span>
+</div>
+<table>
+<tr><th>확장 모듈</th><th>내용</th><th>시간</th></tr>
+<tr><td>Kubernetes AI 플랫폼</td><td>GPU Operator · MIG · KServe/Ray · 오토스케일링 · 멀티테넌시</td><td>14H</td></tr>
+<tr><td>LLMOps 관측·운영</td><td>Prometheus/Grafana(DCGM) · Langfuse·OTel · A/B·롤백</td><td>14H</td></tr>
+<tr><td>AI 보안 인프라·규제</td><td>프롬프트 인젝션 방어 · 망분리 아키텍처 · ISMS-P·AI 기본법</td><td>7H</td></tr>
+<tr><td>GPU 클러스터 고급</td><td>InfiniBand/RoCE · 병렬화(TP/PP/EP) · 용량계획 · 벤치마킹</td><td>21H</td></tr>
+<tr><td>전략·입문 (경영진/신규)</td><td>지형·선정 전략 / 첫 사내 LLM API</td><td>7H</td></tr>
+</table>
+</div>
+</div>
+
+      <h2>📦 산출물</h2>
+      <p><ul><li>운영 중 온프레 LLM 서빙 (OpenAI 호환 API + 부하 테스트 리포트)</li><li>하이브리드 라우팅 게이트웨이 (정책 시나리오 3종: PII/버스트/장애)</li><li>관측 대시보드 + 우리 조직 인프라 설계안</li></ul></p>
+
+      <h2>🏢 산업 적합도</h2>
+      <table>
+        <tr><th>산업</th><th>적합도</th><th>비고</th></tr>
+        <tr><td>대기업</td><td>◎</td><td>금융(망분리·전자금융감독규정) · 제조(기밀·엣지) 강수요</td></tr>
+        <tr><td>중견·중소</td><td>○</td><td>입문(7H)→게이트웨이 순 단계 도입</td></tr>
+        <tr><td>공공</td><td>◎</td><td>폐쇄망·에어갭 — KT LLM Station·Azure Local 선정 가이드 포함</td></tr>
+        <tr><td>대학</td><td>△</td><td>연구 클러스터 운영팀 대상 재구성</td></tr>
+      </table>
+
+      <h2>📚 유사 레퍼런스</h2>
+      <p><ul><li>SK텔레콤 — LLMOps 실무 72H (클라우드 축 선수행 실적)</li><li>삼성전자MX_1 — 파인튜닝·MLOps 실무 (인프라 계열 선례)</li><li>한국수력원자력 월성·한국도로공사 등 규제 산업 교육 이력</li></ul></p>
+
+      <h2>⚙️ 필요 인프라</h2>
+      <p><ul><li>실습 GPU — 자체 보유 또는 렌탈(RunPod 등, 강사 측 제공 가능)</li><li>Kubernetes 실습 환경 (k3s/minikube 가능)</li><li>소형 오픈소스 모델 (Llama 3.1 8B · EXAONE 3.5 — 한국어)</li></ul></p>
+
+      <footer class="page-footer">
+        <p>© 2026 모두의연구소 · 비즈팀 · modu.biz@modulabs.co.kr</p>
+      </footer>
+    </main>
+  </div>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
