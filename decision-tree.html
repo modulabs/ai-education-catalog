@@ -212,20 +212,22 @@
       (pkg.tools || []).slice(0, 3).forEach(t => chips.push(t));
       document.getElementById("result-meta").innerHTML = chips.map(m => `<span class="tag">${m}</span>`).join("");
 
-      document.getElementById("result-price").textContent = pkg.price.note
-        ? `${pkg.price.label} (${pkg.price.note})`
-        : pkg.price.label;
+      // 공개 빌드에는 금액이 없다(내부 판단용). price가 비어 있으면 "협의"로 표시한다.
+      const price = pkg.price || {};
+      document.getElementById("result-price").textContent = price.label
+        ? (price.note ? `${price.label} (${price.note})` : price.label)
+        : "협의";
       const link = document.getElementById("result-link");
       link.href = pkg.page;
 
       // Industry note — plain hourly-rate reference only, from pricing 표준 데이터.
       // No negotiation mechanics (subsidy %, volume thresholds, etc.) are
       // rendered here since none of those live in packages.json.
-      const industryLabel = pkgData.pricing.industry_labels[state.industry] || state.industry;
-      const rateText = formatWon(pkgData.pricing.hourly_rates[state.industry]);
+      const industryLabel = (pkgData.pricing.industry_labels || {})[state.industry] || state.industry;
+      const rateText = formatWon((pkgData.pricing.hourly_rates || {})[state.industry]);
       const noteEl = document.createElement("div");
       noteEl.style.cssText = "margin-top:14px;padding:10px 14px;background:white;border-radius:6px;font-size:13px;color:#555;";
-      noteEl.innerHTML = `🏢 <strong>${industryLabel}</strong> — ${rateText ? `시간당 참고 단가 ${rateText}` : "시간당 참고 단가 협의"}`;
+      noteEl.innerHTML = `🏢 <strong>${industryLabel}</strong> — ${rateText ? `시간당 참고 단가 ${rateText}` : "교육 규모·구성에 따라 협의로 산정합니다"}`;
       const oldNote = document.getElementById("industry-note");
       if (oldNote) oldNote.remove();
       noteEl.id = "industry-note";

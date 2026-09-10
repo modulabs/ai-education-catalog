@@ -270,9 +270,18 @@
     // 예상 규모
     var hoursKnown = chosen.reduce(function (acc, c) { return acc + (c.hours || 0); }, 0);
     var unknown = chosen.filter(function (c) { return !c.hours; });
-    var rates = KB.data.packages.pricing.hourly_rates;
+    var rates = KB.data.packages.pricing.hourly_rates || {};   // 공개 빌드에는 단가 자체가 없다
+    // 공개 빌드는 단가를 담지 않는다(금액은 내부 판단용). 단가가 없으면 금액을 만들지 않고 "협의"로 넘긴다.
     var rate = rates[a.ind] || rates.enterprise;
-    var est = { hours: hoursKnown, rate: rate, industry: a.ind || 'enterprise', min: Math.round(hoursKnown * rate * R.estimate.range_factor.min), max: Math.round(hoursKnown * rate * R.estimate.range_factor.max), unknown_hours_courses: unknown.map(function (c) { return c.name; }), note: R.estimate.public_note };
+    var priced = typeof rate === 'number' && isFinite(rate) && rate > 0;
+    var est = {
+      hours: hoursKnown, rate: priced ? rate : null, industry: a.ind || 'enterprise',
+      priced: priced,
+      min: priced ? Math.round(hoursKnown * rate * R.estimate.range_factor.min) : null,
+      max: priced ? Math.round(hoursKnown * rate * R.estimate.range_factor.max) : null,
+      unknown_hours_courses: unknown.map(function (c) { return c.name; }),
+      note: priced ? R.estimate.public_note : (R.estimate.unpriced_note || '교육 규모와 구성이 정해지면 견적을 협의로 확정합니다.')
+    };
 
     // 패키지 — 대상 템플릿에 맞는 패키지를 우선, 그 다음 과목 매핑 빈도
     var pkgCount = {};
@@ -516,8 +525,12 @@
     }
     // 5. 예상 규모 + 패키지 + 다음 단계
     var e = rm.estimate;
-    html += '<section class="kb-block kb-est"><div class="kb-est-main"><div class="kb-est-big">' + (e.hours ? fmtWon(e.min) + ' ~ ' + fmtWon(e.max) : '협의') + '</div>'
-      + '<div class="kb-est-sub">집합 교육 ' + esc(e.hours) + 'H · ' + esc(KB.data.packages.pricing.industry_labels[e.industry] || e.industry) + ' 참고 단가 기준' + (e.unknown_hours_courses.length ? ' · 시수 협의 과목 ' + e.unknown_hours_courses.length + '건 제외' : '') + '</div>'
+    var estBig = (e.priced && e.hours) ? fmtWon(e.min) + ' ~ ' + fmtWon(e.max) : '협의';
+    var estSub = e.priced
+      ? '집합 교육 ' + esc(e.hours) + 'H · ' + esc((KB.data.packages.pricing.industry_labels || {})[e.industry] || e.industry) + ' 참고 단가 기준'
+      : '집합 교육 ' + esc(e.hours) + 'H · ' + esc((KB.data.packages.pricing.industry_labels || {})[e.industry] || e.industry);
+    html += '<section class="kb-block kb-est"><div class="kb-est-main"><div class="kb-est-big">' + estBig + '</div>'
+      + '<div class="kb-est-sub">' + estSub + (e.unknown_hours_courses.length ? ' · 시수 협의 과목 ' + e.unknown_hours_courses.length + '건 제외' : '') + '</div>'
       + '<div class="kb-est-note">' + esc(e.note) + '</div></div>'
       + (rm.packages.length ? '<div class="kb-pkgs"><div class="kb-sec-t">연계 표준 패키지</div>' + rm.packages.map(function (p) { return '<a class="kb-pkg" href="' + esc((opts.pkgBase || '') + p.page) + '"><span class="kb-pkg-id">' + esc(p.id) + '</span>' + esc(p.name) + '<span class="kb-pkg-h">' + esc(p.duration_label || '') + '</span></a>'; }).join('') + '</div>' : '')
       + '</section>';

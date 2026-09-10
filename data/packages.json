@@ -4,27 +4,18 @@
   "updated": "2026-09-09",
   "description": "12 표준 패키지 표준 데이터",
   "currency": "KRW",
-  "vat": "별도"
+  "vat": "별도",
+  "pricing_public": "금액 비공개 — 상담 후 협의로 확정"
  },
  "pricing": {
-  "hourly_rates": {
-   "enterprise": 500000,
-   "sme": 600000,
-   "university": 400000,
-   "public": 450000
-  },
   "industry_labels": {
    "enterprise": "대기업",
    "sme": "중견·중소",
    "university": "대학",
    "public": "공공"
   },
-  "assistant_instructor_per_hour": 100000,
   "discount_policy": {
    "public_wording": "교육 규모·다과목 구성 시 협의 조정"
-  },
-  "rate_notes": {
-   "public": "입찰가 기준 ₩450,000-500,000 구간. 예상 규모 산정에는 하한값을 적용한다."
   }
  },
  "matrix": {
@@ -129,17 +120,11 @@
    },
    "unit": null,
    "duration_label": "2-3H",
-   "price": {
-    "min": 1200000,
-    "max": 1800000,
-    "label": "₩1.2M ~ ₩1.8M",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
-    "enterprise": 1800000,
-    "sme": 1800000,
+    "enterprise": null,
+    "sme": null,
     "university": null,
-    "public": 1500000
+    "public": null
    },
    "industries": [
     "enterprise",
@@ -222,17 +207,11 @@
    },
    "unit": null,
    "duration_label": "연간 6~9회 · 50-100H",
-   "price": {
-    "min": 25000000,
-    "max": 50000000,
-    "label": "₩25M ~ ₩50M",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
-    "enterprise": 37500000,
+    "enterprise": null,
     "sme": null,
     "university": null,
-    "public": 30000000
+    "public": null
    },
    "industries": [
     "enterprise",
@@ -358,17 +337,11 @@
    },
    "unit": null,
    "duration_label": "2-5H",
-   "price": {
-    "min": 1200000,
-    "max": 3000000,
-    "label": "₩1.2M ~ ₩3M",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
-    "enterprise": 2400000,
-    "sme": 2400000,
+    "enterprise": null,
+    "sme": null,
     "university": null,
-    "public": 2000000
+    "public": null
    },
    "industries": [
     "enterprise",
@@ -453,17 +426,11 @@
    },
    "unit": "직군",
    "duration_label": "직군당 1일 7~8H",
-   "price": {
-    "min": 4000000,
-    "max": 4800000,
-    "label": "₩4M ~ ₩4.8M / 직군",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
-    "enterprise": 4800000,
-    "sme": 4800000,
+    "enterprise": null,
+    "sme": null,
     "university": null,
-    "public": 4000000
+    "public": null
    },
    "industries": [
     "enterprise",
@@ -617,17 +584,11 @@
    },
    "unit": null,
    "duration_label": "1~3주 스프린트 · 30-60H",
-   "price": {
-    "min": 13500000,
-    "max": 30000000,
-    "label": "₩13.5M ~ ₩30M",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
-    "enterprise": 22500000,
-    "sme": 27000000,
+    "enterprise": null,
+    "sme": null,
     "university": null,
-    "public": 18000000
+    "public": null
    },
    "industries": [
     "enterprise",
@@ -715,17 +676,11 @@
    },
    "unit": "Level",
    "duration_label": "Level당 1일 8H (4 Level 풀코스 32H)",
-   "price": {
-    "min": 4800000,
-    "max": 4800000,
-    "label": "₩4.8M / Level",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
-    "enterprise": 4800000,
-    "sme": 4800000,
-    "university": 3200000,
-    "public": 4000000
+    "enterprise": null,
+    "sme": null,
+    "university": null,
+    "public": null
    },
    "industries": [
     "enterprise",
@@ -824,16 +779,10 @@
    },
    "unit": null,
    "duration_label": "5일 35H",
-   "price": {
-    "min": 17500000,
-    "max": 21000000,
-    "label": "₩17.5M ~ ₩21M",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
-    "enterprise": 19250000,
-    "sme": 21000000,
-    "university": 14000000,
+    "enterprise": null,
+    "sme": null,
+    "university": null,
     "public": null
    },
    "industries": [
@@ -944,15 +893,9 @@
    },
    "unit": null,
    "duration_label": "4일 32H",
-   "price": {
-    "min": 16000000,
-    "max": 16000000,
-    "label": "₩16M",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
-    "enterprise": 16000000,
-    "sme": 16000000,
+    "enterprise": null,
+    "sme": null,
     "university": null,
     "public": null
    },
@@ -1053,17 +996,11 @@
    },
    "unit": null,
    "duration_label": "3-8H",
-   "price": {
-    "min": 1200000,
-    "max": 4000000,
-    "label": "₩1.2M ~ ₩4M",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
     "enterprise": null,
     "sme": null,
-    "university": 2000000,
-    "public": 1800000
+    "university": null,
+    "public": null
    },
    "industries": [
     "university",
@@ -1137,16 +1074,10 @@
    },
    "unit": null,
    "duration_label": "60-180H (1-4주)",
-   "price": {
-    "min": 18000000,
-    "max": 72000000,
-    "label": "₩18M ~ ₩72M",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
     "enterprise": null,
     "sme": null,
-    "university": 36000000,
+    "university": null,
     "public": null
    },
    "industries": [
@@ -1332,17 +1263,11 @@
    },
    "unit": null,
    "duration_label": "46H 풀코스 (공통 34H + 플랫폼 심화 12H)",
-   "price": {
-    "min": 23000000,
-    "max": 27600000,
-    "label": "₩23M ~ ₩27.6M",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
-    "enterprise": 23000000,
-    "sme": 27600000,
-    "university": 18400000,
-    "public": 18400000
+    "enterprise": null,
+    "sme": null,
+    "university": null,
+    "public": null
    },
    "industries": [
     "enterprise",
@@ -1481,17 +1406,11 @@
    },
    "unit": null,
    "duration_label": "코어 4일 28H (+ 확장 7~21H 선택)",
-   "price": {
-    "min": 14000000,
-    "max": 16800000,
-    "label": "₩14M ~ ₩16.8M",
-    "note": "VAT 별도"
-   },
    "price_by_industry": {
-    "enterprise": 14000000,
-    "sme": 16800000,
-    "university": 11200000,
-    "public": 11200000
+    "enterprise": null,
+    "sme": null,
+    "university": null,
+    "public": null
    },
    "industries": [
     "enterprise",

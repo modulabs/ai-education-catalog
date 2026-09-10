@@ -491,11 +491,8 @@
  },
  "estimate": {
   "description": "예상 규모는 시수가 확정된 필수·선택 과목 시수 합 × 산업별 참고 단가. 범위(min~max)로만 제시하고 할인은 표시하지 않는다",
-  "range_factor": {
-   "min": 0.9,
-   "max": 1.1
-  },
   "public_note": "참고 단가 기준 예상 범위입니다. 최종 견적은 인원·차수·실습 환경을 반영해 협의로 확정합니다.",
-  "exclude_hours_null": true
+  "exclude_hours_null": true,
+  "unpriced_note": "교육 규모와 구성이 정해지면 견적을 협의로 확정합니다."
  }
 }
