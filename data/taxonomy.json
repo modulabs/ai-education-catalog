@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "version": "1.3",
+    "updated": "2026-09-09",
+    "source": "교육과정 분류체계 v1.3 (2026-09-01) — 주제·대상·AX단계·산업·형식 5축",
+    "code_pattern": "^(생|바|자|데|직|에|R|피|임|보|클|인|AX|교|퀀|웹)-(전|개|관|대|교)-[1-4]-\\d{3}$",
+    "code_format": "{주제}-{대상}-{AX단계}-{번호}"
+  },
+  "categories": [
+    { "code": "생", "name": "생성형 AI 실무 활용", "group": "일반 실무", "status": "active", "summary": "ChatGPT·Claude·Gemini·Copilot 등 도구 활용, 콘텐츠 생성, 기초 리터러시·마인드셋", "default_package": "03", "online_tracks": ["T1"] },
+    { "code": "바", "name": "바이브코딩·AI 코딩", "group": "일반 실무", "status": "active", "summary": "비개발자의 프롬프트 기반 앱·도구 제작 (Cursor, Antigravity, v0, Bolt, Streamlit)", "default_package": "04", "online_tracks": ["T4"] },
+    { "code": "자", "name": "AI 에이전트·업무 자동화", "group": "일반 실무", "status": "active", "summary": "업무 자동화, Claude Skills·CoWork, n8n, 사내 챗봇·지식관리, 직무별 에이전트 제작", "default_package": "05", "online_tracks": ["T1", "T4"] },
+    { "code": "데", "name": "데이터 분석·의사결정", "group": "일반 실무", "status": "active", "summary": "데이터 분석·시각화·대시보드, Lakehouse 파이프라인, AI 분석 워크플로우", "default_package": "07", "online_tracks": ["T2"] },
+    { "code": "직", "name": "직무 특화 AI", "group": "일반 실무", "status": "active", "summary": "마케팅·경영기획·HR·고객서비스·행정·생산·물류·건설·보안 등 직무별 AI 실무", "default_package": "04", "online_tracks": ["T1", "T3"] },
+    { "code": "에", "name": "에이전틱 코딩·하네스 엔지니어링", "group": "개발자·기술 심화", "status": "active", "summary": "CLI 코딩 에이전트(Claude Code·Codex 등), 하네스·컨텍스트·루프 엔지니어링, MCP, 멀티에이전트 오케스트레이션", "default_package": "06", "online_tracks": ["T4"] },
+    { "code": "R", "name": "AI 서비스 개발·엔지니어링", "group": "개발자·기술 심화", "status": "active", "summary": "RAG, 파인튜닝, LangGraph, MLOps/LLMOps, Vector DB, LLM 앱 개발", "default_package": "07", "online_tracks": ["T2"] },
+    { "code": "피", "name": "Physical AI·로보틱스", "group": "개발자·기술 심화", "status": "active", "summary": "ROS2, 디지털 트윈, 시뮬레이션(Isaac Sim), VLA, 강화학습, 자율주행 로봇", "default_package": "10", "online_tracks": ["T2"] },
+    { "code": "임", "name": "임베디드·엣지 AI", "group": "개발자·기술 심화", "status": "active", "summary": "MCU 제어시스템 개발에 AI 코딩 접목 — 센서 연동, 산업 통신(RS-485/Modbus), 엣지 디바이스", "default_package": "10", "online_tracks": ["T2"] },
+    { "code": "보", "name": "AI 보안·거버넌스", "group": "개발자·기술 심화", "status": "active", "summary": "Security Agent, 프롬프트 인젝션 방어, AI 윤리·거버넌스, 컴플라이언스", "default_package": "12", "online_tracks": [] },
+    { "code": "클", "name": "클라우드 AI — 에이전트·서비스 개발", "group": "개발자·기술 심화", "status": "active", "summary": "Azure AI Foundry·AWS Bedrock·Vertex AI 기반 에이전트 개발, 오케스트레이션·평가·가드레일, MCP, 비용 최적화", "default_package": "11", "online_tracks": ["T2"] },
+    { "code": "인", "name": "AI 인프라 — 온프레·하이브리드 구축 운영", "group": "개발자·기술 심화", "status": "active", "summary": "온프레 LLM 서빙(vLLM·SGLang·KServe), Kubernetes AI 플랫폼, 하이브리드 게이트웨이, LLMOps 관측, GPU 클러스터", "default_package": "12", "online_tracks": [] },
+    { "code": "AX", "name": "AI 전략·조직 전환·리더십", "group": "전략·조직", "status": "active", "summary": "임원·리더 워크숍, 전사 AX 로드맵, 비용 거버넌스, 해커톤·경진대회 운영", "default_package": "02", "online_tracks": ["T1"] },
+    { "code": "교", "name": "교사·강사 역량", "group": "특수 대상", "status": "active", "summary": "SW마이스터고·직업훈련 교사, 강사 대상 AI 교육역량", "default_package": "09", "online_tracks": ["T1", "T4"] },
+    { "code": "퀀", "name": "Quantum AI", "group": "확장 예약", "status": "planned", "summary": "양자×AI 융합 — 개설 예정", "default_package": null, "online_tracks": [] },
+    { "code": "웹", "name": "Web3 AI", "group": "확장 예약", "status": "planned", "summary": "블록체인×AI — 개설 예정", "default_package": null, "online_tracks": [] }
+  ],
+  "audiences": [
+    { "code": "전", "name": "전사 비개발·실무자", "short": "비개발 실무자", "matrix_level": "L2", "roles": ["기획·전략", "마케팅·콘텐츠", "영업·CS·경영지원"] },
+    { "code": "개", "name": "개발자·엔지니어", "short": "개발자", "matrix_level": "L3", "roles": ["개발·엔지니어링", "데이터·분석"] },
+    { "code": "관", "name": "임원·경영진·관리자", "short": "임원·경영진", "matrix_level": "L1", "roles": ["경영진·리더"] },
+    { "code": "대", "name": "대학생·취준생", "short": "대학생", "matrix_level": "L4", "roles": [] },
+    { "code": "교", "name": "교사·강사", "short": "교사·강사", "matrix_level": "L2", "roles": [] }
+  ],
+  "ax_stages": [
+    { "stage": 1, "name": "인식·입문", "matrix_depth": "D1", "goal": "AI가 무엇을 바꾸는지 이해하고 안전한 활용 기준을 세운다", "online_level": 1 },
+    { "stage": 2, "name": "실무 적용", "matrix_depth": "D2", "goal": "내 업무에 도구를 적용해 산출물을 만든다", "online_level": 2 },
+    { "stage": 3, "name": "구축·운영", "matrix_depth": "D3", "goal": "팀·조직 단위 시스템(에이전트·파이프라인)을 구축하고 운영한다", "online_level": 3 },
+    { "stage": 4, "name": "심화·거버넌스", "matrix_depth": "D4", "goal": "전사 확산·거버넌스·고도화를 이끈다", "online_level": 4 }
+  ],
+  "industries": [
+    { "code": "enterprise", "name": "대기업", "sectors": ["IT·정보통신", "제조·생산·건설", "유통·물류·커머스", "금융·비즈니스", "미디어·엔터·서비스"] },
+    { "code": "sme", "name": "중견·중소", "sectors": ["IT·정보통신", "제조·생산·건설", "유통·물류·커머스", "미디어·엔터·서비스"] },
+    { "code": "university", "name": "대학", "sectors": ["공공·교육·연구"] },
+    { "code": "public", "name": "공공·비영리", "sectors": ["공공·교육·연구"] }
+  ],
+  "sectors": ["IT·정보통신", "금융·비즈니스", "제조·생산·건설", "유통·물류·커머스", "미디어·엔터·서비스", "공공·교육·연구"],
+  "formats": {
+    "duration_bands": [
+      { "code": "half", "name": "세미나·반일", "hours_min": 0, "hours_max": 7, "label": "~7H" },
+      { "code": "day", "name": "원데이·2일", "hours_min": 8, "hours_max": 20, "label": "8~20H" },
+      { "code": "week", "name": "1주 집중 워크숍", "hours_min": 21, "hours_max": 45, "label": "21~45H" },
+      { "code": "long", "name": "2주 이상·과정형", "hours_min": 46, "hours_max": 9999, "label": "46H+" }
+    ],
+    "size_bands": [
+      { "code": "s", "name": "밀착 코칭형", "label": "~20명" },
+      { "code": "m", "name": "실무 실습형", "label": "20~50명" },
+      { "code": "l", "name": "전사 확산형", "label": "50명+" }
+    ],
+    "delivery": ["오프라인 집합", "실시간 온라인", "온라인 VOD", "블렌디드(VOD+집합)", "컨설팅·진단"]
+  },
+  "regulation": [
+    { "code": "none", "name": "해당 없음" },
+    { "code": "closed", "name": "망분리·폐쇄망 필요", "boost_categories": ["인", "보"], "note": "금융·공공 등 — 온프레·보안 과목 우선, 실습 환경 사내 기준 반영" }
+  ]
+}

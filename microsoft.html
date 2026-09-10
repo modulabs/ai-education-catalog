@@ -46,31 +46,37 @@
 <body>
   <div class="mobile-header"><button id="sidebar-toggle">☰ 메뉴</button></div>
   <div class="layout">
-    <aside class="sidebar"><div class="brand"><div class="brand-mark">모</div><div>모두의연구소<br><span style="font-size:11px;color:#888;font-weight:500;">표준 제안서 덱</span></div></div>
-      <nav>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">모</div>
+        <div>모두의연구소<br><span class="brand-sub">AI 기업교육 카탈로그</span></div>
+      </div>
+      <nav aria-label="사이트 내비게이션">
         <div class="nav-section">개요</div>
-        <a href="index.html"><span class="nav-icon">📚</span> 카탈로그</a>
-        <a href="catalog.html"><span class="nav-icon">🗂</span> 과목 카탈로그 158</a>
-        <a href="microsoft.html" class="active"><span class="nav-icon">🪟</span> Microsoft 4H 커리큘럼 🆕</a>
-        <a href="matrix.html"><span class="nav-icon">▦</span> MECE 매트릭스</a>
-        <div class="nav-section">영업 도구</div>
-        <a href="consult.html"><span class="nav-icon">🤖</span> 맞춤 상담 (베타)</a>
-        <a href="decision-tree.html"><span class="nav-icon">🧭</span> 결정 트리</a>
-        <a href="estimator.html"><span class="nav-icon">💰</span> 견적 계산기</a>
-        <a href="industry.html"><span class="nav-icon">🏭</span> 산업별 가이드</a>
+        <a href="index.html"><span class="nav-icon" aria-hidden="true">📚</span> 카탈로그 홈</a>
+        <a href="catalog.html"><span class="nav-icon" aria-hidden="true">🗂</span> 표준 과목 카탈로그</a>
+        <a href="online.html"><span class="nav-icon" aria-hidden="true">▶</span> 온라인 VOD 4트랙</a>
+        <a href="microsoft.html" class="active" aria-current="page"><span class="nav-icon" aria-hidden="true">🪟</span> Microsoft 4H 커리큘럼</a>
+        <a href="matrix.html"><span class="nav-icon" aria-hidden="true">▦</span> 대상×단계 매트릭스</a>
+        <div class="nav-section">맞춤 설계</div>
+        <a href="consult.html"><span class="nav-icon" aria-hidden="true">🤖</span> AI 맞춤 상담</a>
+        <a href="roadmap.html"><span class="nav-icon" aria-hidden="true">🛤</span> 로드맵 빌더</a>
+        <a href="decision-tree.html"><span class="nav-icon" aria-hidden="true">🧭</span> 패키지 결정 트리</a>
+        <a href="estimator.html"><span class="nav-icon" aria-hidden="true">💰</span> 예상 규모 계산기</a>
+        <a href="industry.html"><span class="nav-icon" aria-hidden="true">🏭</span> 산업별 가이드</a>
         <div class="nav-section">표준 패키지 12종</div>
-        <a href="packages/01.html"><span class="nav-icon">01</span> 임원 전략 세미나</a>
-        <a href="packages/02.html"><span class="nav-icon">02</span> AX 로드맵</a>
-        <a href="packages/03.html"><span class="nav-icon">03</span> AI 리터러시</a>
-        <a href="packages/04.html"><span class="nav-icon">04</span> 직무별 워크샵</a>
-        <a href="packages/05.html"><span class="nav-icon">05</span> 실무 전환 캠프</a>
-        <a href="packages/06.html"><span class="nav-icon">06</span> 에이전틱 코딩</a>
-        <a href="packages/07.html"><span class="nav-icon">07</span> RAG/Agent 심화</a>
-        <a href="packages/08.html"><span class="nav-icon">08</span> 하네스 PoC</a>
-        <a href="packages/09.html"><span class="nav-icon">09</span> 학생 세미나</a>
-        <a href="packages/10.html"><span class="nav-icon">10</span> AI 부트캠프</a>
-        <a href="packages/11.html"><span class="nav-icon">11</span> 클라우드 AI 에이전트 🆕</a>
-        <a href="packages/12.html"><span class="nav-icon">12</span> AI 인프라 구축 🆕</a>
+        <a href="packages/01.html"><span class="nav-icon" aria-hidden="true">01</span> AI 경영 전략 세미나</a>
+        <a href="packages/02.html"><span class="nav-icon" aria-hidden="true">02</span> AX 로드맵 (연간)</a>
+        <a href="packages/03.html"><span class="nav-icon" aria-hidden="true">03</span> AI 리터러시</a>
+        <a href="packages/04.html"><span class="nav-icon" aria-hidden="true">04</span> 직무별 AI 실무 워크샵</a>
+        <a href="packages/05.html"><span class="nav-icon" aria-hidden="true">05</span> AI 실무 전환 캠프</a>
+        <a href="packages/06.html"><span class="nav-icon" aria-hidden="true">06</span> 에이전틱 코딩 L1-4</a>
+        <a href="packages/07.html"><span class="nav-icon" aria-hidden="true">07</span> RAG/Agent 심화</a>
+        <a href="packages/08.html"><span class="nav-icon" aria-hidden="true">08</span> 하네스 엔지니어링 PoC</a>
+        <a href="packages/09.html"><span class="nav-icon" aria-hidden="true">09</span> 학생 세미나/해커톤</a>
+        <a href="packages/10.html"><span class="nav-icon" aria-hidden="true">10</span> AI 부트캠프</a>
+        <a href="packages/11.html"><span class="nav-icon" aria-hidden="true">11</span> 클라우드 AI 에이전트</a>
+        <a href="packages/12.html"><span class="nav-icon" aria-hidden="true">12</span> AI 인프라 구축</a>
       </nav>
     </aside>
     <main class="main ms-wrap">
@@ -115,7 +121,7 @@
 
         <details class="ms-course">
           <summary>
-            <div><div class="mc-eyebrow">MS-102 · STEP 2 직무별 심화 · 직-전--010</div><h3>직무별 Copilot 심화 — 직무 핵심 도구 중심</h3></div>
+            <div><div class="mc-eyebrow">MS-102 · STEP 2 직무별 심화 · 직-전-2-010</div><h3>직무별 Copilot 심화 — 직무 핵심 도구 중심</h3></div>
             <div class="mc-meta"><span class="h">4H</span><span>직무트랙 선택형</span><span>중급</span></div>
           </summary>
           <div class="ms-body">
@@ -167,14 +173,14 @@
       <!-- ================= AZURE ================= -->
       <div id="track-azure" style="display:none;">
         <div class="stage-flow">
-          <div class="stage-box"><div class="sn">STEP 1 · 입문</div><div class="st">첫 AI 에이전트 만들기</div><div class="sd">Microsoft Foundry 포털+SDK로 모델 배포부터 첫 에이전트·클라이언트 앱까지 — 공식 60분 랩 기반</div><div class="sc">AZ-101 · 4H · 클-전-2-002</div></div>
-          <div class="stage-box"><div class="sn">STEP 2 · 실무</div><div class="st">RAG 앱 만들기</div><div class="sd">Azure AI Search 연결 — 문서 인덱싱 → grounded 채팅 → 하이브리드 검색까지 자사 문서 기반 RAG 완성</div><div class="sc">AZ-102 · 4H · 클-전-2-003</div></div>
-          <div class="stage-box"><div class="sn">STEP 3 · 운영</div><div class="st">평가·안전 운영</div><div class="sd">내장 평가자·리스크 평가·Prompt Shields·Guardrails — STEP 1·2 산출물을 평가 대상으로 재사용</div><div class="sc">AZ-103 · 4H · 클-전-3-001</div></div>
+          <div class="stage-box"><div class="sn">STEP 1 · 입문</div><div class="st">첫 AI 에이전트 만들기</div><div class="sd">Microsoft Foundry 포털+SDK로 모델 배포부터 첫 에이전트·클라이언트 앱까지 — 공식 60분 랩 기반</div><div class="sc">AZ-101 · 4H · 클-개-2-003</div></div>
+          <div class="stage-box"><div class="sn">STEP 2 · 실무</div><div class="st">RAG 앱 만들기</div><div class="sd">Azure AI Search 연결 — 문서 인덱싱 → grounded 채팅 → 하이브리드 검색까지 자사 문서 기반 RAG 완성</div><div class="sc">AZ-102 · 4H · 클-개-2-001</div></div>
+          <div class="stage-box"><div class="sn">STEP 3 · 운영</div><div class="st">평가·안전 운영</div><div class="sd">내장 평가자·리스크 평가·Prompt Shields·Guardrails — STEP 1·2 산출물을 평가 대상으로 재사용</div><div class="sc">AZ-103 · 4H · 클-개-3-005</div></div>
         </div>
 
         <details class="ms-course" open>
           <summary>
-            <div><div class="mc-eyebrow">AZ-101 · STEP 1 입문 · 클-전-2-002</div><h3>Microsoft Foundry 첫 AI 에이전트 만들기</h3></div>
+            <div><div class="mc-eyebrow">AZ-101 · STEP 1 입문 · 클-개-2-003</div><h3>Microsoft Foundry 첫 AI 에이전트 만들기</h3></div>
             <div class="mc-meta"><span class="h">4H</span><span>비개발자~주니어</span><span>입문</span></div>
           </summary>
           <div class="ms-body">
@@ -194,7 +200,7 @@
 
         <details class="ms-course">
           <summary>
-            <div><div class="mc-eyebrow">AZ-102 · STEP 2 실무 · 클-전-2-003</div><h3>Foundry + Azure AI Search RAG 앱 만들기</h3></div>
+            <div><div class="mc-eyebrow">AZ-102 · STEP 2 실무 · 클-개-2-001</div><h3>Foundry + Azure AI Search RAG 앱 만들기</h3></div>
             <div class="mc-meta"><span class="h">4H</span><span>개발자</span><span>중급</span></div>
           </summary>
           <div class="ms-body">
@@ -214,7 +220,7 @@
 
         <details class="ms-course">
           <summary>
-            <div><div class="mc-eyebrow">AZ-103 · STEP 3 운영 · 클-전-3-001</div><h3>Foundry 에이전트 평가·안전 운영</h3></div>
+            <div><div class="mc-eyebrow">AZ-103 · STEP 3 운영 · 클-개-3-005</div><h3>Foundry 에이전트 평가·안전 운영</h3></div>
             <div class="mc-meta"><span class="h">4H</span><span>개발자·플랫폼</span><span>중상급</span></div>
           </summary>
           <div class="ms-body">

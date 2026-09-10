@@ -15,52 +15,60 @@
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-mark">모</div>
-        <div>모두의연구소<br><span style="font-size:11px;color:#888;font-weight:500;">표준 제안서 덱</span></div>
+        <div>모두의연구소<br><span class="brand-sub">AI 기업교육 카탈로그</span></div>
       </div>
-      <nav>
+      <nav aria-label="사이트 내비게이션">
         <div class="nav-section">개요</div>
-        <a href="index.html"><span class="nav-icon">📚</span> 카탈로그</a>
-        <a href="catalog.html"><span class="nav-icon">🗂</span> 과목 카탈로그 158</a>        <a href="microsoft.html"><span class="nav-icon">🪟</span> Microsoft 4H 🆕</a>
-        <a href="matrix.html"><span class="nav-icon">▦</span> MECE 매트릭스</a>
-        <div class="nav-section">영업 도구</div>
-        <a href="consult.html"><span class="nav-icon">🤖</span> 맞춤 상담 (베타)</a>
-        <a href="decision-tree.html"><span class="nav-icon">🧭</span> 결정 트리</a>
-        <a href="estimator.html"><span class="nav-icon">💰</span> 견적 계산기</a>
-        <a href="industry.html"><span class="nav-icon">🏭</span> 산업별 가이드</a>
+        <a href="index.html" class="active" aria-current="page"><span class="nav-icon" aria-hidden="true">📚</span> 카탈로그 홈</a>
+        <a href="catalog.html"><span class="nav-icon" aria-hidden="true">🗂</span> 표준 과목 카탈로그</a>
+        <a href="online.html"><span class="nav-icon" aria-hidden="true">▶</span> 온라인 VOD 4트랙</a>
+        <a href="microsoft.html"><span class="nav-icon" aria-hidden="true">🪟</span> Microsoft 4H 커리큘럼</a>
+        <a href="matrix.html"><span class="nav-icon" aria-hidden="true">▦</span> 대상×단계 매트릭스</a>
+        <div class="nav-section">맞춤 설계</div>
+        <a href="consult.html"><span class="nav-icon" aria-hidden="true">🤖</span> AI 맞춤 상담</a>
+        <a href="roadmap.html"><span class="nav-icon" aria-hidden="true">🛤</span> 로드맵 빌더</a>
+        <a href="decision-tree.html"><span class="nav-icon" aria-hidden="true">🧭</span> 패키지 결정 트리</a>
+        <a href="estimator.html"><span class="nav-icon" aria-hidden="true">💰</span> 예상 규모 계산기</a>
+        <a href="industry.html"><span class="nav-icon" aria-hidden="true">🏭</span> 산업별 가이드</a>
         <div class="nav-section">표준 패키지 12종</div>
-        <a href="packages/01.html"><span class="nav-icon">01</span> 임원 전략 세미나</a>
-        <a href="packages/02.html"><span class="nav-icon">02</span> AX 로드맵</a>
-        <a href="packages/03.html"><span class="nav-icon">03</span> AI 리터러시</a>
-        <a href="packages/04.html"><span class="nav-icon">04</span> 직무별 워크샵</a>
-        <a href="packages/05.html"><span class="nav-icon">05</span> 실무 전환 캠프</a>
-        <a href="packages/06.html"><span class="nav-icon">06</span> 에이전틱 코딩</a>
-        <a href="packages/07.html"><span class="nav-icon">07</span> RAG/Agent 심화</a>
-        <a href="packages/08.html"><span class="nav-icon">08</span> 하네스 PoC</a>
-        <a href="packages/09.html"><span class="nav-icon">09</span> 학생 세미나</a>
-        <a href="packages/10.html"><span class="nav-icon">10</span> AI 부트캠프</a>
-        <a href="packages/11.html"><span class="nav-icon">11</span> 클라우드 AI 에이전트 🆕</a>
-        <a href="packages/12.html"><span class="nav-icon">12</span> AI 인프라 구축 🆕</a>
+        <a href="packages/01.html"><span class="nav-icon" aria-hidden="true">01</span> AI 경영 전략 세미나</a>
+        <a href="packages/02.html"><span class="nav-icon" aria-hidden="true">02</span> AX 로드맵 (연간)</a>
+        <a href="packages/03.html"><span class="nav-icon" aria-hidden="true">03</span> AI 리터러시</a>
+        <a href="packages/04.html"><span class="nav-icon" aria-hidden="true">04</span> 직무별 AI 실무 워크샵</a>
+        <a href="packages/05.html"><span class="nav-icon" aria-hidden="true">05</span> AI 실무 전환 캠프</a>
+        <a href="packages/06.html"><span class="nav-icon" aria-hidden="true">06</span> 에이전틱 코딩 L1-4</a>
+        <a href="packages/07.html"><span class="nav-icon" aria-hidden="true">07</span> RAG/Agent 심화</a>
+        <a href="packages/08.html"><span class="nav-icon" aria-hidden="true">08</span> 하네스 엔지니어링 PoC</a>
+        <a href="packages/09.html"><span class="nav-icon" aria-hidden="true">09</span> 학생 세미나/해커톤</a>
+        <a href="packages/10.html"><span class="nav-icon" aria-hidden="true">10</span> AI 부트캠프</a>
+        <a href="packages/11.html"><span class="nav-icon" aria-hidden="true">11</span> 클라우드 AI 에이전트</a>
+        <a href="packages/12.html"><span class="nav-icon" aria-hidden="true">12</span> AI 인프라 구축</a>
       </nav>
     </aside>
     <main class="main">
       <div class="hero">
-        <div class="hero-eyebrow">2026 Q3 · Standard Proposal Deck</div>
-        <h1>모두의연구소 AI 교육<br>표준 제안서 덱</h1>
-        <p>28개 고객사 · 92개 제안서에서 검증된 패턴을 표준화한 <strong>12개 교육 패키지</strong> (2026-09 신규 2종 포함). 영업팀이 고객 요구를 받으면 1분 안에 적합한 패키지를 찾고, 1-click으로 맞춤 제안서를 생성합니다.</p>
-        <div class="hero-stats">
+        <div class="hero-eyebrow">2026 · AI Corporate Training Catalog</div>
+        <h1>모두의연구소<br>AI 기업교육 카탈로그</h1>
+        <p>직무·현재 수준·교육 목표가 다르기 때문에, 같은 과정을 전원에게 돌리지 않습니다. <strong>진단 → 맞춤 로드맵 → 신규 제작</strong>의 순서로 집합 교육 표준 과목과 온라인 VOD 4트랙을 조합해 조직에 맞는 학습 경로를 편성합니다.</p>
+        <div class="hero-stats" id="heroStats">
           <div class="stat"><div class="num">12</div><div class="lbl">표준 패키지</div></div>
-          <div class="stat"><div class="num">28</div><div class="lbl">검증 고객사</div></div>
-          <div class="stat"><div class="num">92</div><div class="lbl">누적 제안서</div></div>
-          <div class="stat"><div class="num">100%</div><div class="lbl">MECE 매핑</div></div>
+          <div class="stat"><div class="num" id="stCourses">—</div><div class="lbl">집합 교육 표준 과목</div></div>
+          <div class="stat"><div class="num" id="stOnline">—</div><div class="lbl">온라인 VOD 과정 · 4트랙</div></div>
+          <div class="stat"><div class="num">4</div><div class="lbl">AX 단계 로드맵</div></div>
         </div>
         <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap;">
-          <a class="btn" href="decision-tree.html">🧭 패키지 찾기 (결정 트리)</a>
-          <a class="btn ghost" href="matrix.html">▦ MECE 매트릭스 보기</a>
+          <a class="btn" href="consult.html">🤖 AI 맞춤 상담으로 시작</a>
+          <a class="btn ghost" href="roadmap.html">🛤 로드맵 빌더</a>
+          <a class="btn ghost" href="online.html">▶ 온라인 VOD 4트랙</a>
         </div>
       </div>
 
+      <h2>우리 조직은 어디부터 시작할까</h2>
+      <p>같은 AI 교육이라도 조직이 놓인 상황에 따라 시작 지점이 다릅니다. 해당하는 상황을 고르면 그에 맞는 트랙 조합과 시작 단계를 제안합니다.</p>
+      <div class="package-grid" id="spGrid"></div>
+
       <h2 id="catalog">📋 12개 표준 패키지</h2>
-      <p>각 카드를 클릭하면 상세 커리큘럼·단가·과거 사례를 확인할 수 있습니다.</p>
+      <p>검증된 구성으로 빠르게 시작할 수 있는 표준 패키지입니다. 카드를 클릭하면 상세 커리큘럼·참고 단가·산업별 적합도를 확인할 수 있습니다.</p>
 
       <div class="package-grid">
         <a class="package-card" href="packages/01.html">
@@ -185,55 +193,40 @@
         </a>
       </div>
 
-      <h2>⚡ 빠른 선택 가이드</h2>
+      <h2>맞춤 설계 3단계</h2>
       <div class="callout">
-        <strong>고객 요청 3가지만 확인하세요.</strong>
-        <ol style="margin:8px 0 0; padding-left:22px;">
-          <li><strong>누가 교육받나?</strong> → 임원 / 비개발 실무자 / 개발자 / 학생</li>
-          <li><strong>얼마나 깊게?</strong> → 2-3H 세미나 / 1D 워크샵 / 1주+ 캠프 / 연간 로드맵</li>
-          <li><strong>산업?</strong> → 대기업 / 중견·중소 / 대학 / 공공·비영리</li>
+        <ol style="margin:0; padding-left:22px;">
+          <li><strong>고객사 진단</strong> — 사전 역량 설문·담당자 인터뷰로 직무 특성과 AI 수준, 사내 도구·보안 조건을 확인합니다. → <a href="consult.html">AI 맞춤 상담</a></li>
+          <li><strong>맞춤 로드맵 추천</strong> — 진단 결과를 주제·대상·AX 4단계 체계에 매칭해 필수·선택 과정을 단계별로 편성합니다. → <a href="roadmap.html">로드맵 빌더</a> · <a href="catalog.html">표준 과목 카탈로그</a></li>
+          <li><strong>신규 과정 제작</strong> — 표준으로 다룰 수 없는 특수 직무·인프라 환경은 고객사 데이터와 현업 시나리오로 새로 만듭니다. → <a href="online.html">온라인 VOD·LMS 운영</a></li>
         </ol>
-        <p style="margin-top:12px;">→ <a href="decision-tree.html"><strong>결정 트리</strong></a>로 1분 안에 추천 패키지 도출 · <a href="matrix.html"><strong>MECE 매트릭스</strong></a>로 전체 보기</p>
       </div>
 
-      <h2>📊 검증 데이터</h2>
-      <table>
-        <thead><tr><th>패키지</th><th>이름</th><th>매핑 unit 수</th><th>주요 산업</th></tr></thead>
-        <tbody>
-          <tr><td><strong>01</strong></td><td>EXEC_D1 전략 세미나</td><td>17</td><td>중견·대기업</td></tr>
-          <tr><td><strong>02</strong></td><td>EXEC_D4 AX 로드맵</td><td>23</td><td>대기업(제약) 외</td></tr>
-          <tr><td><strong>03</strong></td><td>NONDEV_D1 리터러시</td><td>13</td><td>중견·공공</td></tr>
-          <tr><td><strong>04</strong></td><td>NONDEV_D2 직무별 워크샵</td><td><strong>83</strong></td><td>대기업 56·중견 20</td></tr>
-          <tr><td><strong>05</strong></td><td>NONDEV_D3 실무 캠프</td><td>11</td><td>대기업 11</td></tr>
-          <tr><td><strong>06</strong></td><td>DEV_D2 에이전틱 코딩</td><td>25</td><td>대기업·공공·대학</td></tr>
-          <tr><td><strong>07</strong></td><td>DEV_D3 RAG/Agent 심화</td><td><strong>47</strong></td><td>대기업 29·중견 9</td></tr>
-          <tr><td><strong>08</strong></td><td>DEV_D4 하네스 PoC</td><td>6</td><td>대기업·중견</td></tr>
-          <tr><td><strong>09</strong></td><td>STUDENT_D1 세미나</td><td>8</td><td>대학 8</td></tr>
-          <tr><td><strong>10</strong></td><td>STUDENT_D3 부트캠프</td><td>13</td><td>대학 13</td></tr>
-          <tr style="background:#fff5f6;font-weight:700;"><td colspan="2">합계</td><td>246</td><td>28개 고객사</td></tr>
-        </tbody>
-      </table>
-      <p style="font-size:13px;color:#777;">※ MECE 매핑률 <strong>246/246 = 100%</strong>. 기존 제안서 단위는 10개 패키지로 100% 분류 · 2026-09 신규 2종(11·12)은 등재 과목 22종 기반 신설.</p>
-
-      <h2>🎯 영업팀 사용 플로우</h2>
-      <ol>
-        <li>고객 요청에서 <strong>"누가 / 얼마나 / 무엇을"</strong> 파악</li>
-        <li><a href="decision-tree.html">결정 트리</a>에서 패키지 1-2개 선택</li>
-        <li>해당 패키지 페이지에서 <code>content.json</code> 템플릿 확인</li>
-        <li><code>{고객사}</code> 치환 후 <code>python build.py {고객사}</code></li>
-        <li><a href="industry.html">산업별 가이드</a>에서 단가·톤 조정</li>
-      </ol>
+      <h2>빠르게 찾기</h2>
+      <p><a href="decision-tree.html"><strong>패키지 결정 트리</strong></a>로 대상·깊이·조직 유형 3가지만 고르면 표준 패키지를 바로 추천받고, <a href="matrix.html"><strong>대상×단계 매트릭스</strong></a>에서 전체 구조를 한눈에 볼 수 있습니다. 예상 규모는 <a href="estimator.html">계산기</a>에서 참고 범위로 확인하세요.</p>
 
       <h2>📞 문의</h2>
       <p>
-        모두의연구소 비즈팀<br>
-        📧 <a href="mailto:modu.biz@modulabs.co.kr">modu.biz@modulabs.co.kr</a>
+        모두의연구소 비즈팀 · 📧 <a href="mailto:modu.biz@modulabs.co.kr">modu.biz@modulabs.co.kr</a><br>
+        온라인 VOD 기업교육 · 📧 <a href="mailto:class@modulabs.co.kr">class@modulabs.co.kr</a>
       </p>
     </main>
   </div>
   <footer class="footer">
-    © 2026 모두의연구소 · 비즈팀 · 본 카탈로그는 영업용 표준 자료입니다. 최종 견적은 협의 후 확정됩니다.
+    © 2026 모두의연구소 · 과목·시수는 표준 카탈로그 기준이며 최종 구성과 견적은 협의 후 확정됩니다.
   </footer>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/kb.js"></script>
+  <script>
+  KB.load('data/').then(function () {
+    var st = KB.stats(), esc = KB.esc;
+    document.getElementById('stCourses').textContent = st.offline;
+    document.getElementById('stOnline').textContent = st.online;
+    document.getElementById('spGrid').innerHTML = KB.data.online_courses.starting_points.map(function (s) {
+      var p = new URLSearchParams({ level: s.situation, go: '1' });
+      return '<a class="package-card" href="roadmap.html?' + p.toString() + '"><div class="pkg-num">' + esc(s.id) + '</div><h3>' + esc(s.situation) + '</h3><p class="pkg-desc">' + esc(s.symptom) + '</p><div class="pkg-price" style="font-size:13px;">' + esc(s.level_label) + ' · ' + esc(s.message) + '</div></a>';
+    }).join('');
+  }).catch(function () {});
+  </script>
 </body>
 </html>

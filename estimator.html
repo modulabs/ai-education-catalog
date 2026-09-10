@@ -15,31 +15,34 @@
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-mark">모</div>
-        <div>모두의연구소<br><span style="font-size:11px;color:#888;font-weight:500;">표준 제안서 덱</span></div>
+        <div>모두의연구소<br><span class="brand-sub">AI 기업교육 카탈로그</span></div>
       </div>
-      <nav>
+      <nav aria-label="사이트 내비게이션">
         <div class="nav-section">개요</div>
-        <a href="index.html"><span class="nav-icon">📚</span> 카탈로그</a>
-        <a href="catalog.html"><span class="nav-icon">🗂</span> 과목 카탈로그 158</a>        <a href="microsoft.html"><span class="nav-icon">🪟</span> Microsoft 4H 🆕</a>
-        <a href="matrix.html"><span class="nav-icon">▦</span> MECE 매트릭스</a>
-        <div class="nav-section">영업 도구</div>
-        <a href="consult.html"><span class="nav-icon">🤖</span> 맞춤 상담 (베타)</a>
-        <a href="decision-tree.html"><span class="nav-icon">🧭</span> 결정 트리</a>
-        <a href="estimator.html"><span class="nav-icon">💰</span> 견적 계산기</a>
-        <a href="industry.html"><span class="nav-icon">🏭</span> 산업별 가이드</a>
+        <a href="index.html"><span class="nav-icon" aria-hidden="true">📚</span> 카탈로그 홈</a>
+        <a href="catalog.html"><span class="nav-icon" aria-hidden="true">🗂</span> 표준 과목 카탈로그</a>
+        <a href="online.html"><span class="nav-icon" aria-hidden="true">▶</span> 온라인 VOD 4트랙</a>
+        <a href="microsoft.html"><span class="nav-icon" aria-hidden="true">🪟</span> Microsoft 4H 커리큘럼</a>
+        <a href="matrix.html"><span class="nav-icon" aria-hidden="true">▦</span> 대상×단계 매트릭스</a>
+        <div class="nav-section">맞춤 설계</div>
+        <a href="consult.html"><span class="nav-icon" aria-hidden="true">🤖</span> AI 맞춤 상담</a>
+        <a href="roadmap.html"><span class="nav-icon" aria-hidden="true">🛤</span> 로드맵 빌더</a>
+        <a href="decision-tree.html"><span class="nav-icon" aria-hidden="true">🧭</span> 패키지 결정 트리</a>
+        <a href="estimator.html" class="active" aria-current="page"><span class="nav-icon" aria-hidden="true">💰</span> 예상 규모 계산기</a>
+        <a href="industry.html"><span class="nav-icon" aria-hidden="true">🏭</span> 산업별 가이드</a>
         <div class="nav-section">표준 패키지 12종</div>
-        <a href="packages/01.html"><span class="nav-icon">01</span> 임원 전략 세미나</a>
-        <a href="packages/02.html"><span class="nav-icon">02</span> AX 로드맵</a>
-        <a href="packages/03.html"><span class="nav-icon">03</span> AI 리터러시</a>
-        <a href="packages/04.html"><span class="nav-icon">04</span> 직무별 워크샵</a>
-        <a href="packages/05.html"><span class="nav-icon">05</span> 실무 전환 캠프</a>
-        <a href="packages/06.html"><span class="nav-icon">06</span> 에이전틱 코딩</a>
-        <a href="packages/07.html"><span class="nav-icon">07</span> RAG/Agent 심화</a>
-        <a href="packages/08.html"><span class="nav-icon">08</span> 하네스 PoC</a>
-        <a href="packages/09.html"><span class="nav-icon">09</span> 학생 세미나</a>
-        <a href="packages/10.html"><span class="nav-icon">10</span> AI 부트캠프</a>
-        <a href="packages/11.html"><span class="nav-icon">11</span> 클라우드 AI 에이전트 🆕</a>
-        <a href="packages/12.html"><span class="nav-icon">12</span> AI 인프라 구축 🆕</a>
+        <a href="packages/01.html"><span class="nav-icon" aria-hidden="true">01</span> AI 경영 전략 세미나</a>
+        <a href="packages/02.html"><span class="nav-icon" aria-hidden="true">02</span> AX 로드맵 (연간)</a>
+        <a href="packages/03.html"><span class="nav-icon" aria-hidden="true">03</span> AI 리터러시</a>
+        <a href="packages/04.html"><span class="nav-icon" aria-hidden="true">04</span> 직무별 AI 실무 워크샵</a>
+        <a href="packages/05.html"><span class="nav-icon" aria-hidden="true">05</span> AI 실무 전환 캠프</a>
+        <a href="packages/06.html"><span class="nav-icon" aria-hidden="true">06</span> 에이전틱 코딩 L1-4</a>
+        <a href="packages/07.html"><span class="nav-icon" aria-hidden="true">07</span> RAG/Agent 심화</a>
+        <a href="packages/08.html"><span class="nav-icon" aria-hidden="true">08</span> 하네스 엔지니어링 PoC</a>
+        <a href="packages/09.html"><span class="nav-icon" aria-hidden="true">09</span> 학생 세미나/해커톤</a>
+        <a href="packages/10.html"><span class="nav-icon" aria-hidden="true">10</span> AI 부트캠프</a>
+        <a href="packages/11.html"><span class="nav-icon" aria-hidden="true">11</span> 클라우드 AI 에이전트</a>
+        <a href="packages/12.html"><span class="nav-icon" aria-hidden="true">12</span> AI 인프라 구축</a>
       </nav>
     </aside>
     <main class="main">
@@ -115,7 +118,7 @@
   <script src="assets/js/main.js"></script>
   <script>
     // ===== 견적 계산기 데이터 =====
-    // ⚠️ 패키지 11·12 가격은 2026-09 임시 산정 (표준단가 공식) — 비즈팀 확정 전
+    // ⚠️ 패키지 11·12 가격은 2026-09 참고 견적 (표준단가 공식) — 협의로 확정
     // prices 배열 순서 = INDUSTRIES 순서. 0 = 해당 산업 미지원.
     // unit 있는 패키지는 수량(직군/Level) 입력이 활성화됨.
     const INDUSTRIES = [
