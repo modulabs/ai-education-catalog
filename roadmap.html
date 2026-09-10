@@ -136,7 +136,10 @@
       }
       KB.render.similarCases($('similarCases'), KB.findSimilarCases(a, rm.courses.map(function (c) { return c.code; }), 4), {});
       $('toolbar').hidden = false;
-      var link = $('toolbar').querySelector('a'); var p = new URLSearchParams({ aud: a.aud, ind: a.ind, dur: a.dur, reg: a.reg, topic: a.topic.join(','), role: a.role || '', level: a.level || '', kw: a.keywords.join(',') });
+      var link = $('toolbar').querySelector('a');
+      // 이 페이지는 인원·목표를 묻지 않는다. 상담에서 넘어온 값이 있으면 잃지 않고 그대로 돌려보낸다
+      var inq = new URLSearchParams(location.search);
+      var p = new URLSearchParams({ aud: a.aud, ind: a.ind, dur: a.dur, reg: a.reg, topic: a.topic.join(','), role: a.role || '', level: a.level || '', kw: a.keywords.join(','), size: inq.get('size') || '', goal: inq.get('goal') || '' });
       link.href = 'consult.html?' + p.toString();
       $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }

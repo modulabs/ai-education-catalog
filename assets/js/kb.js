@@ -471,6 +471,35 @@
     };
   };
 
+  // ---------------------------------------------------------------- 상담 마무리 ③ 문의 본문
+  // 대화에서 뽑아낸 요구조건을 고객이 그대로 보낼 수 있는 문장으로 옮긴다.
+  // 대화 원문을 붙이지 않는다 — 비즈팀이 읽고 바로 판단할 수 있게 정리된 조건만 넣는다.
+  KB.INQUIRY_MAX = 1000;   // Worker 의 message 길이 상한과 맞춘다
+  KB.buildInquiryText = function (a, brief, picked) {
+    a = a || {}; brief = brief || { rows: [], missing: [] };
+    var L = ['아래 조건으로 교육 상담을 요청드립니다.', ''];
+    (brief.rows || []).forEach(function (r) { L.push('· ' + r.k + ': ' + r.v); });
+
+    // 요약 행에 이미 쓴 pain point 는 빼고 나머지만 — 같은 문장을 두 번 보내지 않는다
+    var usedGoal = (brief.rows || []).filter(function (r) { return r.k === '해결하려는 것'; }).map(function (r) { return r.v; })[0];
+    var pains = (a.painpoints || []).filter(function (p) { return p && p !== usedGoal; });
+    if (pains.length) {
+      L.push('', '상담에서 말씀드린 내용');
+      pains.slice(0, 4).forEach(function (p) { L.push('· ' + p); });
+    }
+
+    if (picked && picked.length) {
+      L.push('', '관심 있는 교육 주제');
+      picked.forEach(function (o) {
+        if (o.kind === 'custom') L.push('· ' + o.title + ' (표준 과정에 없어 신규 설계 요청)');
+        else L.push('· ' + o.title + (o.lead ? ' (' + o.lead.code + (o.lead.hours ? ', ' + o.lead.hours + 'H' : '') + ')' : ''));
+      });
+    }
+
+    if (brief.missing && brief.missing.length) L.push('', '아직 정하지 못한 것 · ' + brief.missing.join(', '));
+    return L.join('\n').slice(0, KB.INQUIRY_MAX);
+  };
+
   // ---------------------------------------------------------------- 상담 마무리 ② 추천 교육 주제
   // 고객이 먼저 판단하는 단위는 "몇 단계로 언제 하느냐"가 아니라 "무슨 주제를 하느냐"다.
   // 그래서 마무리는 단계 타임라인이 아니라 고를 수 있는 주제 카드 3~4개로 연다. 상세 로드맵은 접어 둔다.

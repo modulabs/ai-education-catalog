@@ -52,6 +52,13 @@
     .lead-row { display:flex; gap:8px; flex-wrap:wrap; }
     .lead-row input { flex:1; min-width:180px; padding:11px 14px; border:1.5px solid #ddd; border-radius:10px; font-size:14px; font-family:inherit; }
     .lead-row input:focus { outline:none; border-color:#EE3E4C; }
+    .lead-msg-head { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin:14px 0 6px; }
+    .lead-msg-head label { font-size:13px; font-weight:700; color:#333; }
+    .lead-msg-head label span { font-weight:400; color:#777; }
+    .lead-refill { margin-left:auto; font-family:inherit; font-size:12px; color:#C92434; background:none; border:0; text-decoration:underline; cursor:pointer; padding:0; }
+    #leadMessage { width:100%; box-sizing:border-box; padding:11px 14px; border:1.5px solid #ddd; border-radius:10px; font-size:13.5px; font-family:inherit; line-height:1.7; resize:vertical; }
+    #leadMessage:focus { outline:none; border-color:#EE3E4C; }
+    .lead-count { font-size:11.5px; color:#999; text-align:right; margin-top:4px; }
     .lead-consent { display:flex; gap:8px; align-items:flex-start; font-size:12.5px; color:#555; margin:10px 0; }
     .lead-msg { font-size:13px; margin-top:10px; }
     .lead-ok { color:#0e9f6e; font-weight:700; }
@@ -151,6 +158,12 @@
             <input type="text" id="leadCompany" placeholder="회사/기관명 (필수)" maxlength="100" aria-label="회사 또는 기관명">
             <input type="text" id="leadContact" placeholder="회신 수단 — 이메일 또는 전화 (선택)" maxlength="150" aria-label="회신 수단">
           </div>
+          <div class="lead-msg-head">
+            <label for="leadMessage">문의 내용 <span>— 상담 내용을 요구조건으로 정리해 넣었습니다. 고치거나 덧붙이셔도 됩니다.</span></label>
+            <button type="button" class="lead-refill" id="leadRefill" hidden>상담 내용으로 다시 채우기</button>
+          </div>
+          <textarea id="leadMessage" rows="9" maxlength="1000" aria-label="문의 내용"></textarea>
+          <div class="lead-count"><span id="leadCount">0</span> / 1000자</div>
           <label class="lead-consent"><input type="checkbox" id="leadConsent"> <span>입력한 정보(회사명·연락처·상담 내용)를 교육 상담 목적으로 수집·이용하는 데 동의합니다. 상담 종료 후 파기하며 다른 목적으로 쓰지 않습니다. (필수)</span></label>
           <button class="btn" id="leadBtn" type="button">상담 요청 보내기</button>
           <div class="lead-msg" id="leadMsg"></div>
@@ -282,12 +295,28 @@
     // ---------- 결과
     // 상담 마무리는 ① 요구조건 정리 → ② 추천 주제 → ③ 문의 → ④ 유사 커리큘럼 순으로 가볍게 끝낸다.
     // 단계·타임라인·예상 규모까지 담긴 상세 로드맵은 접어 두고, 원하는 사람만 펼치거나 로드맵 빌더로 넘어간다.
-    var topicOptions = [], picked = [];
+    var topicOptions = [], picked = [], lastAnswers = null, lastBrief = null, leadEdited = false;
+
+    // 문의 본문은 대화에서 뽑아낸 요구조건으로 자동으로 채운다.
+    // 단, 고객이 한 글자라도 손대면 다시 덮어쓰지 않는다 — 쓰던 글이 사라지는 것만큼 나쁜 게 없다.
+    function fillLeadMessage(force) {
+      var box = $('leadMessage');
+      if (!box || !lastBrief) return;
+      if (leadEdited && !force) { $('leadRefill').hidden = false; return; }
+      box.value = KB.buildInquiryText(lastAnswers, lastBrief, picked);
+      leadEdited = false; $('leadRefill').hidden = true;
+      updateLeadCount();
+    }
+    function updateLeadCount() { $('leadCount').textContent = String(($('leadMessage').value || '').length); }
+    $('leadMessage').addEventListener('input', function () { leadEdited = true; $('leadRefill').hidden = false; updateLeadCount(); });
+    $('leadRefill').addEventListener('click', function () { fillLeadMessage(true); $('leadMessage').focus(); });
     function builderHref(a, opt) {
       var topic = opt && opt.category ? [opt.category] : (a.topic || []);
+      // size·goal 도 함께 싣는다. 빠뜨리면 링크를 타고 돌아왔을 때 고객이 이미 말한 인원을 다시 묻게 된다
       return 'roadmap.html?' + new URLSearchParams({
         aud: a.aud, ind: a.ind, dur: a.dur, reg: a.reg || 'none', topic: topic.join(','),
-        role: a.role || '', level: a.level || '', kw: (a.keywords || []).join(','), go: '1'
+        role: a.role || '', level: a.level || '', kw: (a.keywords || []).join(','),
+        size: a.size || '', goal: (a.goal || '').slice(0, 120), go: '1'
       }).toString();
     }
     function updateLeadContext(weak) {
@@ -314,7 +343,8 @@
       var weak = roadmap.match_quality.level === 'weak';
 
       // ① 요구조건 정리 — 기본값으로 메운 항목이 확정처럼 보이지 않도록 원본 응답을 넘긴다
-      KB.render.brief($('brief'), KB.buildBrief(reqs, roadmap), {
+      lastAnswers = a; lastBrief = KB.buildBrief(reqs, roadmap);
+      KB.render.brief($('brief'), lastBrief, {
         editLabel: '조건 고쳐서 다시 보기',
         onEdit: function () { setMode('wizard'); answers = Object.assign({}, reqs); renderStep(0); $('wizardMode').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
       });
@@ -325,11 +355,12 @@
       KB.render.topicOptions($('topics'), topicOptions, {
         subtitle: weak ? '조건에 정확히 맞는 표준 과목이 없어 맞춤 설계안과 인접 주제를 함께 제안합니다' : '관심 있는 주제를 고르면 아래 문의에 함께 담깁니다',
         detailHref: function (o) { return builderHref(a, o); },
-        onSelect: function (sel) { picked = sel; updateLeadContext(weak); }
+        onSelect: function (sel) { picked = sel; updateLeadContext(weak); fillLeadMessage(false); }
       });
 
-      // ③ 문의
+      // ③ 문의 — 대화에서 정리한 요구조건을 본문에 미리 넣어 둔다
       updateLeadContext(weak);
+      fillLeadMessage(false);
 
       // ④ 유사 커리큘럼 — 대상·도메인만으로 찾는다. 이미 제안한 과목은 뺀다
       var shown = roadmap.courses.map(function (c) { return c.code; });
@@ -377,6 +408,7 @@
     // ---------- 리드
     $('leadBtn').addEventListener('click', async function () {
       var company = $('leadCompany').value.trim(), contact = $('leadContact').value.trim(), msg = $('leadMsg');
+      var message = ($('leadMessage').value || '').trim();
       if (!company) { msg.innerHTML = '<span class="lead-err">회사/기관명을 입력해 주세요.</span>'; return; }
       if (!$('leadConsent').checked) { msg.innerHTML = '<span class="lead-err">개인정보 수집·이용에 동의해 주세요.</span>'; return; }
       $('leadBtn').disabled = true; msg.textContent = '보내는 중…';
@@ -388,7 +420,7 @@
       if (roadmap) parts.push(roadmap.narrative.headline + ' / 집합 ' + roadmap.total_hours + 'H / ' + roadmap.stages.map(function (s) { return s.required.name; }).join(' → '));
       var summary = parts.join(' || ');
       try {
-        var r = await fetch(CONSULT_API + '/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ company: company, contact: contact, summary: summary, requirements: a, roadmap: roadmap ? KB.roadmapForLLM(roadmap) : null, consent: true }) });
+        var r = await fetch(CONSULT_API + '/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ company: company, contact: contact, message: message, summary: summary, requirements: a, roadmap: roadmap ? KB.roadmapForLLM(roadmap) : null, consent: true }) });
         var d = await r.json();
         if (!r.ok || !d.ok) throw new Error(d.error || r.status);
         msg.innerHTML = '<span class="lead-ok">상담 요청이 접수되었습니다. 비즈팀이 확인 후 연락드리겠습니다.</span>'; clearSaved();
@@ -402,7 +434,7 @@
       buildSteps(); renderStep(0);
       var q = new URLSearchParams(location.search);
       if (q.get('aud')) {
-        var pre = { aud: q.get('aud'), ind: q.get('ind') || 'enterprise', dur: q.get('dur') || 'any', reg: q.get('reg') || 'none', role: q.get('role') || null, level: q.get('level') || null, topic: (q.get('topic') || '').split(',').filter(Boolean), keywords: (q.get('kw') || '').split(',').filter(Boolean) };
+        var pre = { aud: q.get('aud'), ind: q.get('ind') || 'enterprise', dur: q.get('dur') || 'any', reg: q.get('reg') || 'none', role: q.get('role') || null, level: q.get('level') || null, size: q.get('size') || null, goal: q.get('goal') || null, topic: (q.get('topic') || '').split(',').filter(Boolean), keywords: (q.get('kw') || '').split(',').filter(Boolean) };
         answers = Object.assign({}, pre); setMode('wizard'); renderStep(0); finishWithReqs(pre, false);
       }
       return fetch(CONSULT_API + '/healthz', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
