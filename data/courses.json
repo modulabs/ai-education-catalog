@@ -3636,7 +3636,7 @@
    ],
    "infra_note": "실습 전제: AZ-101 수료 권장 · Azure AI Search Free 티어(50MB·3인덱스 무료) 또는 Basic · 수업 후 리소스 삭제 권장(provisioned 과금)",
    "prerequisites": [
-    "클-개-2-003"
+    "클-전-2-002"
    ],
    "next": [
     "클-개-3-005"
@@ -3655,151 +3655,6 @@
     "az-102",
     "azure",
     "code-reassigned"
-   ],
-   "status": "active"
-  },
-  {
-   "code": "클-개-2-002",
-   "legacy_code": "클-전-2-001",
-   "no": 51,
-   "name": "클라우드 AI 서비스 입문 — 3사 지형과 첫 LLM 앱",
-   "category": "클",
-   "audience": "개",
-   "ax_stage": 2,
-   "hours": 7,
-   "hours_note": null,
-   "format": "offline",
-   "summary": "Azure AI Foundry·AWS Bedrock·Google Vertex AI 3사 지형과 비용 구조를 비교하고, 선택 플랫폼으로 첫 LLM 앱을 만들어 보는 입문 과정.",
-   "outcomes": [
-    "3사 플랫폼 기능·비용 구조 비교",
-    "선택 플랫폼으로 첫 LLM 앱 구현",
-    "조직 플랫폼 선정 기준표 작성"
-   ],
-   "tools": [
-    "Azure AI Foundry",
-    "AWS Bedrock",
-    "Vertex AI"
-   ],
-   "keywords": [
-    "Azure AI Foundry·AWS Bedrock·Vertex AI 지형",
-    "모델 카탈로그",
-    "API 첫 앱",
-    "비용 구조"
-   ],
-   "modules": [
-    {
-     "unit": "교육 1. 3사 지형 이해",
-     "title": "Azure AI Foundry·AWS Bedrock·Vertex AI 개관",
-     "detail": "에이전트 서비스·모델 카탈로그·RAG·가드레일 비교 · 비용 구조(토큰·PTU·런타임) · 한국 리전·한국어",
-     "hours": 3
-    },
-    {
-     "unit": "교육 2. 첫 LLM 앱 실습",
-     "title": "선택 플랫폼으로 첫 앱 만들기",
-     "detail": "API 키·SDK 세팅 · 채팅 앱 · 간단한 툴콜(function calling) · 비용 확인",
-     "hours": 3
-    },
-    {
-     "unit": "마무리",
-     "title": "조직 플랫폼 선정 워크숍",
-     "detail": "보유 인프라·데이터·비용 기준 선정 기준표 작성",
-     "hours": 1
-    }
-   ],
-   "infra_note": null,
-   "prerequisites": [],
-   "next": [],
-   "reference": {
-    "industry": null,
-    "org_type": null,
-    "year": 2026
-   },
-   "package_ids": [
-    "11"
-   ],
-   "tags": [
-    "new-202609",
-    "azure",
-    "aws",
-    "gcp"
-   ],
-   "status": "active"
-  },
-  {
-   "code": "클-개-2-003",
-   "legacy_code": "클-전-2-002",
-   "no": 73,
-   "name": "Microsoft Foundry 첫 AI 에이전트 만들기",
-   "category": "클",
-   "audience": "개",
-   "ax_stage": 2,
-   "hours": 4,
-   "hours_note": null,
-   "format": "offline",
-   "summary": "첫 에이전트와 클라이언트 앱 완성 — 포털 배포부터 SDK·함수 툴까지. 예산 없으면 Foundry Local(무료)로 실습 대체.",
-   "outcomes": [
-    "모델 배포와 플레이그라운드 실습",
-    "포털·SDK로 첫 에이전트 제작",
-    "함수 툴과 클라이언트 앱 연결"
-   ],
-   "tools": [
-    "Microsoft Foundry",
-    "Foundry Local",
-    "AIProjectClient",
-    "Flask",
-    "MCP"
-   ],
-   "keywords": [
-    "Foundry 포털·SDK",
-    "모델 배포",
-    "프롬프트 에이전트",
-    "AIProjectClient",
-    "Foundry Local"
-   ],
-   "modules": [
-    {
-     "unit": "1교시",
-     "title": "AI 서비스 기반 한 번에 갖추기",
-     "detail": "Foundry 첫걸음 — 프로젝트·모델 배포 · 신 포털 구조(Build/Discover) · 프로젝트 생성 · gpt-5-mini 배포 · 플레이그라운드 · 모델 카탈로그(instant access)",
-     "hours": 1
-    },
-    {
-     "unit": "2교시",
-     "title": "질문에 답하는 나만의 AI 만들기",
-     "detail": "첫 에이전트 (포털+프롬프트) · 시스템 프롬프트 설계 · 웹검색 툴 부착 · Save as agent(YAML 정의) · 프롬프트 에이전트 개념",
-     "hours": 1
-    },
-    {
-     "unit": "3교시",
-     "title": "코드로 다루는 에이전트로 확장",
-     "detail": "SDK로 코드화 · AIProjectClient · create_version(PromptAgentDefinition) · 멀티턴 대화 · Responses API",
-     "hours": 1
-    },
-    {
-     "unit": "4교시",
-     "title": "외부 기능 연결한 실서비스형 에이전트",
-     "detail": "툴 확장 + 클라이언트 앱 · 커스텀 함수 툴 · MCP 연결 소개(심화 예고) · Flask 클라이언트로 에이전트 호출·시연",
-     "hours": 1
-    }
-   ],
-   "infra_note": "실습 전제: Azure 구독(무료 계정 $200 크레딧) · Python 3.10+/VS Code · 토큰 비용 미미 · 대안: Foundry Local(무료, GPU 권장)",
-   "prerequisites": [],
-   "next": [
-    "클-개-2-001"
-   ],
-   "reference": {
-    "industry": "IT·정보통신",
-    "org_type": "대기업",
-    "year": 2026
-   },
-   "package_ids": [
-    "11"
-   ],
-   "tags": [
-    "new-202609",
-    "ms-4h",
-    "az-101",
-    "azure"
    ],
    "status": "active"
   },
@@ -5181,6 +5036,151 @@
    ],
    "tags": [
     "derived"
+   ],
+   "status": "active"
+  },
+  {
+   "code": "클-전-2-001",
+   "legacy_code": "클-전-2-001",
+   "no": 51,
+   "name": "클라우드 AI 서비스 입문 — 3사 지형과 첫 LLM 앱",
+   "category": "클",
+   "audience": "전",
+   "ax_stage": 2,
+   "hours": 7,
+   "hours_note": null,
+   "format": "offline",
+   "summary": "Azure AI Foundry·AWS Bedrock·Google Vertex AI 3사 지형과 비용 구조를 비교하고, 선택 플랫폼으로 첫 LLM 앱을 만들어 보는 입문 과정.",
+   "outcomes": [
+    "3사 플랫폼 기능·비용 구조 비교",
+    "선택 플랫폼으로 첫 LLM 앱 구현",
+    "조직 플랫폼 선정 기준표 작성"
+   ],
+   "tools": [
+    "Azure AI Foundry",
+    "AWS Bedrock",
+    "Vertex AI"
+   ],
+   "keywords": [
+    "Azure AI Foundry·AWS Bedrock·Vertex AI 지형",
+    "모델 카탈로그",
+    "API 첫 앱",
+    "비용 구조"
+   ],
+   "modules": [
+    {
+     "unit": "교육 1. 3사 지형 이해",
+     "title": "Azure AI Foundry·AWS Bedrock·Vertex AI 개관",
+     "detail": "에이전트 서비스·모델 카탈로그·RAG·가드레일 비교 · 비용 구조(토큰·PTU·런타임) · 한국 리전·한국어",
+     "hours": 3
+    },
+    {
+     "unit": "교육 2. 첫 LLM 앱 실습",
+     "title": "선택 플랫폼으로 첫 앱 만들기",
+     "detail": "API 키·SDK 세팅 · 채팅 앱 · 간단한 툴콜(function calling) · 비용 확인",
+     "hours": 3
+    },
+    {
+     "unit": "마무리",
+     "title": "조직 플랫폼 선정 워크숍",
+     "detail": "보유 인프라·데이터·비용 기준 선정 기준표 작성",
+     "hours": 1
+    }
+   ],
+   "infra_note": null,
+   "prerequisites": [],
+   "next": [],
+   "reference": {
+    "industry": null,
+    "org_type": null,
+    "year": 2026
+   },
+   "package_ids": [
+    "11"
+   ],
+   "tags": [
+    "new-202609",
+    "azure",
+    "aws",
+    "gcp"
+   ],
+   "status": "active"
+  },
+  {
+   "code": "클-전-2-002",
+   "legacy_code": "클-전-2-002",
+   "no": 73,
+   "name": "Microsoft Foundry 첫 AI 에이전트 만들기",
+   "category": "클",
+   "audience": "전",
+   "ax_stage": 2,
+   "hours": 4,
+   "hours_note": null,
+   "format": "offline",
+   "summary": "첫 에이전트와 클라이언트 앱 완성 — 포털 배포부터 SDK·함수 툴까지. 예산 없으면 Foundry Local(무료)로 실습 대체.",
+   "outcomes": [
+    "모델 배포와 플레이그라운드 실습",
+    "포털·SDK로 첫 에이전트 제작",
+    "함수 툴과 클라이언트 앱 연결"
+   ],
+   "tools": [
+    "Microsoft Foundry",
+    "Foundry Local",
+    "AIProjectClient",
+    "Flask",
+    "MCP"
+   ],
+   "keywords": [
+    "Foundry 포털·SDK",
+    "모델 배포",
+    "프롬프트 에이전트",
+    "AIProjectClient",
+    "Foundry Local"
+   ],
+   "modules": [
+    {
+     "unit": "1교시",
+     "title": "AI 서비스 기반 한 번에 갖추기",
+     "detail": "Foundry 첫걸음 — 프로젝트·모델 배포 · 신 포털 구조(Build/Discover) · 프로젝트 생성 · gpt-5-mini 배포 · 플레이그라운드 · 모델 카탈로그(instant access)",
+     "hours": 1
+    },
+    {
+     "unit": "2교시",
+     "title": "질문에 답하는 나만의 AI 만들기",
+     "detail": "첫 에이전트 (포털+프롬프트) · 시스템 프롬프트 설계 · 웹검색 툴 부착 · Save as agent(YAML 정의) · 프롬프트 에이전트 개념",
+     "hours": 1
+    },
+    {
+     "unit": "3교시",
+     "title": "코드로 다루는 에이전트로 확장",
+     "detail": "SDK로 코드화 · AIProjectClient · create_version(PromptAgentDefinition) · 멀티턴 대화 · Responses API",
+     "hours": 1
+    },
+    {
+     "unit": "4교시",
+     "title": "외부 기능 연결한 실서비스형 에이전트",
+     "detail": "툴 확장 + 클라이언트 앱 · 커스텀 함수 툴 · MCP 연결 소개(심화 예고) · Flask 클라이언트로 에이전트 호출·시연",
+     "hours": 1
+    }
+   ],
+   "infra_note": "실습 전제: Azure 구독(무료 계정 $200 크레딧) · Python 3.10+/VS Code · 토큰 비용 미미 · 대안: Foundry Local(무료, GPU 권장)",
+   "prerequisites": [],
+   "next": [
+    "클-개-2-001"
+   ],
+   "reference": {
+    "industry": "IT·정보통신",
+    "org_type": "대기업",
+    "year": 2026
+   },
+   "package_ids": [
+    "11"
+   ],
+   "tags": [
+    "new-202609",
+    "ms-4h",
+    "az-101",
+    "azure"
    ],
    "status": "active"
   }
