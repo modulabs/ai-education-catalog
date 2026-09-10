@@ -11,7 +11,7 @@
    "enterprise": 500000,
    "sme": 600000,
    "university": 400000,
-   "public": 400000
+   "public": 450000
   },
   "industry_labels": {
    "enterprise": "대기업",
@@ -22,6 +22,9 @@
   "assistant_instructor_per_hour": 100000,
   "discount_policy": {
    "public_wording": "교육 규모·다과목 구성 시 협의 조정"
+  },
+  "rate_notes": {
+   "public": "입찰가 기준 ₩450,000-500,000 구간. 예상 규모 산정에는 하한값을 적용한다."
   }
  },
  "matrix": {
