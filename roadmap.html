@@ -119,7 +119,8 @@
 
     function answers() {
       var topic = Array.prototype.map.call($('topics').querySelectorAll('input:checked'), function (i) { return i.value; });
-      var kw = $('kw').value.split(/[,\s·]+/).map(function (s) { return s.trim(); }).filter(Boolean);
+      // 쉼표·가운뎃점으로만 나눈다 — 공백으로 나누면 "양자컴퓨팅 AI" 같은 문구가 "양자컴퓨팅"/"AI" 두 조각으로 쪼개져 "AI"가 모든 과목에 우연히 매칭되는 잡음이 된다
+      var kw = $('kw').value.split(/[,·]+/).map(function (s) { return s.trim(); }).filter(Boolean);
       return { aud: $('aud').value, ind: $('ind').value, dur: $('dur').value, reg: $('reg').value, role: $('role').value || null, level: $('level').value || null, topic: topic, keywords: kw };
     }
     function run() {

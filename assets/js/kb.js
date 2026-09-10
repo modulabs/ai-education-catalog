@@ -17,6 +17,11 @@
   'use strict';
 
   var KB = { data: null, index: null, version: '2.0' };
+  // "AI"·"교육" 같은 범용어는 거의 모든 과목 설명에 우연히 들어 있어 키워드 매칭 신호로 쓰면 잡음만 된다
+  var KW_STOPWORDS = { ai: 1, 인공지능: 1, 교육: 1, 실무: 1, 활용: 1, 과정: 1 };
+  function meaningfulKeywords(list) {
+    return (list || []).map(function (k) { return String(k || '').trim(); }).filter(function (k) { return k.length >= 2 && !KW_STOPWORDS[k.toLowerCase()]; });
+  }
 
   // ---------------------------------------------------------------- utils
   function esc(s) {
@@ -130,9 +135,10 @@
     if (c.modules && c.modules.length) { s += W.module_detail_bonus; }
     if (c.tags && c.tags.indexOf('new-202609') !== -1) { s += W.new_course_bonus; }
     // ⑤ 직군 키워드(자유 서술) 가점
-    if (a.keywords && a.keywords.length) {
+    var mkw = meaningfulKeywords(a.keywords);
+    if (mkw.length) {
       var hay = ((c.name || '') + ' ' + (c.keywords || []).join(' ') + ' ' + (c.tools || []).join(' ') + ' ' + (c.summary || '')).toLowerCase();
-      var hits = a.keywords.filter(function (k) { return k && hay.indexOf(String(k).toLowerCase()) !== -1; });
+      var hits = mkw.filter(function (k) { return hay.indexOf(k.toLowerCase()) !== -1; });
       if (hits.length) { s += Math.min(15, hits.length * 5); why.push('요구 키워드 일치: ' + hits.slice(0, 3).join('·')); }
     }
     return { score: s, why: uniq(why) };
@@ -282,14 +288,22 @@
     var topicCoverage = topics.length ? topics.filter(function (t) { return chosen.some(function (c) { return c.category === t; }); }).length / topics.length : 1;
     var avgScore = chosen.length ? chosen.reduce(function (s, c) { return s + (c._score || 0); }, 0) / chosen.length : 0;
     var borrowedCount = chosen.filter(function (c) { return c._borrowed; }).length;
+    // 주제 체크박스를 안 고르고 키워드만 준 경우의 매칭 판정
+    var meaningfulKw = meaningfulKeywords(a.keywords);
+    var kwHit = !meaningfulKw.length || chosen.some(function (c) {
+      var hay = ((c.name || '') + ' ' + (c.keywords || []).join(' ') + ' ' + (c.tools || []).join(' ') + ' ' + (c.summary || '')).toLowerCase();
+      return meaningfulKw.some(function (k) { return hay.indexOf(k.toLowerCase()) !== -1; });
+    });
     var reasons = [];
     if (!chosen.length) reasons.push('조건에 맞는 표준 과목을 찾지 못했습니다');
     if (topics.length && topicCoverage < 0.5) reasons.push('선택한 주제와 맞는 표준 과목이 부족합니다');
+    if (!topics.length && meaningfulKw.length && !kwHit) reasons.push('입력하신 키워드(' + meaningfulKw.slice(0, 2).join(', ') + ')와 맞는 표준 과목을 찾지 못했습니다');
     if (avgScore < R.scoring.min_score * 0.85) reasons.push('조건과의 적합도가 낮은 과목으로 채워졌습니다');
     if (borrowedCount >= stages.length && stages.length) reasons.push('단계별 표준 과목이 없어 인접 단계 과목으로 대체했습니다');
-    // 선택한 주제가 로드맵에 하나도 반영되지 않았다면(완전 불일치) 아무리 다른 점수가 괜찮아도 "맞는 게 없다"로 본다
+    // 선택한 주제가 하나도 반영되지 않았거나(완전 불일치), 주제 없이 준 키워드마저 안 맞으면 — 다른 점수가 괜찮아도 "맞는 게 없다"로 본다
     var quality = !chosen.length ? 'weak'
       : (topics.length && topicCoverage === 0) ? 'weak'
+      : (!topics.length && meaningfulKw.length && !kwHit) ? 'weak'
       : (reasons.length >= 2 ? 'weak' : (reasons.length === 1 ? 'partial' : 'good'));
 
     var roadmap = {
@@ -402,6 +416,8 @@
       var mods = (st.required.modules || []);
       var last = mods[mods.length - 1];
       if (last) practices.push({ course: st.required.name, name: last.title || last.unit, detail: last.detail || '', output: (st.required.outcomes || [])[0] || null });
+      // 모듈이 아직 상세 등록되지 않은 과목(파생 표준과목 등)은 "수료 후 할 수 있는 것"으로 대체해 섹션이 비어 보이지 않게 한다
+      else if ((st.required.outcomes || []).length) practices.push({ course: st.required.name, name: st.required.outcomes[0], detail: st.required.summary || '', output: st.required.outcomes[1] || null });
     });
     var project = sp.project || (primary && primary.project_options ? primary.project_options[0] : null);
     var nextSteps = (KB.data.online_courses.meta.onboarding || []).map(function (o) { return o.name + ' → ' + o.output; });
@@ -455,8 +471,10 @@
       + '</article>';
   };
 
-  KB.render.onlineChip = function (o, kind) {
-    var t = KB.index.track[o.track];
+  KB.render.onlineChip = function (o, kind, contextTrack) {
+    // shared_tracks로 다른 트랙 편성에 뽑힌 과정은 원래 소속 트랙(o.track)이 아니라 "이번에 뽑힌 맥락의 트랙" 이름을 보여준다 —
+    // 그렇지 않으면 "바이브코딩 트랙 병행"이라 써놓고 각 과정 캡션엔 "데이터 분석 트랙"이 찍혀 고객이 혼란스럽다
+    var t = contextTrack || KB.index.track[o.track];
     return '<div class="kb-ol ' + (kind || '') + '"><span class="kb-ol-lv">L' + esc(o.level) + '</span><div><div class="kb-ol-n">' + esc(o.name) + '</div><div class="kb-ol-t">' + esc(t ? t.name : o.track) + ' · VOD</div></div></div>';
   };
 
@@ -486,7 +504,7 @@
         + KB.render.courseCard(st.required, { badge: '필수', openModules: opts.openModules })
         + st.optional.map(function (o) { return KB.render.courseCard(o, { badge: '선택' }); }).join('')
         + ((st.online_before.length || st.online_after.length) ? '<div class="kb-ol-wrap"><div class="kb-sec-t">온라인 VOD 병행 · ' + esc(st.online_track ? st.online_track.name : '') + '</div>'
-          + st.online_before.map(function (o) { return KB.render.onlineChip(o, 'before'); }).join('') + st.online_after.map(function (o) { return KB.render.onlineChip(o, 'after'); }).join('') + '</div>' : '')
+          + st.online_before.map(function (o) { return KB.render.onlineChip(o, 'before', st.online_track); }).join('') + st.online_after.map(function (o) { return KB.render.onlineChip(o, 'after', st.online_track); }).join('') + '</div>' : '')
         + '</section>';
     }).join('');
     // 4. 실습·산출물 + 프로젝트
