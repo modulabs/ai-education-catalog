@@ -457,10 +457,17 @@
     row('해결하려는 것', a.goal || (a.painpoints || [])[0], '해결하려는 업무 과제');
     var kws = meaningfulKeywords(a.keywords);
     if (kws.length) rows.push({ k: '언급하신 것', v: kws.slice(0, 6).join(' · ') });
+    // 시작점을 실제 발언에서 추론했을 때만 진단으로 쓴다. 기본값(입력 정보가 없어 SP1로 떨어진 경우)까지
+    // "도구는 열어 줬지만 쓰는 인원이 소수인 조직"이라고 단정하면, 고객이 하지 않은 말을
+    // "이렇게 이해했습니다"에 넣는 셈이 된다.
+    var inferred = !!(sp.reason && sp.reason.indexOf('기본') === -1);
     return {
       headline: '이렇게 이해했습니다',
       rows: rows, missing: missing,
-      situation: sp.situation || null, symptom: sp.symptom || null, composition: sp.composition || null
+      situation: inferred ? (sp.situation || null) : null,
+      symptom: inferred ? (sp.symptom || null) : null,
+      composition: sp.composition || null,
+      inferred: inferred
     };
   };
 
@@ -472,6 +479,9 @@
     var picked = (a.topic || []).filter(function (t) { return KB.index.cat[t]; });
     var sp = (rm && rm.starting_point) || KB.detectStartingPoint(a);
     var weak = !!(rm && rm.match_quality && rm.match_quality.level === 'weak');
+    var REL = (KB.data.roadmaps.scoring || {}).related_topics || {};
+    var REL_TO_PICKED = {};
+    picked.forEach(function (t) { (REL[t] || []).forEach(function (r) { REL_TO_PICKED[r] = 1; }); });
     var mkw = meaningfulKeywords(a.keywords);
     function kwHit(c) {
       if (!mkw.length) return false;
@@ -498,7 +508,9 @@
       var why;
       if (requested) why = '요청하신 주제에 직접 대응하는 과정입니다.';
       // 고객이 고른 주제가 아닌 카드는 그렇다고 밝힌다 — 요청한 것처럼 섞어 놓으면 제안이 아니라 끼워팔기가 된다
-      else if (picked.length) why = '요청하신 주제는 아니지만, 같은 대상에게 함께 편성하는 경우가 많습니다.';
+      else if (picked.length) why = REL_TO_PICKED[g.category]
+        ? '선택하신 주제와 이어지는 주제입니다. 함께 편성하면 배운 것이 업무로 연결됩니다.'
+        : '요청하신 주제는 아니지만, 같은 대상에게 함께 편성하는 경우가 많습니다.';
       else if (kwHit(lead)) why = '말씀하신 내용과 맞닿아 있는 과정입니다.';
       else if (sp.start_stage && lead.ax_stage === sp.start_stage) why = '지금 상황에서 가장 먼저 효과가 나타나는 단계입니다.';
       else why = KB.axName(lead.ax_stage) + ' 단계' + (axGoal ? ' — ' + axGoal : '') + '.';
@@ -644,7 +656,8 @@
       + '<div class="kb-diag">' + brief.rows.map(function (r) {
         return '<div class="kb-diag-row"><span class="kb-diag-k">' + esc(r.k) + '</span><span>' + esc(r.v) + '</span></div>';
       }).join('') + '</div>';
-    if (brief.situation) html += '<p class="kb-brief-sp"><strong>' + esc(brief.situation) + '</strong>' + (brief.symptom ? ' — ' + esc(brief.symptom) : '') + (brief.composition ? ' ' + esc(brief.composition) : '') + '</p>';
+    if (brief.situation) html += '<p class="kb-brief-sp"><strong>' + esc(brief.situation) + '</strong>' + (brief.symptom ? ' — ' + esc(brief.symptom) : '') + '</p>';
+    if (brief.composition) html += '<p class="kb-brief-sp"><span class="kb-diag-k">편성 방향</span> ' + esc(brief.composition) + '</p>';
     if (brief.missing.length) html += '<p class="kb-brief-missing">아직 확인하지 못한 항목 · ' + esc(brief.missing.join(' / ')) + ' — 문의 시 함께 알려주시면 편성안이 정확해집니다.</p>';
     if (opts.editLabel) html += '<div class="kb-brief-act no-print"><button type="button" class="btn ghost" data-brief-edit>' + esc(opts.editLabel) + '</button></div>';
     html += '</section>';
