@@ -1,4 +1,7 @@
 /* KB 엔진 렌더 컴포넌트 — 로드맵·과목 카드·온라인 VOD 칩 (consult.html · roadmap.html · online.html 공용) */
+.banner { border-radius:10px; padding:10px 14px; font-size:13px; margin-bottom:14px; }
+.banner.warn { background:#fff8e1; border:1px solid #ffe08a; color:#6b5200; }
+.banner.info { background:#eef4ff; border:1px solid #c9d8f7; color:#2563eb; }
 .kb-block { margin: 22px 0; }
 .kb-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #EE3E4C; text-transform: uppercase; }
 .kb-hero h2 { margin: 6px 0 14px; font-size: 24px; line-height: 1.35; }

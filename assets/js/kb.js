@@ -278,13 +278,72 @@
     if (pkgIds.some(function (p) { return (tpl.packages || []).indexOf(p) !== -1; })) pkgIds = pkgIds.filter(function (p) { return (tpl.packages || []).indexOf(p) !== -1; });
     var packages = pkgIds.map(function (id) { return KB.index.pkg[id]; }).filter(Boolean).slice(0, 3);
 
+    // 적합도 판정 — 표준 카탈로그에 이 요청에 맞는 과목이 실제로 있는지. 없으면 로드맵 대신 맞춤 카드로 안내한다
+    var topicCoverage = topics.length ? topics.filter(function (t) { return chosen.some(function (c) { return c.category === t; }); }).length / topics.length : 1;
+    var avgScore = chosen.length ? chosen.reduce(function (s, c) { return s + (c._score || 0); }, 0) / chosen.length : 0;
+    var borrowedCount = chosen.filter(function (c) { return c._borrowed; }).length;
+    var reasons = [];
+    if (!chosen.length) reasons.push('조건에 맞는 표준 과목을 찾지 못했습니다');
+    if (topics.length && topicCoverage < 0.5) reasons.push('선택한 주제와 맞는 표준 과목이 부족합니다');
+    if (avgScore < R.scoring.min_score * 0.85) reasons.push('조건과의 적합도가 낮은 과목으로 채워졌습니다');
+    if (borrowedCount >= stages.length && stages.length) reasons.push('단계별 표준 과목이 없어 인접 단계 과목으로 대체했습니다');
+    // 선택한 주제가 로드맵에 하나도 반영되지 않았다면(완전 불일치) 아무리 다른 점수가 괜찮아도 "맞는 게 없다"로 본다
+    var quality = !chosen.length ? 'weak'
+      : (topics.length && topicCoverage === 0) ? 'weak'
+      : (reasons.length >= 2 ? 'weak' : (reasons.length === 1 ? 'partial' : 'good'));
+
     var roadmap = {
       answers: a, band: Object.assign({ code: a.dur || 'any' }, band), template: tpl, starting_point: sp, stages: stages,
       courses: chosen, total_hours: hoursKnown, estimate: est, packages: packages, warnings: warnings,
-      candidates: scored.slice(0, 12)
+      candidates: scored.slice(0, 12), match_quality: { level: quality, reasons: reasons, topic_coverage: topicCoverage, avg_score: avgScore }
     };
     roadmap.narrative = KB.narrative(roadmap);
+    if (quality === 'weak') roadmap.custom_card = KB.buildCustomCard(a, sp);
     return roadmap;
+  };
+
+  // ---------------------------------------------------------------- 맞춤 교육 카드 (표준 과목이 부족할 때)
+  KB.buildCustomCard = function (a, sp) {
+    var audName = KB.audName(a.aud || '전');
+    var topicNames = (a.topic || []).map(KB.catName);
+    var band = KB.data.roadmaps.duration_bands[a.dur] || KB.data.roadmaps.duration_bands.any;
+    var indName = (KB.data.taxonomy.industries.filter(function (i) { return i.code === a.ind; })[0] || {}).name;
+    var goal = a.goal || (a.painpoints && a.painpoints[0]) || null;
+    var title = (topicNames.length ? topicNames.slice(0, 2).join('·') + ' ' : '') + audName + ' 맞춤 신규 과정';
+    return {
+      title: title, target: audName + (a.role ? ' · ' + a.role : '') + (indName ? ' · ' + indName : ''),
+      duration_label: band.label, topics: topicNames, keywords: a.keywords || [], goal: goal,
+      note: '표준 과목 카탈로그에서 정확히 맞는 과정을 찾지 못했습니다. 말씀하신 내용을 바탕으로 신규 과정을 설계해 드리며, 사전 역량 설문과 담당자 인터뷰로 세부 커리큘럼을 확정합니다.',
+      starting_point: sp
+    };
+  };
+
+  // ---------------------------------------------------------------- 유사 사례 — 대상·주제 도메인만으로 찾는 참고용 표준 과목
+  KB.findSimilarCases = function (a, excludeCodes, limit) {
+    limit = limit || 4;
+    var cat = KB.index.cat, exclude = excludeCodes || [];
+    var groups = uniq((a.topic || []).map(function (t) { return cat[t] && cat[t].group; }).filter(Boolean));
+    var pool = KB.data.courses.courses.filter(function (c) {
+      if (exclude.indexOf(c.code) !== -1) return false;
+      if (a.aud && c.audience !== a.aud) return false;                 // 대상 일치는 필수
+      if (groups.length && !(cat[c.category] && groups.indexOf(cat[c.category].group) !== -1)) return false;  // 도메인(주제 그룹) 일치
+      return true;
+    });
+    pool = pool.map(function (c) {
+      var s = 0;
+      if ((a.topic || []).indexOf(c.category) !== -1) s += 10;
+      if (c.reference && (c.reference.industry || c.reference.org_type)) s += 4;
+      if (c.hours) s += 2;
+      return Object.assign({}, c, { _simScore: s });
+    }).sort(function (x, y) { return y._simScore - x._simScore; });
+    return pool.slice(0, limit);
+  };
+  KB.referenceLine = function (c) {
+    var r = c.reference || {};
+    if (r.industry && r.org_type) return r.industry + ' · ' + r.org_type + ' 규모 운영 사례';
+    if (r.industry) return r.industry + ' 운영 사례';
+    if (r.org_type) return r.org_type + ' 규모 운영 사례';
+    return '동일 대상 운영 사례';
   };
 
   // 기술 심화 카테고리는 VOD 카탈로그에 대응 콘텐츠가 드물다 — 카테고리 태그나 도구가 겹치는 VOD만 붙이고, 없으면 붙이지 않는다
@@ -448,6 +507,31 @@
     html += '<section class="kb-block kb-next"><h3 class="kb-h3">도입 절차</h3><ol class="kb-steps">' + n.next_steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></section>';
     el.innerHTML = html;
     function col(num, title, items) { return '<div class="kb-col"><div class="kb-col-n">' + num + '</div><div class="kb-col-t">' + esc(title) + '</div><ul>' + (items || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>'; }
+  };
+
+  // 표준 과목이 부족할 때 보여줄 맞춤 교육 카드 — 실제 과목처럼 보이지 않게 "설계 예정" 톤을 유지한다
+  KB.render.customCard = function (el, card) {
+    var chips = card.topics.concat(card.keywords).slice(0, 8).map(function (t) { return '<span class="kb-tool">' + esc(t) + '</span>'; }).join('');
+    el.innerHTML = '<section class="kb-block kb-hero"><div class="kb-eyebrow">맞춤 신규 과정 제안</div><h2>' + esc(card.title) + '</h2>'
+      + '<div class="kb-diag"><div class="kb-diag-row"><span class="kb-diag-k">대상</span><span>' + esc(card.target) + '</span></div>'
+      + '<div class="kb-diag-row"><span class="kb-diag-k">희망 기간</span><span>' + esc(card.duration_label) + '</span></div>'
+      + (card.goal ? '<div class="kb-diag-row"><span class="kb-diag-k">목표</span><span>' + esc(card.goal) + '</span></div>' : '') + '</div></section>'
+      + '<section class="kb-block kb-card" style="border-left:4px solid #EE3E4C;">'
+      + (chips ? '<div class="kb-tools" style="margin-bottom:10px;">' + chips + '</div>' : '')
+      + '<p class="kb-summary" style="font-size:14.5px;">' + esc(card.note) + '</p></section>';
+  };
+
+  // 대상·주제 도메인만으로 찾는 참고용 표준 과목 — "이런 과정은 이미 운영하고 있습니다" 신뢰 섹션
+  KB.render.similarCases = function (el, cases, opts) {
+    opts = opts || {};
+    if (!cases.length) { el.innerHTML = ''; return; }
+    el.innerHTML = '<section class="kb-block"><h3 class="kb-h3">참고 · 같은 대상으로 운영 중인 표준 과목' + (opts.subtitle ? ' <span class="kb-sub">' + esc(opts.subtitle) + '</span>' : '') + '</h3>'
+      + cases.map(function (c) {
+        return '<article class="kb-card"><div class="kb-card-head"><span class="kb-code">' + esc(c.code) + '</span><h4>' + esc(c.name) + '</h4></div>'
+          + '<div class="kb-pills"><span class="kb-pill">' + esc(KB.catName(c.category)) + '</span><span class="kb-pill">' + esc(KB.audName(c.audience)) + '</span>' + (c.hours ? '<span class="kb-pill">' + esc(c.hours) + 'H</span>' : '') + '</div>'
+          + (c.summary ? '<p class="kb-summary">' + esc(c.summary) + '</p>' : '')
+          + '<div class="kb-why">▸ ' + esc(KB.referenceLine(c)) + '</div></article>';
+      }).join('') + '</section>';
   };
 
   return KB;

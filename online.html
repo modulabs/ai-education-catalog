@@ -28,12 +28,16 @@
     .ol-sp td { padding:10px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
     .ol-sp td:first-child { font-weight:700; white-space:nowrap; }
     .ol-sp .lv { color:#C92434; font-weight:700; font-size:12.5px; }
-    .ol-track-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:14px 0; }
-    .ol-track-tabs button { border:1px solid #e5e5e5; background:#fff; border-radius:999px; padding:8px 16px; font-size:14px; font-weight:600; color:#444; }
-    .ol-track-tabs button[aria-selected="true"] { background:#EE3E4C; border-color:#EE3E4C; color:#fff; }
-    .ol-track { border:1px solid #eee; border-radius:16px; padding:22px 24px; background:#fff; }
-    .ol-track h3 { margin:0 0 4px; font-size:22px; }
-    .ol-track .tag { margin:0 0 12px; color:#666; }
+    .ol-track { border:1px solid #eee; border-radius:16px; background:#fff; margin-bottom:12px; overflow:hidden; }
+    .ol-track summary { list-style:none; cursor:pointer; padding:18px 22px; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+    .ol-track summary::-webkit-details-marker { display:none; }
+    .ol-track summary::after { content:'펼치기 ▾'; margin-left:auto; font-size:12px; color:#999; font-weight:600; }
+    .ol-track[open] summary::after { content:'접기 ▴'; }
+    .ol-track summary:hover { background:#fafafa; }
+    .ol-tnum { background:#EE3E4C; color:#fff; font-size:11px; font-weight:800; padding:3px 9px; border-radius:999px; flex:none; }
+    .ol-tname { font-size:19px; font-weight:800; }
+    .ol-ttag { color:#666; font-size:13.5px; flex-basis:100%; }
+    .ol-track-body { padding:0 22px 22px; border-top:1px solid #f0f0f0; padding-top:18px; }
     .ol-meta { display:flex; gap:20px; flex-wrap:wrap; font-size:13px; color:#555; margin-bottom:14px; }
     .ol-meta strong { color:#222; }
     .ol-levels { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:14px 0; }
@@ -117,8 +121,8 @@
       <div style="overflow-x:auto;"><table class="ol-sp" id="sp"><thead><tr><th>우리 조직의 상황</th><th>이런 증상으로 나타납니다</th><th>추천 구성</th><th>시작 레벨</th></tr></thead><tbody></tbody></table></div>
 
       <h2 style="margin-top:28px;">4개 트랙 × 4단계 커리큘럼</h2>
-      <div class="ol-track-tabs" role="tablist" id="tabs"></div>
-      <div class="ol-track" id="track" role="tabpanel"></div>
+      <p style="color:#666;margin-top:-6px;">4개 트랙 전체 흐름입니다. 각 트랙 제목을 눌러 역할·수료 후 변화·레벨별 과정·실습까지 펼쳐 보세요.</p>
+      <div id="tracks"></div>
 
       <h2 style="margin-top:28px;">직군에 따라 다르게 편성합니다</h2>
       <p style="color:#666;margin-top:-6px;" id="principle"></p>
@@ -157,24 +161,20 @@
       document.querySelector('#sp tbody').innerHTML = O.starting_points.map(function (s) {
         return '<tr><td>' + esc(s.situation) + '</td><td>' + esc(s.symptom) + '</td><td>' + esc(s.composition) + '<br><span style="color:#888;font-size:12.5px;">선택형 프로젝트 · ' + esc(s.project) + '</span></td><td><span class="lv">' + esc(s.level_label) + '</span><br><span style="font-size:12.5px;color:#666;">' + esc(s.message) + '</span></td></tr>';
       }).join('');
-      // 트랙 탭
-      var tabs = document.getElementById('tabs'), panel = document.getElementById('track');
-      O.tracks.forEach(function (t, i) {
-        var b = document.createElement('button'); b.type = 'button'; b.role = 'tab'; b.textContent = 'TRACK ' + (i + 1) + ' · ' + t.name; b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-        b.addEventListener('click', function () { tabs.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-selected', 'false'); }); b.setAttribute('aria-selected', 'true'); renderTrack(t, i); });
-        tabs.appendChild(b);
-      });
-      function renderTrack(t, i) {
+      // 4개 트랙 전체 흐름 — 제목·태그라인·대상은 항상 보이고, 상세(역할·변화·레벨별 과정·실습)는 토글로 펼친다
+      document.getElementById('tracks').innerHTML = O.tracks.map(function (t, i) {
         var byLevel = {};
         O.courses.forEach(function (c) { if (c.track === t.id || (c.shared_tracks || []).indexOf(t.id) !== -1) (byLevel[c.level] = byLevel[c.level] || []).push(c); });
-        panel.innerHTML = '<h3>TRACK ' + (i + 1) + ' · ' + esc(t.name) + '</h3><p class="tag">' + esc(t.tagline) + '</p>'
+        return '<details class="ol-track"' + (i === 0 ? ' open' : '') + '>'
+          + '<summary><span class="ol-tnum">TRACK ' + (i + 1) + '</span><span class="ol-tname">' + esc(t.name) + '</span><span class="ol-ttag">' + esc(t.tagline) + '</span></summary>'
+          + '<div class="ol-track-body">'
           + '<div class="ol-meta"><div><strong>추천 대상</strong> · ' + t.targets.map(esc).join(' · ') + '</div><div><strong>활용 도구</strong> · ' + t.tools.map(esc).join(' · ') + '</div></div>'
           + '<div class="kb-3col">' + col('01', '트랙의 역할', t.role) + col('02', '수료 후 변화', t.outcomes) + col('03', '대표 업무 적용', t.applications) + '</div>'
           + '<div class="ol-levels">' + O.levels.map(function (lv) { var list = byLevel[lv.level] || []; return '<div class="ol-level"><div class="lv">LEVEL ' + lv.level + '</div><div class="lvn">' + esc(lv.name) + '</div>' + (list.length ? '<ul>' + list.map(function (c) { return '<li>' + esc(c.name) + '</li>'; }).join('') + '</ul>' : '<div class="ol-empty">해당 레벨은 진단 후 편성</div>') + '</div>'; }).join('') + '</div>'
-          + '<div class="kb-sec-t" style="margin-top:14px;">과정 안에서 실제로 수행하는 실습</div><div class="kb-prac">' + t.practices.map(function (p) { return '<div class="kb-prac-i"><div class="kb-prac-n">' + esc(p.name) + '</div><div class="kb-prac-c">목표 · ' + esc(p.goal) + '</div><div class="kb-prac-d">' + p.steps.map(esc).join(' → ') + '</div><div class="kb-prac-o">결과물 · ' + esc(p.output) + '</div></div>'; }).join('') + '</div>';
-      }
+          + '<div class="kb-sec-t" style="margin-top:14px;">과정 안에서 실제로 수행하는 실습</div><div class="kb-prac">' + t.practices.map(function (p) { return '<div class="kb-prac-i"><div class="kb-prac-n">' + esc(p.name) + '</div><div class="kb-prac-c">목표 · ' + esc(p.goal) + '</div><div class="kb-prac-d">' + p.steps.map(esc).join(' → ') + '</div><div class="kb-prac-o">결과물 · ' + esc(p.output) + '</div></div>'; }).join('') + '</div>'
+          + '</div></details>';
+      }).join('');
       function col(n, title, sec) { return '<div class="kb-col"><div class="kb-col-n">' + n + '</div><div class="kb-col-t">' + esc(title) + '</div><div style="font-weight:600;font-size:13.5px;margin-bottom:4px;">' + esc(sec.headline) + '</div><ul>' + sec.points.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></div>'; }
-      renderTrack(O.tracks[0], 0);
       // 직군 매트릭스
       document.getElementById('principle').textContent = O.role_matrix.principle;
       var mx = document.getElementById('matrix');
@@ -184,7 +184,7 @@
       document.getElementById('cases').innerHTML = M.cases.map(function (c) { return '<div class="ol-case"><div class="org">' + esc(c.org) + '</div><div class="goal">' + esc(c.goal) + '</div><ul>' + c.points.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></div>'; }).join('');
       document.getElementById('onboard').innerHTML = M.onboarding.map(function (o) { return '<li><strong>' + esc(o.name) + '</strong> → ' + esc(o.output) + (o.ask ? ' <span style="color:#888;">(미리 알려주실 것: ' + o.ask.map(esc).join(' · ') + ')</span>' : '') + '</li>'; }).join('');
     }).catch(function (e) {
-      document.getElementById('track').innerHTML = '<p style="color:#C92434;">데이터를 불러오지 못했습니다. 새로 고침해 주세요. (' + esc(e.message) + ')</p>';
+      document.getElementById('tracks').innerHTML = '<p style="color:#C92434;">데이터를 불러오지 못했습니다. 새로 고침해 주세요. (' + esc(e.message) + ')</p>';
     });
   })();
   </script>

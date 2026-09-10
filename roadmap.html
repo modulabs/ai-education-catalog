@@ -87,7 +87,9 @@
         <a class="btn ghost" href="consult.html">🤖 이 조건으로 AI 상담 이어가기</a>
         <button class="btn" type="button" onclick="window.print()">📄 PDF로 저장</button>
       </div>
+      <div id="qualityBanner" class="banner warn no-print" hidden></div>
       <div id="result" aria-live="polite"></div>
+      <div id="similarCases"></div>
       <footer class="footer">© 2026 모두의연구소 · 기업교육 문의 modu.biz@modulabs.co.kr</footer>
     </main>
   </div>
@@ -123,7 +125,15 @@
     function run() {
       var a = answers();
       var rm = KB.buildRoadmap(a);
-      KB.render.roadmap($('result'), rm, { openModules: false });
+      var qb = $('qualityBanner');
+      if (rm.match_quality.level === 'weak') {
+        qb.hidden = false; qb.textContent = '표준 카탈로그에 이 조건과 정확히 맞는 과정이 부족합니다 (' + rm.match_quality.reasons.join(', ') + '). 아래는 참고용이며, 신규 과정 설계가 필요할 수 있습니다.';
+        KB.render.customCard($('result'), rm.custom_card);
+      } else {
+        qb.hidden = true;
+        KB.render.roadmap($('result'), rm, { openModules: false });
+      }
+      KB.render.similarCases($('similarCases'), KB.findSimilarCases(a, rm.courses.map(function (c) { return c.code; }), 4), {});
       $('toolbar').hidden = false;
       var link = $('toolbar').querySelector('a'); var p = new URLSearchParams({ aud: a.aud, ind: a.ind, dur: a.dur, reg: a.reg, topic: a.topic.join(','), role: a.role || '', level: a.level || '', kw: a.keywords.join(',') });
       link.href = 'consult.html?' + p.toString();
