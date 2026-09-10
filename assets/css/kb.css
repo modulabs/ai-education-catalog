@@ -76,6 +76,26 @@
 .kb-warn { background: #fff8e1; border: 1px solid #ffe08a; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #6b5200; }
 .kb-steps { margin: 0; padding-left: 20px; font-size: 14px; }
 .kb-steps li { margin: 4px 0; }
+/* 상담 마무리 ① 요구조건 정리 */
+.kb-brief-sp { margin: 12px 0 0; font-size: 14px; color: #333; }
+.kb-brief-missing { margin: 10px 0 0; font-size: 13px; color: #8a6d00; background: #fffbe6; border: 1px solid #ffe08a; border-radius: 8px; padding: 8px 12px; }
+.kb-brief-act { margin-top: 12px; }
+/* 상담 마무리 ② 추천 교육 주제 — 고르면 바로 아래 문의로 이어진다 */
+.kb-topics { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px; }
+.kb-topic { border: 1px solid #e8e8e8; border-radius: 14px; padding: 16px 18px; background: #fff; display: flex; flex-direction: column; gap: 6px; break-inside: avoid; }
+.kb-topic.custom { border-left: 4px solid #EE3E4C; background: #fff8f8; }
+.kb-topic.on { border-color: #EE3E4C; box-shadow: 0 0 0 2px rgba(238, 62, 76, .14); }
+.kb-topic-top { display: flex; gap: 6px; flex-wrap: wrap; }
+.kb-topic-t { margin: 4px 0 0; font-size: 16.5px; line-height: 1.35; }
+.kb-topic-also { font-size: 12.5px; color: #666; }
+.kb-topic-act { margin-top: auto; padding-top: 12px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.kb-topic-pick { font-family: inherit; border: 1px solid #EE3E4C; background: #fff; color: #C92434; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.kb-topic.on .kb-topic-pick { background: #EE3E4C; color: #fff; }
+.kb-topic-more { font-size: 12.5px; color: #666; }
+/* 상세 로드맵 — 기본은 접힘. 인쇄할 때는 펼친다 */
+.kb-detail { border: 1px solid #eee; border-radius: 12px; padding: 12px 16px; margin: 22px 0; background: #fafafa; }
+.kb-detail > summary { cursor: pointer; font-weight: 700; font-size: 14.5px; color: #333; }
+.kb-detail[open] > summary { margin-bottom: 6px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
 @media (max-width: 960px) { .kb-3col, .kb-est { grid-template-columns: 1fr; } .kb-diag-row { grid-template-columns: 1fr; gap: 2px; } }
 @media print {
   .kb-mods { display: block; }
@@ -83,4 +103,8 @@
   .kb-mods ol { display: block !important; }
   .kb-est-main { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .kb-block { break-inside: avoid; }
+  .kb-detail { border: 0; background: none; padding: 0; }
+  .kb-detail > summary { display: none; }
+  .kb-detail > *:not(summary) { display: block !important; }
+  .kb-topics { grid-template-columns: repeat(2, 1fr); }
 }

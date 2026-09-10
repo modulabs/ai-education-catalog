@@ -433,6 +433,103 @@
     return { headline: headline, diagnosis: diagnosis, why: why, change: change, apply: apply, stage_outcomes: outcomes, practices: practices, project: project, next_steps: nextSteps, primary_track: primary ? { id: primary.id, name: primary.name, tagline: primary.tagline, tools: primary.tools } : null };
   };
 
+  // ---------------------------------------------------------------- 상담 마무리 ① 요구조건 정리
+  // 상담 결과를 로드맵부터 던지지 않는다. 우리가 무엇을 이해했는지 먼저 보여주고 확인받는다.
+  // 기본값으로 채운 항목은 "이해했다"고 말하지 않고 미확인으로 남긴다 — 확인하지 않은 것을 확인한 척하면 신뢰를 잃는다.
+  KB.buildBrief = function (a, rm) {
+    a = a || {};
+    var T = KB.data.taxonomy;
+    function pick(list, code, key) {
+      var hit = (list || []).filter(function (x) { return x.code === code; })[0];
+      return hit ? hit[key || 'name'] : null;
+    }
+    var band = a.dur && a.dur !== 'any' ? KB.data.roadmaps.duration_bands[a.dur] : null;
+    var topicNames = (a.topic || []).filter(function (t) { return KB.index.cat[t]; }).map(KB.catName);
+    var sp = (rm && rm.starting_point) || KB.detectStartingPoint(a);
+    var rows = [], missing = [];
+    function row(k, v, missLabel) { if (v) rows.push({ k: k, v: v }); else if (missLabel) missing.push(missLabel); }
+    row('교육 대상', a.aud ? KB.audName(a.aud) + (a.role ? ' · ' + a.role : '') : null, '교육 대상');
+    row('참석 인원', pick(T.formats.size_bands, a.size, 'label'), '참석 인원');
+    row('조직 유형', pick(T.industries, a.ind), '조직 유형');
+    row('관심 주제', topicNames.length ? topicNames.join(' · ') : null, '관심 주제');
+    row('교육 기간', band ? band.label : null, '교육 기간·시기');
+    row('실습 환경', a.reg === 'closed' ? (pick(T.regulation, 'closed') || '망분리·폐쇄망') : (a.reg === 'none' ? '외부 서비스 사용 가능' : null), '망분리 여부');
+    row('해결하려는 것', a.goal || (a.painpoints || [])[0], '해결하려는 업무 과제');
+    var kws = meaningfulKeywords(a.keywords);
+    if (kws.length) rows.push({ k: '언급하신 것', v: kws.slice(0, 6).join(' · ') });
+    return {
+      headline: '이렇게 이해했습니다',
+      rows: rows, missing: missing,
+      situation: sp.situation || null, symptom: sp.symptom || null, composition: sp.composition || null
+    };
+  };
+
+  // ---------------------------------------------------------------- 상담 마무리 ② 추천 교육 주제
+  // 고객이 먼저 판단하는 단위는 "몇 단계로 언제 하느냐"가 아니라 "무슨 주제를 하느냐"다.
+  // 그래서 마무리는 단계 타임라인이 아니라 고를 수 있는 주제 카드 3~4개로 연다. 상세 로드맵은 접어 둔다.
+  KB.buildTopicOptions = function (a, rm, limit) {
+    a = a || {}; limit = limit || 4;
+    var picked = (a.topic || []).filter(function (t) { return KB.index.cat[t]; });
+    var sp = (rm && rm.starting_point) || KB.detectStartingPoint(a);
+    var weak = !!(rm && rm.match_quality && rm.match_quality.level === 'weak');
+    var mkw = meaningfulKeywords(a.keywords);
+    function kwHit(c) {
+      if (!mkw.length) return false;
+      var hay = ((c.name || '') + ' ' + (c.keywords || []).join(' ') + ' ' + (c.tools || []).join(' ') + ' ' + (c.summary || '')).toLowerCase();
+      return mkw.some(function (k) { return hay.indexOf(k.toLowerCase()) !== -1; });
+    }
+    var groups = {}, order = [];
+    KB.recommend(a, 0).forEach(function (c) {
+      var g = groups[c.category];
+      if (!g) { g = groups[c.category] = { category: c.category, courses: [], score: c._score || 0 }; order.push(g); }
+      if (g.courses.length < 3) g.courses.push(c);
+    });
+    // 고객이 고른 주제를 앞에, 그다음 점수 순
+    order.sort(function (x, y) {
+      var px = picked.indexOf(x.category) !== -1 ? 1 : 0, py = picked.indexOf(y.category) !== -1 ? 1 : 0;
+      return (py - px) || (y.score - x.score);
+    });
+    var out = order.slice(0, weak ? Math.max(2, limit - 1) : limit).map(function (g) {
+      var lead = g.courses[0], also = g.courses.slice(1, 3);
+      var requested = picked.indexOf(g.category) !== -1;
+      // 추천 이유는 고객의 말로 쓴다. 내부 점수 사유(_why: "대상 직군 정확 매칭", "운영 사례 보유")를
+      // 그대로 내보내면 제안이 아니라 엔진 로그처럼 읽힌다.
+      var axGoal = KB.index.ax[lead.ax_stage] ? KB.index.ax[lead.ax_stage].goal : null;
+      var why;
+      if (requested) why = '요청하신 주제에 직접 대응하는 과정입니다.';
+      // 고객이 고른 주제가 아닌 카드는 그렇다고 밝힌다 — 요청한 것처럼 섞어 놓으면 제안이 아니라 끼워팔기가 된다
+      else if (picked.length) why = '요청하신 주제는 아니지만, 같은 대상에게 함께 편성하는 경우가 많습니다.';
+      else if (kwHit(lead)) why = '말씀하신 내용과 맞닿아 있는 과정입니다.';
+      else if (sp.start_stage && lead.ax_stage === sp.start_stage) why = '지금 상황에서 가장 먼저 효과가 나타나는 단계입니다.';
+      else why = KB.axName(lead.ax_stage) + ' 단계' + (axGoal ? ' — ' + axGoal : '') + '.';
+      var known = g.courses.filter(function (c) { return c.hours; });
+      var sum = known.reduce(function (s, c) { return s + c.hours; }, 0);
+      return {
+        id: 'cat:' + g.category, kind: 'standard', category: g.category, category_name: KB.catName(g.category),
+        title: lead.name, lead: lead, also: also, requested: requested, off_topic: !requested && picked.length > 0,
+        stage: lead.ax_stage, stage_name: KB.axName(lead.ax_stage),
+        hours: lead.hours || null,
+        hours_label: lead.hours ? (lead.hours + 'H' + (known.length > 1 ? ' · 함께 편성 시 ' + sum + 'H' : '')) : '시수 협의',
+        why: why, outcome: (lead.outcomes || [])[0] || lead.summary || null,
+        reference: (lead.reference && (lead.reference.industry || lead.reference.org_type)) ? KB.referenceLine(lead) : null,
+        tools: (lead.tools || []).slice(0, 4), codes: g.courses.map(function (c) { return c.code; })
+      };
+    });
+    // 표준 과목으로 안 되는 요청이면 맞춤 설계안을 첫 카드로 — 없는 과정을 있는 것처럼 보이게 하지 않는다
+    if (weak && rm && rm.custom_card) {
+      out.unshift({
+        id: 'custom', kind: 'custom', category: null, category_name: '맞춤 설계',
+        title: rm.custom_card.title, lead: null, also: [], requested: true, off_topic: false,
+        stage: sp.start_stage || 1, stage_name: KB.axName(sp.start_stage || 1),
+        hours: null, hours_label: (rm.custom_card.duration_label || '기간 협의') + ' 범위에서 설계',
+        why: '표준 과목 중 조건에 정확히 맞는 과정이 없어, 신규 과정으로 설계해 제안드립니다.',
+        outcome: rm.custom_card.goal || null, reference: null,
+        tools: (rm.custom_card.keywords || []).slice(0, 4), codes: []
+      });
+    }
+    return out;
+  };
+
   // ---------------------------------------------------------------- compact context for LLM grounding
   KB.compactCourse = function (c) {
     return [c.code, c.name, KB.catName(c.category), KB.audName(c.audience), 'AX' + c.ax_stage, c.hours ? c.hours + 'H' : '시수협의', (c.summary || '').slice(0, 90)].join(' | ');
@@ -538,6 +635,58 @@
     html += '<section class="kb-block kb-next"><h3 class="kb-h3">도입 절차</h3><ol class="kb-steps">' + n.next_steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></section>';
     el.innerHTML = html;
     function col(num, title, items) { return '<div class="kb-col"><div class="kb-col-n">' + num + '</div><div class="kb-col-t">' + esc(title) + '</div><ul>' + (items || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>'; }
+  };
+
+  // 상담 마무리 ① — 우리가 이해한 요구조건. 미확인 항목은 숨기지 않고 그대로 드러낸다
+  KB.render.brief = function (el, brief, opts) {
+    opts = opts || {};
+    var html = '<section class="kb-block kb-hero"><div class="kb-eyebrow">상담 내용 정리</div><h2>' + esc(brief.headline) + '</h2>'
+      + '<div class="kb-diag">' + brief.rows.map(function (r) {
+        return '<div class="kb-diag-row"><span class="kb-diag-k">' + esc(r.k) + '</span><span>' + esc(r.v) + '</span></div>';
+      }).join('') + '</div>';
+    if (brief.situation) html += '<p class="kb-brief-sp"><strong>' + esc(brief.situation) + '</strong>' + (brief.symptom ? ' — ' + esc(brief.symptom) : '') + (brief.composition ? ' ' + esc(brief.composition) : '') + '</p>';
+    if (brief.missing.length) html += '<p class="kb-brief-missing">아직 확인하지 못한 항목 · ' + esc(brief.missing.join(' / ')) + ' — 문의 시 함께 알려주시면 편성안이 정확해집니다.</p>';
+    if (opts.editLabel) html += '<div class="kb-brief-act no-print"><button type="button" class="btn ghost" data-brief-edit>' + esc(opts.editLabel) + '</button></div>';
+    html += '</section>';
+    el.innerHTML = html;
+    var b = el.querySelector('[data-brief-edit]');
+    if (b && opts.onEdit) b.addEventListener('click', opts.onEdit);
+  };
+
+  // 상담 마무리 ② — 고를 수 있는 교육 주제. 고른 주제는 바로 아래 문의로 이어진다
+  KB.render.topicOptions = function (el, options, opts) {
+    opts = opts || {};
+    if (!options.length) { el.innerHTML = ''; return; }
+    el.innerHTML = '<section class="kb-block"><div class="kb-eyebrow">추천 교육 주제</div>'
+      + '<h3 class="kb-h3">' + esc(opts.title || '이 조건이라면 다음 주제를 제안드립니다') + (opts.subtitle ? ' <span class="kb-sub">' + esc(opts.subtitle) + '</span>' : '') + '</h3>'
+      + '<div class="kb-topics">' + options.map(function (o) {
+        return '<article class="kb-topic' + (o.kind === 'custom' ? ' custom' : '') + '" data-id="' + esc(o.id) + '">'
+          + '<div class="kb-topic-top"><span class="kb-pill' + (o.kind === 'custom' ? ' new' : '') + '">' + esc(o.category_name) + '</span>'
+          + '<span class="kb-pill ax">' + esc(o.stage_name) + '</span>'
+          + '<span class="kb-pill muted">' + esc(o.hours_label) + '</span></div>'
+          + '<h4 class="kb-topic-t">' + esc(o.title) + '</h4>'
+          + '<div class="kb-why">▸ ' + esc(o.why) + '</div>'
+          + (o.outcome ? '<p class="kb-summary">수료 후 · ' + esc(o.outcome) + '</p>' : '')
+          + (o.reference ? '<div class="kb-topic-also">' + esc(o.reference) + '</div>' : '')
+          + (o.also.length ? '<div class="kb-topic-also">함께 편성 가능 · ' + o.also.map(function (c) { return esc(c.name) + (c.hours ? ' ' + c.hours + 'H' : ''); }).join(' / ') + '</div>' : '')
+          + (o.tools.length ? '<div class="kb-tools">' + o.tools.map(function (t) { return '<span class="kb-tool">' + esc(t) + '</span>'; }).join('') + '</div>' : '')
+          + '<div class="kb-topic-act no-print"><button type="button" class="kb-topic-pick" aria-pressed="false">이 주제로 문의</button>'
+          + (opts.detailHref ? '<a class="kb-topic-more" href="' + esc(opts.detailHref(o)) + '">상세 커리큘럼 보기</a>' : '')
+          + '</div></article>';
+      }).join('') + '</div></section>';
+    var picks = {};
+    Array.prototype.forEach.call(el.querySelectorAll('.kb-topic'), function (card) {
+      var btn = card.querySelector('.kb-topic-pick');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var id = card.getAttribute('data-id'), on = !picks[id];
+        picks[id] = on;
+        card.className = on ? (card.className + ' on') : card.className.replace(/ on\b/, '');
+        btn.setAttribute('aria-pressed', String(on));
+        btn.textContent = on ? '\u2713 문의에 포함' : '이 주제로 문의';
+        if (opts.onSelect) opts.onSelect(options.filter(function (o) { return picks[o.id]; }));
+      });
+    });
   };
 
   // 표준 과목이 부족할 때 보여줄 맞춤 교육 카드 — 실제 과목처럼 보이지 않게 "설계 예정" 톤을 유지한다
