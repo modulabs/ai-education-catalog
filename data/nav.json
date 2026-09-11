@@ -1,0 +1,33 @@
+{
+  "brand": { "name": "모두의연구소", "sub": "AI 기업교육 카탈로그" },
+  "sections": [
+    { "title": "개요", "items": [
+      { "href": "index.html", "icon": "📚", "label": "카탈로그 홈" },
+      { "href": "catalog.html", "icon": "🗂", "label": "표준 과목 카탈로그" },
+      { "href": "online.html", "icon": "▶", "label": "온라인 VOD 4트랙" },
+      { "href": "microsoft.html", "icon": "🪟", "label": "Microsoft 4H 커리큘럼" },
+      { "href": "matrix.html", "icon": "▦", "label": "대상×단계 매트릭스" }
+    ]},
+    { "title": "맞춤 설계", "items": [
+      { "href": "consult.html", "icon": "🤖", "label": "AI 맞춤 상담" },
+      { "href": "roadmap.html", "icon": "🛤", "label": "로드맵 빌더" },
+      { "href": "decision-tree.html", "icon": "🧭", "label": "패키지 결정 트리" },
+      { "href": "estimator.html", "icon": "💰", "label": "예상 규모 계산기" },
+      { "href": "industry.html", "icon": "🏭", "label": "산업별 가이드" }
+    ]},
+    { "title": "표준 패키지 12종", "items": [
+      { "href": "packages/01.html", "icon": "01", "label": "AI 경영 전략 세미나" },
+      { "href": "packages/02.html", "icon": "02", "label": "AX 로드맵 (연간)" },
+      { "href": "packages/03.html", "icon": "03", "label": "AI 리터러시" },
+      { "href": "packages/04.html", "icon": "04", "label": "직무별 AI 실무 워크샵" },
+      { "href": "packages/05.html", "icon": "05", "label": "AI 실무 전환 캠프" },
+      { "href": "packages/06.html", "icon": "06", "label": "에이전틱 코딩 L1-4" },
+      { "href": "packages/07.html", "icon": "07", "label": "RAG/Agent 심화" },
+      { "href": "packages/08.html", "icon": "08", "label": "하네스 엔지니어링 PoC" },
+      { "href": "packages/09.html", "icon": "09", "label": "학생 세미나/해커톤" },
+      { "href": "packages/10.html", "icon": "10", "label": "AI 부트캠프" },
+      { "href": "packages/11.html", "icon": "11", "label": "클라우드 AI 에이전트" },
+      { "href": "packages/12.html", "icon": "12", "label": "AI 인프라 구축" }
+    ]}
+  ]
+}

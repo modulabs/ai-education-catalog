@@ -15,68 +15,73 @@
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-mark">모</div>
-        <div>모두의연구소<br><span style="font-size:11px;color:#888;font-weight:500;">표준 제안서 덱</span></div>
+        <div>모두의연구소<br><span class="brand-sub">AI 기업교육 카탈로그</span></div>
       </div>
-      <nav>
+      <nav aria-label="사이트 내비게이션">
         <div class="nav-section">개요</div>
-        <a href="index.html"><span class="nav-icon">📚</span> 카탈로그</a>
-        <a href="catalog.html"><span class="nav-icon">🗂</span> 과목 카탈로그 158</a>        <a href="microsoft.html"><span class="nav-icon">🪟</span> Microsoft 4H 🆕</a>
-        <a href="matrix.html"><span class="nav-icon">▦</span> MECE 매트릭스</a>
-        <div class="nav-section">영업 도구</div>
-        <a href="consult.html"><span class="nav-icon">🤖</span> 맞춤 상담 (베타)</a>
-        <a href="decision-tree.html"><span class="nav-icon">🧭</span> 결정 트리</a>
-        <a href="estimator.html"><span class="nav-icon">💰</span> 견적 계산기</a>
-        <a href="industry.html"><span class="nav-icon">🏭</span> 산업별 가이드</a>
+        <a href="index.html"><span class="nav-icon" aria-hidden="true">📚</span> 카탈로그 홈</a>
+        <a href="catalog.html"><span class="nav-icon" aria-hidden="true">🗂</span> 표준 과목 카탈로그</a>
+        <a href="online.html"><span class="nav-icon" aria-hidden="true">▶</span> 온라인 VOD 4트랙</a>
+        <a href="microsoft.html"><span class="nav-icon" aria-hidden="true">🪟</span> Microsoft 4H 커리큘럼</a>
+        <a href="matrix.html"><span class="nav-icon" aria-hidden="true">▦</span> 대상×단계 매트릭스</a>
+        <div class="nav-section">맞춤 설계</div>
+        <a href="consult.html"><span class="nav-icon" aria-hidden="true">🤖</span> AI 맞춤 상담</a>
+        <a href="roadmap.html"><span class="nav-icon" aria-hidden="true">🛤</span> 로드맵 빌더</a>
+        <a href="decision-tree.html"><span class="nav-icon" aria-hidden="true">🧭</span> 패키지 결정 트리</a>
+        <a href="estimator.html" class="active" aria-current="page"><span class="nav-icon" aria-hidden="true">💰</span> 예상 규모 계산기</a>
+        <a href="industry.html"><span class="nav-icon" aria-hidden="true">🏭</span> 산업별 가이드</a>
         <div class="nav-section">표준 패키지 12종</div>
-        <a href="packages/01.html"><span class="nav-icon">01</span> 임원 전략 세미나</a>
-        <a href="packages/02.html"><span class="nav-icon">02</span> AX 로드맵</a>
-        <a href="packages/03.html"><span class="nav-icon">03</span> AI 리터러시</a>
-        <a href="packages/04.html"><span class="nav-icon">04</span> 직무별 워크샵</a>
-        <a href="packages/05.html"><span class="nav-icon">05</span> 실무 전환 캠프</a>
-        <a href="packages/06.html"><span class="nav-icon">06</span> 에이전틱 코딩</a>
-        <a href="packages/07.html"><span class="nav-icon">07</span> RAG/Agent 심화</a>
-        <a href="packages/08.html"><span class="nav-icon">08</span> 하네스 PoC</a>
-        <a href="packages/09.html"><span class="nav-icon">09</span> 학생 세미나</a>
-        <a href="packages/10.html"><span class="nav-icon">10</span> AI 부트캠프</a>
-        <a href="packages/11.html"><span class="nav-icon">11</span> 클라우드 AI 에이전트 🆕</a>
-        <a href="packages/12.html"><span class="nav-icon">12</span> AI 인프라 구축 🆕</a>
+        <a href="packages/01.html"><span class="nav-icon" aria-hidden="true">01</span> AI 경영 전략 세미나</a>
+        <a href="packages/02.html"><span class="nav-icon" aria-hidden="true">02</span> AX 로드맵 (연간)</a>
+        <a href="packages/03.html"><span class="nav-icon" aria-hidden="true">03</span> AI 리터러시</a>
+        <a href="packages/04.html"><span class="nav-icon" aria-hidden="true">04</span> 직무별 AI 실무 워크샵</a>
+        <a href="packages/05.html"><span class="nav-icon" aria-hidden="true">05</span> AI 실무 전환 캠프</a>
+        <a href="packages/06.html"><span class="nav-icon" aria-hidden="true">06</span> 에이전틱 코딩 L1-4</a>
+        <a href="packages/07.html"><span class="nav-icon" aria-hidden="true">07</span> RAG/Agent 심화</a>
+        <a href="packages/08.html"><span class="nav-icon" aria-hidden="true">08</span> 하네스 엔지니어링 PoC</a>
+        <a href="packages/09.html"><span class="nav-icon" aria-hidden="true">09</span> 학생 세미나/해커톤</a>
+        <a href="packages/10.html"><span class="nav-icon" aria-hidden="true">10</span> AI 부트캠프</a>
+        <a href="packages/11.html"><span class="nav-icon" aria-hidden="true">11</span> 클라우드 AI 에이전트</a>
+        <a href="packages/12.html"><span class="nav-icon" aria-hidden="true">12</span> AI 인프라 구축</a>
       </nav>
     </aside>
     <main class="main">
       <header class="page-header">
         <div class="eyebrow">03 · Estimator</div>
         <h1>견적 계산기</h1>
-        <p>고객 요구에 맞춰 패키지를 선택하세요. 산업별 단가가 자동 적용되어 즉시 견적 범위가 산출됩니다.</p>
+        <p>고객 요구에 맞춰 패키지를 선택하세요. 산업별 참고 단가가 적용되어 예상 금액이 즉시 산출됩니다. 아래 단가표에는 패키지별 정가 범위를 함께 표시합니다.</p>
       </header>
 
       <div class="estimator">
         <div class="est-section">
           <h4>① 산업 선택 (단가 기준)</h4>
-          <div class="checkbox-grid">
-            <label class="checkbox-item"><input type="radio" name="industry" value="enterprise" checked> 🏢 대기업 (₩600K/H)</label>
-            <label class="checkbox-item"><input type="radio" name="industry" value="sme"> 🏭 중견·중소 (₩600K/H, K-HP 매칭)</label>
-            <label class="checkbox-item"><input type="radio" name="industry" value="university"> 🎓 대학 (₩400K/H)</label>
-            <label class="checkbox-item"><input type="radio" name="industry" value="public"> 🏛️ 공공·비영리 (₩500K/H)</label>
+          <div class="checkbox-grid" id="industry-list">
+            <span style="font-size:13px;color:#888;">산업 단가를 불러오는 중…</span>
           </div>
+          <div id="industry-note" style="font-size:12.5px;color:#777;margin-top:8px;display:none;"></div>
         </div>
 
         <div class="est-section">
           <h4>② 패키지 선택 (복수 가능)</h4>
-          <div class="checkbox-grid" id="package-list"></div>
+          <div class="checkbox-grid" id="package-list">
+            <span style="font-size:13px;color:#888;">패키지 목록을 불러오는 중…</span>
+          </div>
         </div>
 
         <div class="est-section">
           <h4>③ 추가 옵션</h4>
           <div class="checkbox-grid">
-            <label class="checkbox-item"><input type="checkbox" id="opt-assistant"> 👥 보조강사 (+₩100K/H)</label>
+            <label class="checkbox-item"><input type="checkbox" id="opt-assistant"> <span id="opt-assistant-label">👥 보조강사</span></label>
             <label class="checkbox-item"><input type="checkbox" id="opt-vat"> 🧾 부가세 10% 포함</label>
-            <label class="checkbox-item"><input type="checkbox" id="opt-discount" checked> 🎁 교육 규모별 할인 — 2단위 5% · 3단위+ 10% (자동 산정)</label>
           </div>
+          <!-- 규모 할인은 체크박스로 두지 않는다. 적용 기준(수량 임계·할인율)이 내부 규칙이라 공개 페이지에서
+               자동 계산하면 확정 금액처럼 읽히고, 기준을 숨긴 채 계산하면 검산도 불가능하다. 안내 문구만 노출한다. -->
+          <div id="discount-note" style="font-size:12.5px;color:#777;margin-top:8px;display:none;"></div>
         </div>
 
         <div class="est-total">
           <div class="lbl" id="total-label">예상 견적 (VAT 별도)</div>
-          <div class="val" id="total">₩0</div>
+          <div class="val" id="total">협의</div>
           <div class="val-range" id="total-range">패키지를 선택하세요</div>
           <div class="est-hint" id="total-hint"></div>
         </div>
@@ -93,18 +98,11 @@
 
       <h2>📐 단가표 (참고용)</h2>
       <table>
-        <thead><tr><th>패키지</th><th>시간</th><th>대기업</th><th>중견·중소</th><th>대학</th><th>공공</th></tr></thead>
-        <tbody>
-          <tr><td>01 임원 세미나</td><td>2-3H</td><td>₩1.8M</td><td>₩1.8M</td><td>—</td><td>₩1.5M</td></tr>
-          <tr><td>02 AX 로드맵</td><td>50-100H</td><td>₩25-50M</td><td>—</td><td>—</td><td>₩20-40M</td></tr>
-          <tr><td>03 리터러시</td><td>2-5H</td><td>₩3M</td><td>₩3M (K-HP 100% 지원)</td><td>—</td><td>₩2.5M</td></tr>
-          <tr><td>04 직무별 워크샵</td><td>직군당 8H</td><td>₩4.8M</td><td>₩4.8M</td><td>—</td><td>₩4M</td></tr>
-          <tr><td>05 실무 캠프</td><td>30-60H</td><td>₩15-30M</td><td>₩18-30M</td><td>—</td><td>₩12-25M</td></tr>
-          <tr><td>06 에이전틱 코딩</td><td>Level당 8H</td><td>₩4.8M/Level</td><td>₩4.8M/Level</td><td>₩3.2M/Level</td><td>₩4M/Level</td></tr>
-          <tr><td>07 RAG/Agent 심화</td><td>35H</td><td>₩17.5-21M</td><td>₩21M</td><td>₩14M</td><td>—</td></tr>
-          <tr><td>08 하네스 PoC</td><td>32H</td><td>₩16M</td><td>₩16M</td><td>—</td><td>—</td></tr>
-          <tr><td>09 학생 세미나</td><td>3-8H</td><td>—</td><td>—</td><td>₩1.2-4M</td><td>₩1.5-3M</td></tr>
-          <tr><td>10 부트캠프</td><td>60-180H</td><td>—</td><td>—</td><td>₩18-72M</td><td>—</td></tr>
+        <thead id="rate-head">
+          <tr><th>패키지</th><th>시간</th><th>단가</th></tr>
+        </thead>
+        <tbody id="rate-body">
+          <tr><td colspan="3" style="color:#888;">단가표를 불러오는 중…</td></tr>
         </tbody>
       </table>
     </main>
@@ -114,76 +112,245 @@
   </footer>
   <script src="assets/js/main.js"></script>
   <script>
-    // ===== 견적 계산기 데이터 =====
-    // ⚠️ 패키지 11·12 가격은 2026-09 임시 산정 (표준단가 공식) — 비즈팀 확정 전
-    // prices 배열 순서 = INDUSTRIES 순서. 0 = 해당 산업 미지원.
-    // unit 있는 패키지는 수량(직군/Level) 입력이 활성화됨.
-    const INDUSTRIES = [
-      { key: "enterprise", label: "대기업" },
-      { key: "sme",        label: "중견·중소" },
-      { key: "university", label: "대학" },
-      { key: "public",     label: "공공" }
-    ];
+    // ===== 견적 계산기 =====
+    // 모든 패키지·시수·금액·산업 라벨은 data/packages.json(표준 데이터)에서 런타임에 읽는다.
+    // 이 파일에는 가격 숫자를 두지 않는다. 단가가 바뀌면 packages.json만 고친다.
+    //
+    // 고객 노출 가능 필드만 사용한다: name/nav_label, summary, target, duration_label,
+    // hours, price, price_by_industry, industries, tools, goals, curriculum, outcomes, reference_note
 
-    const PACKAGES = [
-      { id: "01", name: "01 임원 전략 세미나",   hours: 3,  prices: [1800000, 1800000, 0, 1500000] },
-      { id: "02", name: "02 AX 로드맵 (연간)",   hours: 75, prices: [37500000, 0, 0, 30000000] },
-      { id: "03", name: "03 AI 리터러시",        hours: 4,  prices: [2400000, 2400000, 0, 2000000] },
-      { id: "04", name: "04 직무별 워크샵",       hours: 8,  prices: [4800000, 4800000, 0, 4000000], unit: "직군" },
-      { id: "05", name: "05 AI 실무 전환 캠프",   hours: 45, prices: [22500000, 27000000, 0, 18000000] },
-      { id: "06", name: "06 에이전틱 코딩",       hours: 8,  prices: [4800000, 4800000, 3200000, 4000000], unit: "Level" },
-      { id: "07", name: "07 RAG/Agent 심화",     hours: 35, prices: [19250000, 21000000, 14000000, 0] },
-      { id: "08", name: "08 하네스 PoC",         hours: 32, prices: [16000000, 16000000, 0, 0] },
-      { id: "09", name: "09 학생 세미나/해커톤",  hours: 5,  prices: [0, 0, 2000000, 1800000] },
-      { id: "10", name: "10 AI 부트캠프",        hours: 90, prices: [0, 0, 36000000, 0] },
-      { id: "11", name: "11 클라우드 AI 에이전트",     hours: 46, prices: [23000000, 27600000, 18400000, 18400000] },
-      { id: "12", name: "12 AI 인프라 구축",          hours: 28, prices: [14000000, 16800000, 11200000, 11200000] }
-    ];
+    const VAT_RATE = 0.10;      // 법정 부가가치세율 (가격 데이터가 아님)
+    const EOK = 1e8, MAN = 1e4; // 금액 표기 단위 (억 / 만)
+    const FETCH_TIMEOUT_MS = 10000;
 
-    const ASSISTANT_RATE  = 100000; // 보조강사: 시간당 원
-    const VAT_RATE        = 0.10;
-    // 교육 규모별 슬라이딩 할인 (2026-09 비즈팀 규칙): 2단위 5% · 3단위 이상 10%
-    const discountRateFor = (qty) => qty >= 3 ? 0.10 : qty === 2 ? 0.05 : 0;
-    const DISCOUNT_MIN_QTY = 2;     // 총 수량 2 이상일 때 할인 적용
+    // 산업 아이콘은 표시용 장식일 뿐 데이터가 아니다. 없으면 기본값 사용.
+    const INDUSTRY_ICONS = { enterprise: "🏢", sme: "🏭", university: "🎓", public: "🏛️" };
+    const iconFor = (key) =>
+      Object.prototype.hasOwnProperty.call(INDUSTRY_ICONS, key) ? INDUSTRY_ICONS[key] : "•";
+
+    let PRICING = {};        // packages.json.pricing (로드 실패 시에도 빈 객체 유지)
+    let INDUSTRIES = [];     // [{ key, label, hourly }]
+    let PACKAGES = [];       // packages.json.packages
+    // 금액은 내부 판단용이라 공개 빌드의 packages.json에는 단가가 없다.
+    // 단가가 없으면 금액 계산을 접고 "구성 정리" 모드로 동작한다 — 패키지·시수·단위는 그대로 쓰되 금액은 협의로 남긴다.
+    let PRICED = true;
 
     // ===== DOM 헬퍼 =====
     const $ = (sel) => document.querySelector(sel);
-    const industryIndex = () =>
-      INDUSTRIES.findIndex(i => i.key === $('input[name="industry"]:checked').value);
-    const opt = (id) => $("#" + id).checked;
+    const opt = (id) => { const el = $("#" + id); return !!(el && el.checked); };
+    const industryKey = () => {
+      const el = $('input[name="industry"]:checked');
+      return el ? el.value : (INDUSTRIES[0] ? INDUSTRIES[0].key : null);
+    };
+    const industryLabel = (key) => {
+      const found = INDUSTRIES.filter(i => i.key === key)[0];
+      return found ? found.label : key;
+    };
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
 
+    // ===== 금액 포맷 =====
+    // 표기는 페이지 전체에서 만/억 하나로 통일한다 (단가표만 M 단위를 쓰면 같은 패키지가 두 표기로 보인다).
+    // 억 단위에서 만 자리를 버리면 최대 99만이 사라지므로 억+만을 함께 적는다.
     function formatKRW(n) {
-      if (n === 0) return "₩0";
-      if (n >= 100000000) return `₩${(n / 100000000).toFixed(2)}억`;
-      if (n >= 10000)     return `₩${(n / 10000).toFixed(0)}만`;
+      if (typeof n !== "number" || !isFinite(n)) return "협의";
+      if (n === 0) return "협의";
+      if (n >= EOK) {
+        const eok = Math.floor(n / EOK);
+        const man = Math.round((n - eok * EOK) / MAN);
+        return man > 0 ? `₩${eok}억 ${man.toLocaleString()}만` : `₩${eok}억`;
+      }
+      if (n >= MAN) {
+        const man = Math.floor(n / MAN);
+        const won = n - man * MAN;
+        return won > 0 ? `₩${man.toLocaleString()}만 ${won.toLocaleString()}` : `₩${man.toLocaleString()}만`;
+      }
       return `₩${n.toLocaleString()}`;
+    }
+    function formatWonK(n) {                     // 시간당 참고 단가: 협의
+      if (typeof n !== "number" || !isFinite(n)) return null;
+      return `₩${Math.round(n / 1000)}K`;
+    }
+
+    // ===== 패키지 접근자 =====
+    function pkgLabel(p) {
+      return p.nav_label || `${p.id} ${p.name}`;
+    }
+    function pkgHours(p) {
+      const h = p.hours || {};
+      if (typeof h.typical === "number") return h.typical;
+      if (typeof h.max === "number") return h.max;
+      if (typeof h.min === "number") return h.min;
+      return 0;
+    }
+    // price_by_industry[key]가 없으면 금액을 계산하지 않는다 (₩null / NaN 방지).
+    function priceOf(p, key) {
+      const map = p.price_by_industry || {};
+      const v = map[key];
+      return (typeof v === "number" && isFinite(v) && v > 0) ? v : null;
+    }
+    // 미제공과 별도 산정은 다르다. packages[].industries가 그 패키지를 판매하는 산업 목록이므로,
+    // 목록에 없으면 "해당 산업 미제공"(견적 요청 대상이 아님), 목록에 있는데 금액만 없으면 "별도 산정".
+    function offeredIn(p, key) {
+      return Array.isArray(p.industries) ? p.industries.indexOf(key) !== -1 : true;
+    }
+    // 정가 범위 — 패키지별 price.label(예: 협의). 단일 금액만 보이면
+    // 시수·구성에 따라 폭이 큰 패키지(부트캠프 등)를 확정가로 오해하게 된다.
+    function priceRangeLabel(p) {
+      const pr = p.price || {};
+      if (typeof pr.min === "number" && typeof pr.max === "number" && pr.max > pr.min) {
+        return `정가 ${formatKRW(pr.min)} ~ ${formatKRW(pr.max)}`;
+      }
+      return null;
     }
 
     // ===== 렌더링 =====
+    function renderIndustries() {
+      const c = $("#industry-list");
+      c.innerHTML = INDUSTRIES.map((ind, i) => {
+        const rate = formatWonK(ind.hourly);
+        const rateText = rate ? ` (${rate}/H)` : "";
+        return `<label class="checkbox-item">` +
+               `<input type="radio" name="industry" value="${esc(ind.key)}"${i === 0 ? " checked" : ""}> ` +
+               `${iconFor(ind.key)} ${esc(ind.label)}${rateText}</label>`;
+      }).join("");
+      c.querySelectorAll('input[name="industry"]').forEach(r =>
+        r.addEventListener("change", () => { renderPackageList(); renderIndustryNote(); })
+      );
+      renderIndustryNote();
+    }
+
+    // 산업별 단가 부기(pricing.rate_notes) — 예: 공공은 입찰가 구간이라 하한값을 쓴다는 설명
+    function renderIndustryNote() {
+      const el = $("#industry-note");
+      if (!el) return;
+      const note = (PRICING.rate_notes || {})[industryKey()];
+      el.textContent = note ? `※ ${note}` : "";
+      el.style.display = note ? "block" : "none";
+    }
+
+    function renderOptionLabels() {
+      const assistant = PRICING.assistant_instructor_per_hour;
+      const aRate = formatWonK(assistant);
+      $("#opt-assistant-label").textContent =
+        aRate ? `👥 보조강사 (+${aRate}/H)` : "👥 보조강사 (단가 협의)";
+
+      // 규모 할인은 계산하지 않고 공개 문구만 안내한다 (internal_rule은 화면에 내지 않는다).
+      const wording = (PRICING.discount_policy || {}).public_wording;
+      const note = $("#discount-note");
+      if (note) {
+        if (!PRICED) {
+          note.textContent = wording
+            ? `🎁 ${wording}. 구체적인 금액은 상담 후 협의로 확정합니다.`
+            : "🎁 금액은 상담 후 협의로 확정합니다.";
+        } else {
+          note.textContent = wording
+            ? `🎁 규모 할인 — ${wording}. 표시 금액은 정가 기준이며 할인 폭은 협의 시 확정됩니다.`
+            : "🎁 규모 할인 폭은 협의 시 확정됩니다.";
+        }
+        note.style.display = "block";
+      }
+    }
+
+    function renderRateTable() {
+      // 금액 비공개 모드에서는 단가표 대신 패키지 구성표(시수·대상·단위)를 보여준다
+      if (!PRICED) {
+        $("#rate-head").innerHTML = `<tr><th>패키지</th><th>시간</th><th>대상</th><th>금액</th></tr>`;
+        $("#rate-body").innerHTML = PACKAGES.map(p => {
+          const hours = pkgHours(p);
+          const unit = p.unit ? ` / ${esc(p.unit)}` : "";
+          return `<tr><td>${esc(pkgLabel(p))}</td><td>${hours ? hours + "H" : "협의"}${unit}</td>` +
+                 `<td>${esc(p.target || "")}</td><td>협의</td></tr>`;
+        }).join("");
+        return;
+      }
+      $("#rate-head").innerHTML =
+        `<tr><th>패키지</th><th>시간</th>${INDUSTRIES.map(i => `<th>${esc(i.label)}</th>`).join("")}</tr>`;
+      $("#rate-body").innerHTML = PACKAGES.map(p => {
+        const cells = INDUSTRIES.map(i => {
+          const v = priceOf(p, i.key);
+          if (v === null) return `<td>${offeredIn(p, i.key) ? "별도 산정" : "—"}</td>`;
+          const suffix = p.unit ? ` / ${esc(p.unit)}` : "";
+          return `<td>${formatKRW(v)}${suffix}</td>`;
+        }).join("");
+        const range = priceRangeLabel(p);
+        const nameCell = esc(pkgLabel(p)) +
+          (range ? `<br><small style="color:#888;font-weight:400;">${esc(range)}</small>` : "");
+        // 시간은 hours.typical 기준 축약값을 쓴다. duration_label은 문장형이라 표 열에 넣으면 줄이 무너진다.
+        const hours = pkgHours(p);
+        const hoursCell = hours ? `${hours}H` : "협의";
+        const hoursTitle = p.duration_label ? ` title="${esc(p.duration_label)}"` : "";
+        return `<tr><td>${nameCell}</td><td${hoursTitle}>${hoursCell}</td>${cells}</tr>`;
+      }).join("");
+    }
+
+    const MAX_QTY = 99;
+    // 산업을 바꾸면 목록을 다시 그리는데, 그때 선택·수량이 날아가면
+    // "대기업으로 골라놓고 공공이면 얼마인지 비교"하는 가장 흔한 사용 흐름이 깨진다. 상태를 보존한다.
+    function captureSelection() {
+      const state = {};
+      document.querySelectorAll("#package-list input[data-pkg]").forEach(cb => {
+        if (!cb.checked) return;
+        const qtyEl = document.querySelector(`input[data-qty="${cb.dataset.pkg}"]`);
+        state[cb.dataset.pkg] = qtyEl ? clampQty(qtyEl.value) : 1;
+      });
+      return state;
+    }
+    function clampQty(raw) {
+      const n = parseInt(raw, 10);
+      if (!isFinite(n) || n < 1) return 1;
+      return Math.min(n, MAX_QTY);
+    }
+
     function renderPackageList() {
-      const idx = industryIndex();
       const container = $("#package-list");
+      if (!container || PACKAGES.length === 0) return;  // 로드 실패 시 에러 문구를 덮지 않는다
+      const key = industryKey();
+      const prev = captureSelection();
       container.innerHTML = "";
 
       PACKAGES.forEach(pkg => {
-        const price = pkg.prices[idx];
-        const supported = price > 0;
+        const price = PRICED ? priceOf(pkg, key) : null;
         const label = document.createElement("label");
         label.className = "checkbox-item";
 
-        if (!supported) {
-          label.classList.add("disabled");
-          label.innerHTML =
-            `<input type="checkbox" data-pkg="${pkg.id}" disabled>` +
-            `<span>${pkg.name}</span>` +
-            `<span class="pkg-note">(해당 산업 미지원)</span>`;
-        } else {
+        // 금액 비공개 모드: 모든 패키지를 선택 가능하게 두고 금액 자리만 "협의"로 둔다
+        if (!PRICED) {
+          const restored = Object.prototype.hasOwnProperty.call(prev, pkg.id);
+          const qty = restored ? prev[pkg.id] : 1;
           const qtyHtml = pkg.unit
-            ? `<span class="pkg-qty">× <input type="number" data-qty="${pkg.id}" min="1" value="1" disabled> ${pkg.unit}</span>`
+            ? `<span class="pkg-qty">× <input type="number" data-qty="${esc(pkg.id)}" min="1" max="${MAX_QTY}" value="${qty}"${restored ? "" : " disabled"}> ${esc(pkg.unit)}</span>`
             : "";
           label.innerHTML =
-            `<input type="checkbox" data-pkg="${pkg.id}">` +
-            `<span>${pkg.name}</span>` +
+            `<input type="checkbox" data-pkg="${esc(pkg.id)}"${restored ? " checked" : ""}>` +
+            `<span>${esc(pkgLabel(pkg))}</span>` +
+            qtyHtml +
+            `<span class="pkg-price">협의</span>`;
+          container.appendChild(label);
+          return;
+        }
+
+        if (price === null) {
+          // 미제공과 별도 산정을 구분해 표시한다. 둘 다 계산에서는 제외.
+          const offered = offeredIn(pkg, key);
+          label.classList.add("disabled");
+          label.innerHTML =
+            `<input type="checkbox" data-pkg="${esc(pkg.id)}" disabled>` +
+            `<span>${esc(pkgLabel(pkg))}</span>` +
+            `<span class="pkg-note">${offered ? "별도 산정" : "해당 산업 미제공"}</span>` +
+            `<span class="pkg-price">${offered ? "협의" : "—"}</span>`;
+        } else {
+          const restored = Object.prototype.hasOwnProperty.call(prev, pkg.id);
+          const qty = restored ? prev[pkg.id] : 1;
+          const qtyHtml = pkg.unit
+            ? `<span class="pkg-qty">× <input type="number" data-qty="${esc(pkg.id)}" min="1" max="${MAX_QTY}" value="${qty}"${restored ? "" : " disabled"}> ${esc(pkg.unit)}</span>`
+            : "";
+          label.innerHTML =
+            `<input type="checkbox" data-pkg="${esc(pkg.id)}"${restored ? " checked" : ""}>` +
+            `<span>${esc(pkgLabel(pkg))}</span>` +
             qtyHtml +
             `<span class="pkg-price">${formatKRW(price)}</span>`;
         }
@@ -198,8 +365,13 @@
           recompute();
         });
       });
+      // 수량은 입력값 자체를 보정한다. 화면에 0이 남은 채 1로 계산되면 표시와 결과가 조용히 어긋난다.
       container.querySelectorAll("input[data-qty]").forEach(q => {
-        q.addEventListener("input", recompute);
+        q.addEventListener("input", () => {
+          const fixed = clampQty(q.value);
+          if (String(fixed) !== q.value) q.value = fixed;
+          recompute();
+        });
       });
 
       recompute();
@@ -207,63 +379,68 @@
 
     // ===== 계산 =====
     function selectedItems() {
-      const idx = industryIndex();
+      const key = industryKey();
       return PACKAGES
-        .filter(p => {
-          const cb = $(`input[data-pkg="${p.id}"]`);
-          return cb && cb.checked;
-        })
         .map(p => {
+          const cb = $(`input[data-pkg="${p.id}"]`);
+          if (!cb || !cb.checked) return null;
+          const unitPrice = PRICED ? priceOf(p, key) : 0;   // 금액 비공개 모드에서는 시수·단위만 집계
+          if (unitPrice === null) return null;   // 협의 항목은 계산에서 제외
           const qtyEl = $(`input[data-qty="${p.id}"]`);
-          const qty = qtyEl ? Math.max(1, parseInt(qtyEl.value, 10) || 1) : 1;
-          return { pkg: p, qty, unitPrice: p.prices[idx] };
-        });
+          const qty = qtyEl ? clampQty(qtyEl.value) : 1;
+          return { pkg: p, qty, unitPrice };
+        })
+        .filter(Boolean);
     }
 
     function recompute() {
-      const idx = industryIndex();
+      const key = industryKey();
       const items = selectedItems();
 
       let base = 0, hours = 0, totalQty = 0;
       items.forEach(({ pkg, qty, unitPrice }) => {
         base += unitPrice * qty;
-        hours += pkg.hours * qty;
+        hours += pkgHours(pkg) * qty;
         totalQty += qty;
       });
 
-      const assistant = opt("opt-assistant");
+      const assistantRate = PRICING.assistant_instructor_per_hour;
+      const assistant = opt("opt-assistant") && typeof assistantRate === "number";
       const vat = opt("opt-vat");
-      const discountChecked = opt("opt-discount");
-      const rate = discountRateFor(totalQty);
-      const discountApplies = discountChecked && rate > 0;
 
       let total = base;
-      if (assistant) total += hours * ASSISTANT_RATE;
-      if (discountApplies) total = Math.round(total * (1 - rate));
+      if (assistant) total += hours * assistantRate;
       if (vat) total = Math.round(total * (1 + VAT_RATE));
 
       // 총액 + 라벨(VAT 상태 반영)
-      $("#total").textContent = formatKRW(total);
-      $("#total-label").textContent = vat ? "예상 견적 (VAT 포함)" : "예상 견적 (VAT 별도)";
+      $("#total").textContent = PRICED ? formatKRW(total) : "협의";
+      $("#total-label").textContent = PRICED
+        ? (vat ? "예상 견적 (VAT 포함)" : "예상 견적 (VAT 별도)")
+        : "예상 견적";
 
       // 요약 라인
       if (items.length === 0) {
         $("#total-range").textContent = "패키지를 선택하세요";
+      } else if (!PRICED) {
+        $("#total-range").textContent =
+          `${items.length}개 패키지 · 총 ${totalQty}단위 · ${hours}H — 금액은 인원·차수·실습 환경을 반영해 협의로 확정합니다`;
       } else {
         const parts = [
           `${items.length}개 패키지 · 총 ${totalQty}단위 · ${hours}H`,
-          `${INDUSTRIES[idx].label} 단가`
+          `${industryLabel(key)} 단가`
         ];
         if (assistant) parts.push("보조강사 포함");
-        if (discountApplies) parts.push(`${Math.round(rate * 100)}% 할인 (규모 ${totalQty}단위)`);
         if (vat) parts.push("VAT 포함");
+        parts.push("정가 기준");
         $("#total-range").textContent = parts.join(" · ");
       }
 
-      // 할인 안내: 체크했지만 조건 미충족 시 명시
+      // 시수·구성 폭이 큰 패키지가 섞이면 단일 금액이 확정가처럼 읽힌다. 정가 범위를 함께 알린다.
       const hint = $("#total-hint");
-      if (discountChecked && !discountApplies) {
-        hint.textContent = `⚠️ 할인은 ${DISCOUNT_MIN_QTY}단위 이상 선택 시 적용됩니다 (현재 ${totalQty}단위).`;
+      const ranged = PRICED ? items.map(({ pkg }) => pkg).filter(priceRangeLabel) : [];
+      if (ranged.length) {
+        hint.textContent =
+          `※ ${ranged.map(p => `${pkgLabel(p)} ${priceRangeLabel(p)}`).join(" · ")} — 시수·구성에 따라 폭이 있어 확정 금액은 협의로 정합니다.`;
         hint.style.display = "block";
       } else {
         hint.textContent = "";
@@ -271,15 +448,105 @@
       }
     }
 
-    // ===== 이벤트 바인딩 =====
-    document.querySelectorAll('input[name="industry"]').forEach(r =>
-      r.addEventListener("change", renderPackageList)
-    );
-    ["opt-assistant", "opt-vat", "opt-discount"].forEach(id =>
-      $("#" + id).addEventListener("change", recompute)
-    );
+    // ===== 로드 실패 처리 =====
+    function showLoadError(err) {
+      const est = $(".estimator");
+      if (est && !document.getElementById("load-error")) {
+        const box = document.createElement("div");
+        box.id = "load-error";
+        box.style.cssText = "margin:0 0 18px;padding:14px 18px;background:#fff3f3;border:1px solid #f3c8c8;border-radius:8px;color:#a33;font-size:14px;line-height:1.6;";
+        // 원인 문자열(Failed to fetch 등)은 콘솔에만 남긴다. 고객 화면에 영문 기술 메시지를 노출하지 않는다.
+        box.innerHTML = "⚠️ <strong>패키지·단가 데이터를 불러오지 못했습니다.</strong><br>" +
+          "페이지를 새로고침해 주세요. 문제가 계속되면 modu.biz@modulabs.co.kr 로 문의해 주세요.";
+        est.insertBefore(box, est.firstChild);
+      }
+      const ind = $("#industry-list");
+      if (ind) ind.innerHTML = '<span style="font-size:13px;color:#888;">산업 단가를 불러오지 못했습니다.</span>';
+      const list = $("#package-list");
+      if (list) list.innerHTML = '<span style="font-size:13px;color:#888;">패키지 목록을 불러오지 못했습니다.</span>';
+      const total = $("#total");
+      if (total) total.textContent = "—";
+      const range = $("#total-range");
+      if (range) range.textContent = "데이터를 불러오지 못해 계산할 수 없습니다.";
+      const hint = $("#total-hint");
+      if (hint) { hint.textContent = ""; hint.style.display = "none"; }
+      $("#rate-head").innerHTML = "<tr><th>패키지</th><th>시간</th><th>단가</th></tr>";
+      $("#rate-body").innerHTML = '<tr><td colspan="3" style="color:#a33;">단가표를 불러오지 못했습니다. 새로고침 후 다시 시도해주세요.</td></tr>';
+      ["opt-assistant", "opt-vat"].forEach(id => {
+        const el = $("#" + id);
+        if (el) { el.checked = false; el.disabled = true; }
+      });
+      ["industry-note", "discount-note"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.textContent = ""; el.style.display = "none"; }
+      });
+    }
 
-    renderPackageList();
+    // ===== 초기화 =====
+    function initEstimator(data) {
+      PRICING = (data && data.pricing) || {};
+      PACKAGES = (data && Array.isArray(data.packages)) ? data.packages : [];
+
+      const labels = PRICING.industry_labels || {};
+      const rates = PRICING.hourly_rates || {};
+      INDUSTRIES = Object.keys(labels).map(k => ({ key: k, label: labels[k], hourly: rates[k] }));
+
+      // 단가·패키지 금액이 하나도 없으면 금액 비공개 모드(공개 빌드)
+      const anyRate = Object.keys(rates).some(k => typeof rates[k] === "number" && rates[k] > 0);
+      const anyPrice = PACKAGES.some(p => {
+        const m = p.price_by_industry || {};
+        return Object.keys(m).some(k => typeof m[k] === "number" && m[k] > 0);
+      });
+      PRICED = anyRate || anyPrice;
+
+      if (INDUSTRIES.length === 0 || PACKAGES.length === 0) {
+        showLoadError(new Error("데이터가 비어 있습니다"));
+        return;
+      }
+
+      if (!PRICED) applyUnpricedCopy();
+      renderIndustries();
+      renderOptionLabels();
+      renderRateTable();
+
+      ["opt-assistant", "opt-vat"].forEach(id => {
+        const el = $("#" + id);
+        if (el) el.addEventListener("change", recompute);
+      });
+
+      renderPackageList();
+    }
+
+    // 금액 비공개 모드 화면 문구 — 견적 계산기가 아니라 "교육 구성 정리" 도구로 읽히게 한다
+    function applyUnpricedCopy() {
+      const h1 = document.querySelector(".page-header h1");
+      if (h1) h1.textContent = "교육 구성 계산기";
+      const lead = document.querySelector(".page-header p");
+      if (lead) lead.textContent =
+        "필요한 패키지를 골라 전체 구성과 총 시수를 정리하세요. 금액은 인원·차수·실습 환경에 따라 달라져 상담 후 협의로 확정합니다.";
+      const indHead = document.querySelector(".est-section h4");
+      if (indHead) indHead.textContent = "① 조직 유형";
+      const rateHead = document.querySelector("h2");
+      if (rateHead && rateHead.textContent.indexOf("단가표") !== -1) rateHead.textContent = "📐 패키지 구성표";
+      // 산업별 단가가 없으므로 VAT·보조강사 옵션은 계산 대상이 없다
+      const optSection = document.querySelectorAll(".est-section")[2];
+      if (optSection) optSection.style.display = "none";
+    }
+
+    // 응답이 오지 않고 매달리면 예외가 안 나 catch도 안 타고 "불러오는 중…"에서 영구히 멈춘다. 타임아웃을 건다.
+    const ctrl = typeof AbortController === "function" ? new AbortController() : null;
+    const timer = ctrl ? setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS) : null;
+    fetch("data/packages.json", ctrl ? { signal: ctrl.signal } : undefined)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(data => { if (timer) clearTimeout(timer); initEstimator(data); })
+      .catch(err => {
+        if (timer) clearTimeout(timer);
+        console.error("packages.json load failed:", err);
+        showLoadError(err);
+      });
   </script>
 </body>
 </html>

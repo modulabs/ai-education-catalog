@@ -1,0 +1,498 @@
+{
+ "meta": {
+  "version": "1.0",
+  "updated": "2026-09-09",
+  "description": "로드맵 빌더 규칙 — 시작점 판정, 대상별 단계 템플릿, 오프라인(집합)×온라인(VOD) 블렌딩, 기간 밴드별 예산",
+  "principles": [
+   "로드맵은 AX 단계(1 인식·입문 → 2 실무 적용 → 3 구축·운영 → 4 심화·거버넌스) 순서로 배열한다",
+   "각 단계는 필수 1과목 + 선택 0~2과목으로 구성한다 — 과목 나열이 아니라 단계별 도달점을 보여준다",
+   "선행 관계(prerequisites)가 있는 과목은 선행 과목보다 앞 단계에 둘 수 없다",
+   "기간 밴드가 정해지면 총 시수는 밴드 상한을 넘지 않는다 — 기간은 가점이 아니라 하드 필터",
+   "온라인 VOD는 집합 교육의 사전학습(한 레벨 아래)과 사후 보강(같은 레벨)으로 붙인다",
+   "시수가 없는 과목(직무별 편성표 등)은 로드맵 카드로 제시하되 예상 규모 합산에서 제외한다"
+  ]
+ },
+ "stages": [
+  {
+   "stage": 1,
+   "name": "인식·입문",
+   "label": "① 도입 · 인식 전환",
+   "ax": [
+    1
+   ]
+  },
+  {
+   "stage": 2,
+   "name": "실무 적용",
+   "label": "② 실무 적용 · 산출물",
+   "ax": [
+    2
+   ]
+  },
+  {
+   "stage": 3,
+   "name": "구축·운영",
+   "label": "③ 구축 · 운영",
+   "ax": [
+    3
+   ]
+  },
+  {
+   "stage": 4,
+   "name": "심화·거버넌스",
+   "label": "④ 심화 · 거버넌스",
+   "ax": [
+    4
+   ]
+  }
+ ],
+ "duration_bands": {
+  "half": {
+   "label": "반일 이하 (~7H)",
+   "max_hours": 7,
+   "stages": 1,
+   "required_per_stage": 1,
+   "optional_per_stage": 0,
+   "online": "before"
+  },
+  "day": {
+   "label": "1~2일 (8~20H)",
+   "max_hours": 20,
+   "stages": 2,
+   "required_per_stage": 1,
+   "optional_per_stage": 0,
+   "online": "before"
+  },
+  "week": {
+   "label": "1주 집중 (21~45H)",
+   "max_hours": 45,
+   "stages": 3,
+   "required_per_stage": 1,
+   "optional_per_stage": 1,
+   "online": "both"
+  },
+  "long": {
+   "label": "2주 이상·과정형 (46H+)",
+   "max_hours": 120,
+   "stages": 4,
+   "required_per_stage": 1,
+   "optional_per_stage": 2,
+   "online": "both"
+  },
+  "any": {
+   "label": "기간 무관",
+   "max_hours": 60,
+   "stages": 3,
+   "required_per_stage": 1,
+   "optional_per_stage": 1,
+   "online": "both"
+  }
+ },
+ "audience_templates": {
+  "관": {
+   "name": "임원·경영진 로드맵",
+   "goal": "의사결정 프레임과 AX 방향을 세우고 거버넌스를 수립한다",
+   "stage_categories": {
+    "1": [
+     "AX",
+     "생"
+    ],
+    "2": [
+     "AX",
+     "보",
+     "생"
+    ],
+    "3": [
+     "AX"
+    ],
+    "4": [
+     "AX",
+     "보"
+    ]
+   },
+   "packages": [
+    "01",
+    "02"
+   ],
+   "online_tracks": [
+    "T1"
+   ],
+   "online_roles": [
+    "경영진·리더"
+   ],
+   "default_band": "half"
+  },
+  "전": {
+   "name": "비개발 실무자 로드맵",
+   "goal": "공통 언어를 세운 뒤 직무 산출물을 만들고, 반복 업무를 에이전트로 자동화한다",
+   "stage_categories": {
+    "1": [
+     "생",
+     "직"
+    ],
+    "2": [
+     "생",
+     "직",
+     "바",
+     "자"
+    ],
+    "3": [
+     "자",
+     "바",
+     "에"
+    ],
+    "4": [
+     "자",
+     "AX"
+    ]
+   },
+   "packages": [
+    "03",
+    "04",
+    "05"
+   ],
+   "online_tracks": [
+    "T1",
+    "T4",
+    "T3"
+   ],
+   "online_roles": [
+    "기획·전략",
+    "마케팅·콘텐츠",
+    "영업·CS·경영지원"
+   ],
+   "default_band": "day"
+  },
+  "개": {
+   "name": "개발자·엔지니어 로드맵",
+   "goal": "AI 코딩 역량에서 시작해 RAG·에이전트 시스템을 구축하고 운영·보안까지 책임진다",
+   "stage_categories": {
+    "1": [
+     "R",
+     "에",
+     "클"
+    ],
+    "2": [
+     "R",
+     "에",
+     "클",
+     "인",
+     "데"
+    ],
+    "3": [
+     "R",
+     "클",
+     "인",
+     "에",
+     "데"
+    ],
+    "4": [
+     "인",
+     "보",
+     "R",
+     "에"
+    ]
+   },
+   "packages": [
+    "06",
+    "07",
+    "08",
+    "11",
+    "12"
+   ],
+   "online_tracks": [
+    "T2",
+    "T4"
+   ],
+   "online_roles": [
+    "개발·엔지니어링",
+    "데이터·분석"
+   ],
+   "default_band": "week"
+  },
+  "대": {
+   "name": "대학생·취준생 로드맵",
+   "goal": "AI 기초 활용에서 바이브코딩·프로젝트로 포트폴리오를 완성한다",
+   "stage_categories": {
+    "1": [
+     "생",
+     "바"
+    ],
+    "2": [
+     "바",
+     "자",
+     "피"
+    ],
+    "3": [
+     "피",
+     "R",
+     "바"
+    ],
+    "4": [
+     "피",
+     "R"
+    ]
+   },
+   "packages": [
+    "09",
+    "10"
+   ],
+   "online_tracks": [
+    "T4",
+    "T2"
+   ],
+   "online_roles": [],
+   "default_band": "day"
+  },
+  "교": {
+   "name": "교사·강사 로드맵",
+   "goal": "수업에 바로 쓰는 AI 활용과 바이브코딩 교수법을 익힌다",
+   "stage_categories": {
+    "1": [
+     "생",
+     "교"
+    ],
+    "2": [
+     "바",
+     "생",
+     "교"
+    ],
+    "3": [
+     "바",
+     "자"
+    ],
+    "4": [
+     "교"
+    ]
+   },
+   "packages": [
+    "09",
+    "03"
+   ],
+   "online_tracks": [
+    "T1",
+    "T4"
+   ],
+   "online_roles": [],
+   "default_band": "day"
+  }
+ },
+ "starting_point_rules": {
+  "description": "슬롯·자유 서술에서 시작점을 판정한다. 우선순위 순서대로 첫 매칭을 채택",
+  "rules": [
+   {
+    "id": "SP4",
+    "when": {
+     "reg": "closed"
+    },
+    "or_keywords": [
+     "망분리",
+     "폐쇄망",
+     "보안 정책",
+     "사내 데이터",
+     "온프레",
+     "규제"
+    ],
+    "start_stage": 2,
+    "note": "규제·보안 제약 — 인프라·보안 과목을 앞당기고 실습 환경을 사내 기준으로 설계"
+   },
+   {
+    "id": "SP3",
+    "when": {
+     "aud_mixed": true
+    },
+    "or_keywords": [
+     "직군별",
+     "부서별",
+     "편차",
+     "개발자와 비개발자",
+     "전사"
+    ],
+    "start_stage": 1,
+    "note": "직군별 편차 — 공통 1단계 후 직군별 트랙 분리"
+   },
+   {
+    "id": "SP2",
+    "when": {
+     "level": [
+      "중",
+      "고",
+      "활용 중",
+      "이미 사용"
+     ]
+    },
+    "or_keywords": [
+     "성과가 없",
+     "각자",
+     "개인 활용",
+     "프로세스",
+     "산출물이 그대로",
+     "이미 쓰고"
+    ],
+    "start_stage": 2,
+    "note": "활용은 하나 성과 없음 — 2단계 실무 산출물부터 시작, 3단계 자동화로 연결"
+   },
+   {
+    "id": "SP1",
+    "default": true,
+    "start_stage": 1,
+    "note": "도입 초기 — 공통 언어와 안전한 활용 기준부터"
+   }
+  ]
+ },
+ "blend_rules": {
+  "before": {
+   "label": "사전학습 VOD",
+   "level_offset": -1,
+   "min_level": 1,
+   "max_courses": 2,
+   "purpose": "집합 교육 전 출발선 맞추기"
+  },
+  "after": {
+   "label": "사후 보강 VOD",
+   "level_offset": 0,
+   "max_courses": 2,
+   "purpose": "집합 교육 후 반복 학습·현업 적용"
+  },
+  "track_by_category": {
+   "생": "T1",
+   "자": "T1",
+   "직": "T1",
+   "AX": "T1",
+   "바": "T4",
+   "에": "T4",
+   "데": "T2",
+   "R": "T2",
+   "피": "T2",
+   "클": "T2",
+   "인": "T2",
+   "보": "T2",
+   "임": "T2",
+   "교": "T1"
+  }
+ },
+ "scoring": {
+  "description": "과목 후보 점수 — 대상·주제·규제·검증·시수 확정. 기간은 점수가 아니라 단계 배정 시 하드 필터로 적용",
+  "weights": {
+   "audience_exact": 30,
+   "audience_company_wide": 18,
+   "audience_exec_ax": 25,
+   "audience_student": 22,
+   "audience_other": 4,
+   "topic_match": 25,
+   "topic_related": 10,
+   "topic_none_selected": 12,
+   "topic_other": 2,
+   "regulation_boost": 15,
+   "reference_bonus": 6,
+   "hours_known_bonus": 4,
+   "module_detail_bonus": 5,
+   "new_course_bonus": 2
+  },
+  "related_topics": {
+   "생": [
+    "직",
+    "자"
+   ],
+   "자": [
+    "생",
+    "바",
+    "에"
+   ],
+   "바": [
+    "자",
+    "에"
+   ],
+   "에": [
+    "바",
+    "R",
+    "자"
+   ],
+   "R": [
+    "클",
+    "데",
+    "에"
+   ],
+   "클": [
+    "R",
+    "인"
+   ],
+   "인": [
+    "클",
+    "보",
+    "R"
+   ],
+   "보": [
+    "인",
+    "AX"
+   ],
+   "데": [
+    "R",
+    "생"
+   ],
+   "AX": [
+    "보",
+    "생"
+   ],
+   "피": [
+    "임",
+    "R"
+   ],
+   "임": [
+    "피"
+   ],
+   "직": [
+    "생",
+    "자"
+   ],
+   "교": [
+    "생",
+    "바"
+   ]
+  },
+  "min_score": 40
+ },
+ "ms_roadmap": {
+  "name": "Microsoft 4H 표준 커리큘럼 — 3단계 로드맵",
+  "tracks": {
+   "copilot": {
+    "name": "M365 Copilot 트랙",
+    "steps": [
+     "MS-101",
+     "MS-102",
+     "MS-103"
+    ],
+    "codes": [
+     "생-전-2-006",
+     "직-전-2-010",
+     "에-개-2-002"
+    ]
+   },
+   "azure": {
+    "name": "Azure(Microsoft Foundry) 트랙",
+    "steps": [
+     "AZ-101",
+     "AZ-102",
+     "AZ-103"
+    ],
+    "codes": [
+     "클-전-2-002",
+     "클-개-2-001",
+     "클-개-3-005"
+    ],
+    "extends_to_package": "11"
+   }
+  },
+  "certifications": [
+   "AI-901 Fundamentals",
+   "AI-103 Azure AI Apps & Agents Developer",
+   "AB 시리즈(Copilot)"
+  ]
+ },
+ "estimate": {
+  "description": "예상 규모는 시수가 확정된 필수·선택 과목 시수 합 × 산업별 참고 단가. 범위(min~max)로만 제시하고 할인은 표시하지 않는다",
+  "public_note": "참고 단가 기준 예상 범위입니다. 최종 견적은 인원·차수·실습 환경을 반영해 협의로 확정합니다.",
+  "exclude_hours_null": true,
+  "unpriced_note": "교육 규모와 구성이 정해지면 견적을 협의로 확정합니다."
+ }
+}

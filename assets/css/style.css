@@ -59,6 +59,7 @@ button { font-family: inherit; cursor: pointer; }
   display: flex; align-items: center; justify-content: center;
   font-size: 14px; font-weight: 800;
 }
+.sidebar .brand .brand-sub { font-size: 11px; color: #888; font-weight: 500; }
 .sidebar nav { display: flex; flex-direction: column; gap: 2px; }
 .sidebar nav .nav-section {
   font-size: 11px;
@@ -620,6 +621,8 @@ button { font-family: inherit; cursor: pointer; }
   background: #fafafa;
 }
 .footer a { color: #888; }
+.page-footer { border-top: 1px solid #ebebeb; margin-top: 40px; padding: 20px 0 0; color: #888; font-size: 13px; }
+.page-footer a { color: #888; }
 
 /* Industry cards */
 .industry-grid {
@@ -815,6 +818,7 @@ button { font-family: inherit; cursor: pointer; }
   .sidebar,
   .mobile-header,
   .footer,
+  .page-footer,
   .no-print { display: none !important; }
 
   html { scroll-behavior: auto; }

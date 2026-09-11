@@ -15,31 +15,34 @@
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-mark">모</div>
-        <div>모두의연구소<br><span style="font-size:11px;color:#888;font-weight:500;">표준 제안서 덱</span></div>
+        <div>모두의연구소<br><span class="brand-sub">AI 기업교육 카탈로그</span></div>
       </div>
-      <nav>
+      <nav aria-label="사이트 내비게이션">
         <div class="nav-section">개요</div>
-        <a href="index.html"><span class="nav-icon">📚</span> 카탈로그</a>
-        <a href="catalog.html"><span class="nav-icon">🗂</span> 과목 카탈로그 158</a>        <a href="microsoft.html"><span class="nav-icon">🪟</span> Microsoft 4H 🆕</a>
-        <a href="matrix.html"><span class="nav-icon">▦</span> MECE 매트릭스</a>
-        <div class="nav-section">영업 도구</div>
-        <a href="consult.html"><span class="nav-icon">🤖</span> 맞춤 상담 (베타)</a>
-        <a href="decision-tree.html"><span class="nav-icon">🧭</span> 결정 트리</a>
-        <a href="estimator.html"><span class="nav-icon">💰</span> 견적 계산기</a>
-        <a href="industry.html"><span class="nav-icon">🏭</span> 산업별 가이드</a>
+        <a href="index.html"><span class="nav-icon" aria-hidden="true">📚</span> 카탈로그 홈</a>
+        <a href="catalog.html"><span class="nav-icon" aria-hidden="true">🗂</span> 표준 과목 카탈로그</a>
+        <a href="online.html"><span class="nav-icon" aria-hidden="true">▶</span> 온라인 VOD 4트랙</a>
+        <a href="microsoft.html"><span class="nav-icon" aria-hidden="true">🪟</span> Microsoft 4H 커리큘럼</a>
+        <a href="matrix.html"><span class="nav-icon" aria-hidden="true">▦</span> 대상×단계 매트릭스</a>
+        <div class="nav-section">맞춤 설계</div>
+        <a href="consult.html"><span class="nav-icon" aria-hidden="true">🤖</span> AI 맞춤 상담</a>
+        <a href="roadmap.html"><span class="nav-icon" aria-hidden="true">🛤</span> 로드맵 빌더</a>
+        <a href="decision-tree.html" class="active" aria-current="page"><span class="nav-icon" aria-hidden="true">🧭</span> 패키지 결정 트리</a>
+        <a href="estimator.html"><span class="nav-icon" aria-hidden="true">💰</span> 예상 규모 계산기</a>
+        <a href="industry.html"><span class="nav-icon" aria-hidden="true">🏭</span> 산업별 가이드</a>
         <div class="nav-section">표준 패키지 12종</div>
-        <a href="packages/01.html"><span class="nav-icon">01</span> 임원 전략 세미나</a>
-        <a href="packages/02.html"><span class="nav-icon">02</span> AX 로드맵</a>
-        <a href="packages/03.html"><span class="nav-icon">03</span> AI 리터러시</a>
-        <a href="packages/04.html"><span class="nav-icon">04</span> 직무별 워크샵</a>
-        <a href="packages/05.html"><span class="nav-icon">05</span> 실무 전환 캠프</a>
-        <a href="packages/06.html"><span class="nav-icon">06</span> 에이전틱 코딩</a>
-        <a href="packages/07.html"><span class="nav-icon">07</span> RAG/Agent 심화</a>
-        <a href="packages/08.html"><span class="nav-icon">08</span> 하네스 PoC</a>
-        <a href="packages/09.html"><span class="nav-icon">09</span> 학생 세미나</a>
-        <a href="packages/10.html"><span class="nav-icon">10</span> AI 부트캠프</a>
-        <a href="packages/11.html"><span class="nav-icon">11</span> 클라우드 AI 에이전트 🆕</a>
-        <a href="packages/12.html"><span class="nav-icon">12</span> AI 인프라 구축 🆕</a>
+        <a href="packages/01.html"><span class="nav-icon" aria-hidden="true">01</span> AI 경영 전략 세미나</a>
+        <a href="packages/02.html"><span class="nav-icon" aria-hidden="true">02</span> AX 로드맵 (연간)</a>
+        <a href="packages/03.html"><span class="nav-icon" aria-hidden="true">03</span> AI 리터러시</a>
+        <a href="packages/04.html"><span class="nav-icon" aria-hidden="true">04</span> 직무별 AI 실무 워크샵</a>
+        <a href="packages/05.html"><span class="nav-icon" aria-hidden="true">05</span> AI 실무 전환 캠프</a>
+        <a href="packages/06.html"><span class="nav-icon" aria-hidden="true">06</span> 에이전틱 코딩 L1-4</a>
+        <a href="packages/07.html"><span class="nav-icon" aria-hidden="true">07</span> RAG/Agent 심화</a>
+        <a href="packages/08.html"><span class="nav-icon" aria-hidden="true">08</span> 하네스 엔지니어링 PoC</a>
+        <a href="packages/09.html"><span class="nav-icon" aria-hidden="true">09</span> 학생 세미나/해커톤</a>
+        <a href="packages/10.html"><span class="nav-icon" aria-hidden="true">10</span> AI 부트캠프</a>
+        <a href="packages/11.html"><span class="nav-icon" aria-hidden="true">11</span> 클라우드 AI 에이전트</a>
+        <a href="packages/12.html"><span class="nav-icon" aria-hidden="true">12</span> AI 인프라 구축</a>
       </nav>
     </aside>
     <main class="main">
@@ -123,61 +126,55 @@
   </footer>
   <script src="assets/js/main.js"></script>
   <script>
-    const PACKAGES = {
-      "01": { title: "AI 경영 전략 세미나", desc: "C-Level 대상 2-3H 집중 세미나. AI 시대 의사결정 프레임워크와 6개월 로드맵 즉시 도출.", meta: ["2-3H", "C-Level", "임원"], price: "₩1.2M ~ ₩1.8M (VAT 별도)", link: "packages/01.html" },
-      "02": { title: "AX 로드맵 (연간)", desc: "임원→챔피언→전사 3계층 연간 로드맵. 진단·양성·해커톤·거버넌스 수립까지.", meta: ["연간 6~9회", "전사 확산", "거버넌스"], price: "₩25M ~ ₩50M", link: "packages/02.html" },
-      "03": { title: "AI 리터러시", desc: "전 직원 2-5H. AI 두려움 제거·마인드셋 전환. K-HP 100% 지원 매칭 가능.", meta: ["2-5H", "전 직원", "K-HP 매칭"], price: "₩1.2M ~ ₩3M", link: "packages/03.html" },
-      "04": { title: "직무별 AI 실무 워크샵", desc: "직군별 1일 8H. 영업·기획·콘텐츠·고객응대 8종. 당일 산출물 1건+ 완성. ⭐가장 수요.", meta: ["1일 8H/직군", "8종 직무", "당일 산출물"], price: "₩4M ~ ₩4.8M / 직군 (다직군 할인)", link: "packages/04.html" },
-      "05": { title: "AI 실무 전환 캠프", desc: "1-3주 Agile 스프린트. 현업 데이터로 에이전트 파이프라인 직접 구축.", meta: ["1-3주", "스프린트", "현업 프로젝트"], price: "₩13.5M ~ ₩30M", link: "packages/05.html" },
-      "06": { title: "에이전틱 코딩 Level 1-4", desc: "Codex·Claude Code·OpenCode 중심. 입문→실전→발전→심화 4 Level (Level당 1일).", meta: ["Level당 8H", "4주 풀코스", "Codex·Claude"], price: "₩4.8M / Level (4 Level ₩19.2M)", link: "packages/06.html" },
-      "07": { title: "RAG/Agent 엔지니어링 심화", desc: "5일 35H 캠프. 하네스 5대 요소·MCP·멀티에이전트 오케스트레이션. 통합 PoC 완성. ⭐고수익.", meta: ["5일 35H", "LangGraph·MCP", "통합 PoC"], price: "₩17.5M ~ ₩21M + 보조강사 옵션", link: "packages/07.html" },
-      "08": { title: "하네스 엔지니어링 PoC", desc: "4일 32H. CI/CD에 에이전트 노드 심기. 사내 코파일럿 자체 구축 청사진.", meta: ["4일 32H", "CI/CD 통합", "사내 PoC"], price: "₩16M (프로젝트 멘토링 별도)", link: "packages/08.html" },
-      "09": { title: "학생 세미나/해커톤", desc: "3-8H 단발. 기획·운영·심사·결과보고 전 과정 위탁. RISE 사업 매칭.", meta: ["3-8H", "위탁 운영", "RISE 매칭"], price: "₩1.2M ~ ₩4M (학생 특가)", link: "packages/09.html" },
-      "10": { title: "AI 부트캠프", desc: "60-180H (1-4주). ND1+ND2+ND5 3단계. 역량 인증 + 취업 연계 포트폴리오.", meta: ["60-180H", "방학 집중이수", "취업 연계"], price: "₩18M ~ ₩72M (바우처 매칭 50-70%)", link: "packages/10.html" }
-    ,
-      "11": { title: "클라우드 AI 에이전트 개발", desc: "3사(Azure·AWS·GCP) 에이전트 스택. 공통 34H + 플랫폼 심화 12H. 자격증 대응. 🆕2026 신설.", meta: ["46H 풀코스", "3사 플랫폼", "AI-103·MLA-C01"], price: "₩23M ~ ₩27.6M (임시 산정)", link: "packages/11.html" },
-      "12": { title: "온프레·하이브리드 AI 인프라 구축", desc: "vLLM·KServe·LiteLLM·LLMOps·GPU 클러스터. 망분리·폐쇄망 규제 대응. 🆕2026 신설.", meta: ["코어 4일 28H", "온프레+하이브리드", "규제 산업"], price: "₩14M ~ ₩16.8M (임시 산정)", link: "packages/12.html" }};
-
-    // Step 2 options depend on step 1
-    const STEP2_OPTIONS = {
-      "L1": [
-        { v: "D1", label: "⏰ 2-3시간 세미나 (인식·전략)" },
-        { v: "D4", label: "🗺️ 연간 로드맵 (전사 확산)" }
-      ],
-      "L2": [
-        { v: "D1", label: "⏰ 2-3시간 세미나 (리터러시)" },
-        { v: "D2", label: "📅 1일 워크샵 (직무별 실무)" },
-        { v: "D3", label: "🏕️ 1-3주 캠프 (실무 프로젝트)" }
-      ],
-      "L3": [
-        { v: "D2", label: "📅 1일 워크샵 (에이전틱 코딩)" },
-        { v: "D3", label: "🏕️ 5일 캠프 (RAG/Agent 심화)" },
-        { v: "D4", label: "🚀 4일 PoC (하네스 엔지니어링)" },
-        { v: "D3C", label: "☁️ 클라우드 에이전트 개발 (3사 · 🆕)" },
-        { v: "D4I", label: "🖥️ AI 인프라 구축 (온프레·하이브리드 · 🆕)" }
-      ],
-      "L4": [
-        { v: "D1", label: "⏰ 3-8H 단발 (세미나·해커톤)" },
-        { v: "D3", label: "🏕️ 1-4주 부트캠프 (60-180H)" }
-      ]
-    };
-
-    const MATRIX = {
-      "L1-D1": "01", "L1-D4": "02",
-      "L2-D1": "03", "L2-D2": "04", "L2-D3": "05",
-      "L3-D2": "06", "L3-D3": "07", "L3-D4": "08",
-      "L4-D1": "09", "L4-D3": "10",
-      "L3-D3C": "11", "L3-D4I": "12"
-    };
-
-    const INDUSTRY_NOTE = {
-      enterprise: "대기업 — 시간당 ₩500-600K. 100H+ 시 ₩500K, 그룹사 3개+ 시 ₩450K 적용.",
-      sme: "중견·중소 — 기본 ₩600K/H. K-HP·중기청 매칭 시 비용 100% 지원 가능.",
-      university: "대학 — 시간당 ₩400K. 학생 30명+ 시 ₩300K. RISE 사업 매칭 50-70%.",
-      public: "공공·비영리 — 시간당 ₩450-500K. 다년도 계약 시 ₩400K. 사회적 가치 사업 추가 인하."
-    };
-
+    // Data-driven: everything below is built at runtime from data/packages.json (표준 데이터).
+    // No package, price, matrix-cell, or industry-rate figures are hardcoded here.
+    let pkgData = null;
+    let pkgById = {};
     let state = { L: null, D: null, industry: null };
+
+    // Decorative depth icons only — not data, purely visual (kept from prior design).
+    const DEPTH_ICONS = { D1: "⏰", D2: "📅", D3: "🏕️", D4: "🚀" };
+
+    function formatWon(amount) {
+      if (typeof amount !== "number") return null;
+      return `₩${Math.round(amount / 1000)}K`;
+    }
+
+    // Step 2 options are derived per-level from matrix.cells + matrix.depths.
+    // A cell can hold 2+ package ids (e.g. L3-D3: [07,11]) — each becomes its
+    // own selectable option (value "D3#0", "D3#1", ...) so the split routing
+    // the old hardcoded tree relied on is preserved without inventing labels.
+    function buildStep2Options(levelId) {
+      const options = [];
+      pkgData.matrix.depths.forEach(depth => {
+        const ids = pkgData.matrix.cells[`${levelId}-${depth.id}`];
+        if (!ids || !ids.length) return;
+        const icon = DEPTH_ICONS[depth.id] || "📦";
+        if (ids.length === 1) {
+          const pkg = pkgById[ids[0]];
+          options.push({ value: depth.id, label: `${icon} ${depth.label} (${pkg.duration_label})` });
+        } else {
+          ids.forEach((pkgId, idx) => {
+            const pkg = pkgById[pkgId];
+            options.push({ value: `${depth.id}#${idx}`, label: `${icon} ${depth.label} — ${pkg.name} (${pkg.duration_label})` });
+          });
+        }
+      });
+      return options;
+    }
+
+    function resolvePackage() {
+      let depthKey = state.D;
+      let idx = 0;
+      if (depthKey && depthKey.includes("#")) {
+        const parts = depthKey.split("#");
+        depthKey = parts[0];
+        idx = Number(parts[1]);
+      }
+      const ids = pkgData.matrix.cells[`${state.L}-${depthKey}`];
+      if (!ids || !ids[idx]) return null;
+      return pkgById[ids[idx]];
+    }
 
     function selectOption(step, value) {
       state[step === 1 ? "L" : step === 3 ? "industry" : "D"] = value;
@@ -188,9 +185,9 @@
 
       if (step === 1) {
         // show step 2 with appropriate options
-        const opts = STEP2_OPTIONS[value];
+        const opts = buildStep2Options(value);
         document.getElementById("step-2-options").innerHTML = opts.map(o =>
-          `<button class="dt-option" data-step="2" data-value="${o.v}" onclick="selectOption(2, '${o.v}')">${o.label}</button>`
+          `<button class="dt-option" data-step="2" data-value="${o.value}" onclick="selectOption(2, '${o.value}')">${o.label}</button>`
         ).join("");
         document.getElementById("step-2").style.display = "block";
         document.getElementById("step-3").style.display = "none";
@@ -204,22 +201,33 @@
     }
 
     function showResult() {
-      const key = `${state.L}-${state.D}`;
-      const pkgId = MATRIX[key];
-      const pkg = PACKAGES[pkgId];
+      const pkg = resolvePackage();
       if (!pkg) return;
-      document.getElementById("result-title").textContent = `Package ${pkgId} — ${pkg.title}`;
-      document.getElementById("result-desc").textContent = pkg.desc;
-      document.getElementById("result-meta").innerHTML = pkg.meta.map(m => `<span class="tag">${m}</span>`).join("");
-      document.getElementById("result-price").textContent = pkg.price;
-      const link = document.getElementById("result-link");
-      link.href = pkg.link;
+      document.getElementById("result-title").textContent = `Package ${pkg.id} — ${pkg.name}`;
+      document.getElementById("result-desc").textContent = pkg.summary;
 
-      // Industry note
-      const note = INDUSTRY_NOTE[state.industry];
+      const chips = [pkg.duration_label, pkg.target];
+      if (pkg.star) chips.push("⭐ 추천");
+      if (pkg.is_new_202609) chips.push("🆕 2026 신설");
+      (pkg.tools || []).slice(0, 3).forEach(t => chips.push(t));
+      document.getElementById("result-meta").innerHTML = chips.map(m => `<span class="tag">${m}</span>`).join("");
+
+      // 공개 빌드에는 금액이 없다(내부 판단용). price가 비어 있으면 "협의"로 표시한다.
+      const price = pkg.price || {};
+      document.getElementById("result-price").textContent = price.label
+        ? (price.note ? `${price.label} (${price.note})` : price.label)
+        : "협의";
+      const link = document.getElementById("result-link");
+      link.href = pkg.page;
+
+      // Industry note — plain hourly-rate reference only, from pricing 표준 데이터.
+      // No negotiation mechanics (subsidy %, volume thresholds, etc.) are
+      // rendered here since none of those live in packages.json.
+      const industryLabel = (pkgData.pricing.industry_labels || {})[state.industry] || state.industry;
+      const rateText = formatWon((pkgData.pricing.hourly_rates || {})[state.industry]);
       const noteEl = document.createElement("div");
       noteEl.style.cssText = "margin-top:14px;padding:10px 14px;background:white;border-radius:6px;font-size:13px;color:#555;";
-      noteEl.innerHTML = `🏢 <strong>${state.industry === "enterprise" ? "대기업" : state.industry === "sme" ? "중견·중소" : state.industry === "university" ? "대학" : "공공·비영리"}</strong>: ${note}`;
+      noteEl.innerHTML = `🏢 <strong>${industryLabel}</strong> — ${rateText ? `시간당 참고 단가 ${rateText}` : "교육 규모·구성에 따라 협의로 산정합니다"}`;
       const oldNote = document.getElementById("industry-note");
       if (oldNote) oldNote.remove();
       noteEl.id = "industry-note";
@@ -240,13 +248,40 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    // Hook step-1 options (step-2/3 options use inline onclick)
-    document.querySelectorAll('.dt-option[data-step="1"]').forEach(b => {
-      b.addEventListener("click", () => selectOption(1, b.dataset.value));
-    });
-    document.querySelectorAll('.dt-option[data-step="3"]').forEach(b => {
-      b.addEventListener("click", () => selectOption(3, b.dataset.value));
-    });
+    function showLoadError() {
+      const step1 = document.getElementById("step-1");
+      const errEl = document.createElement("div");
+      errEl.id = "load-error";
+      errEl.style.cssText = "margin:0 0 20px;padding:14px 18px;background:#fff3f3;border:1px solid #f3c8c8;border-radius:8px;color:#a33;font-size:14px;";
+      errEl.textContent = "⚠️ 패키지 데이터를 불러오지 못했습니다 (data/packages.json). 새로고침 후 다시 시도해주세요.";
+      step1.parentNode.insertBefore(errEl, step1);
+      document.querySelectorAll(".dt-step .dt-option").forEach(b => { b.disabled = true; });
+    }
+
+    function initTree(data) {
+      pkgData = data;
+      pkgById = {};
+      pkgData.packages.forEach(p => { pkgById[p.id] = p; });
+
+      // Hook step-1 options (step-2/3 options use inline onclick)
+      document.querySelectorAll('.dt-option[data-step="1"]').forEach(b => {
+        b.addEventListener("click", () => selectOption(1, b.dataset.value));
+      });
+      document.querySelectorAll('.dt-option[data-step="3"]').forEach(b => {
+        b.addEventListener("click", () => selectOption(3, b.dataset.value));
+      });
+    }
+
+    fetch("data/packages.json")
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(initTree)
+      .catch(err => {
+        console.error("packages.json load failed:", err);
+        showLoadError();
+      });
   </script>
 </body>
 </html>
