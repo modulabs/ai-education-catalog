@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>견적 계산기 — 모두의연구소 표준 제안서 덱</title>
-  <meta name="description" content="고객 요구에 맞춰 표준 패키지를 조합하고 즉시 견적을 산출합니다. 영업팀 현장 툴.">
+  <title>예상 규모 계산기 | 모두의연구소 AI 기업교육</title>
+  <meta name="description" content="표준 패키지를 조합해 교육 규모와 예상 범위를 미리 확인합니다. 최종 구성과 금액은 협의로 확정됩니다.">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -520,7 +520,7 @@
     // 금액 비공개 모드 화면 문구 — 견적 계산기가 아니라 "교육 구성 정리" 도구로 읽히게 한다
     function applyUnpricedCopy() {
       const h1 = document.querySelector(".page-header h1");
-      if (h1) h1.textContent = "교육 구성 계산기";
+      if (h1) h1.textContent = "예상 규모 계산기";   // nav.json 라벨·<title> 과 같은 이름을 쓴다
       const lead = document.querySelector(".page-header p");
       if (lead) lead.textContent =
         "필요한 패키지를 골라 전체 구성과 총 시수를 정리하세요. 금액은 인원·차수·실습 환경에 따라 달라져 상담 후 협의로 확정합니다.";

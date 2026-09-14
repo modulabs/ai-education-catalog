@@ -98,6 +98,10 @@ button { font-family: inherit; cursor: pointer; }
 .main {
   padding: 48px 56px 96px;
   max-width: 960px;
+  /* 그리드 아이템의 기본값 min-width:auto 는 "내용보다 좁아지지 않는다"는 뜻이다.
+     넓은 표 하나가 .main 을 밀어 페이지 전체가 가로로 스크롤됐다 (390px 에서 최대 502px).
+     0 으로 낮춰야 열 폭을 따르고, 넘치는 자식은 각자 overflow-x 로 처리한다. */
+  min-width: 0;
 }
 .main header.page-header {
   border-bottom: 2px solid #EE3E4C;
@@ -330,6 +334,10 @@ button { font-family: inherit; cursor: pointer; }
 /* Matrix grid (interactive) */
 .matrix-container {
   margin: 32px 0;
+  /* 4×4 표는 폰 폭에 들어가지 않는다. 줄이면 table-layout:fixed 가 칸을 20px 로 뭉개
+     "PACKAGE 01" 이 글자 단위로 잘렸다. 찌그러뜨리는 대신 표만 가로로 민다. */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .matrix-table {
   width: 100%;
@@ -805,8 +813,42 @@ button { font-family: inherit; cursor: pointer; }
   .hero h1 { font-size: 26px; }
   .main header.page-header h1 { font-size: 28px; }
   .footer { padding: 20px; }
-  .matrix-table { font-size: 12px; }
+  .matrix-table { font-size: 12px; min-width: 560px; }
   .matrix-cell { padding: 10px; min-height: 90px; }
+  /* 손가락으로 누르는 화면이다 — 44px 는 터치 타깃 권장 최소치 */
+  .mobile-header button { min-height: 44px; padding: 10px 14px; font-size: 14px; }
+  .btn { min-height: 44px; padding: 12px 20px; }
+}
+
+/* ====== 폰 (좁은 화면) ====== */
+@media (max-width: 560px) {
+  .main { padding: 20px 16px 56px; }        /* 좌우 여백 16px 는 유지한다 */
+  .hero { padding: 22px 16px; border-radius: 12px; }
+  .hero h1 { font-size: 22px; line-height: 1.35; }
+  .hero p { font-size: 14px; }
+  .main header.page-header h1 { font-size: 22px; line-height: 1.35; }
+  .main h2 { font-size: 18px; }
+  .footer { padding: 16px; font-size: 12px; }
+
+  /* 카드·체크박스 격자는 한 줄로 — minmax(220~290px) 는 폰에서 두 칸이 들어가지 않는다 */
+  .package-grid,
+  .checkbox-grid,
+  .industry-grid { grid-template-columns: 1fr; }
+
+  /* 통계는 줄바꿈하되 두 칸은 유지해 세로로 길어지지 않게 */
+  .hero .hero-stats { gap: 16px 24px; }
+  .hero .stat { flex: 1 1 40%; }
+
+  /* 표는 찌그러뜨리지 말고 가로로 민다 */
+  .main table { font-size: 13px; }
+  .main table th, .main table td { padding: 8px 10px; }
+
+  /* 긴 영문 토큰(AIProjectClient, Access-Control-… 등)이 칸을 밀어내지 않게 */
+  .main p, .main li, .main td, .main th { overflow-wrap: anywhere; }
+
+  /* 히어로의 CTA 만 가로로 꽉 채운다. 전역으로 주면 상담 입력줄의 버튼 4개가
+     입력창 아래로 하나씩 쌓여 화면을 다 먹는다. */
+  .hero .btn { display: block; width: 100%; text-align: center; }
 }
 
 /* ====== Print / PDF export ====== */
@@ -844,7 +886,7 @@ button { font-family: inherit; cursor: pointer; }
 
   /* PDF 상단 브랜드 머리글 (HTML 수정 없이 CSS로 삽입) */
   .main::before {
-    content: "모두의연구소 · 표준 제안서 덱";
+    content: "모두의연구소 · AI 기업교육 카탈로그";
     display: block;
     font-size: 10px;
     font-weight: 700;

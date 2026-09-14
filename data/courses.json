@@ -7,7 +7,7 @@
    "신규과목 편성표 202609",
    "Microsoft 4H 커리큘럼"
   ],
-  "notes": "오프라인 표준과목 74종. code가 유일 식별자이며 category·audience·ax_stage와 항상 일치한다. category_name·audience_name 라벨은 taxonomy 파일이 보유한다. case_internal은 내부 전용 필드로 공개 빌드에서 제거한다. hours가 null인 과목은 hours_note의 협의 조건을 따른다. | apply_course_fixes: 재분류·직무 8H·AX1 4H·파생 표준과목(derived) 추가",
+  "notes": "오프라인 표준과목 97종. code가 유일 식별자이며 category·audience·ax_stage와 항상 일치한다. category_name·audience_name 라벨은 taxonomy 파일이 보유한다. case_internal은 내부 전용 필드로 공개 빌드에서 제거한다. hours가 null인 과목은 hours_note의 협의 조건을 따른다. | apply_course_fixes: 재분류·직무 8H·AX1 4H·파생 표준과목(derived) 추가",
   "public_build": true
  },
  "courses": [

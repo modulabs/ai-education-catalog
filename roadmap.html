@@ -73,7 +73,7 @@
         <div class="rb-field"><label for="ind">조직 유형</label><select id="ind"></select></div>
         <div class="rb-field"><label for="dur">교육 기간 규모</label><select id="dur"></select></div>
         <div class="rb-field"><label for="reg">규제 환경</label><select id="reg"></select></div>
-        <div class="rb-field"><label for="level">현재 AI 활용 수준</label><select id="level"><option value="">잘 모르겠어요</option><option value="도구는 열었지만 소수만 사용">도구는 열었지만 소수만 사용</option><option value="이미 사용 중이지만 성과가 없음">이미 사용 중이지만 성과가 없음</option><option value="직군별 편차가 큼">직군별 편차가 큼</option></select></div>
+        <div class="rb-field"><label for="level">현재 AI 활용 수준</label><select id="level"></select></div>
         <div class="rb-field" style="grid-column:1 / -1;"><label>관심 주제 (복수 선택)</label><div class="rb-topics" id="topics"></div></div>
         <div class="rb-field" style="grid-column:1 / -1;"><label for="kw">해결하고 싶은 업무·키워드 (선택, 쉼표 구분)</label><input id="kw" placeholder="예: Copilot, 회의록 자동화, 사내 문서 검색, 망분리"></div>
         <div class="rb-actions">
@@ -107,6 +107,10 @@
       var bands = KB.data.roadmaps.duration_bands; $('dur').innerHTML = Object.keys(bands).map(function (k) { return '<option value="' + k + '"' + (k === 'day' ? ' selected' : '') + '>' + esc(bands[k].label) + '</option>'; }).join('');
       opt($('reg'), T.regulation, function (r) { return r.code; }, function (r) { return r.name; }, 'none');
       $('topics').innerHTML = T.categories.filter(function (c) { return c.status === 'active'; }).map(function (c) { return '<label><input type="checkbox" value="' + esc(c.code) + '"> ' + esc(c.name) + '</label>'; }).join('');
+      // 시작 지점은 online_courses.starting_points 가 정본이다. index.html 카드도 consult.html 위자드도
+      // 이 값으로 링크·선택지를 만든다. 여기만 손으로 적어 두면 ?level= 이 조용히 버려진다 — 실제로 그랬다.
+      $('level').innerHTML = '<option value="">잘 모르겠어요</option>'
+        + O.starting_points.map(function (s) { return '<option value="' + esc(s.situation) + '">' + esc(s.situation) + '</option>'; }).join('');
       // URL 파라미터 프리필 (consult.html 연동)
       var q = new URLSearchParams(location.search);
       ['aud', 'ind', 'dur', 'reg', 'role', 'level'].forEach(function (k) { if (q.get(k)) $(k).value = q.get(k); });

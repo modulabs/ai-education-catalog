@@ -24,8 +24,14 @@
     .msg.sys { align-self:center; background:transparent; color:#999; font-size:12.5px; }
     .msg .who { font-size:11px; font-weight:800; color:#C92434; margin-bottom:3px; }
     .chat-input-row { display:flex; gap:8px; padding:12px; border-top:1px solid #f0f0f2; background:#fafafa; flex-wrap:wrap; }
-    .chat-input-row input { flex:1; min-width:200px; padding:11px 14px; border:1.5px solid #ddd; border-radius:10px; font-size:14px; font-family:inherit; }
-    .chat-input-row input:focus { outline:none; border-color:#EE3E4C; }
+    .chat-input-row textarea { flex:1; min-width:200px; padding:11px 14px; border:1.5px solid #ddd; border-radius:10px; font-size:14px; font-family:inherit; line-height:1.5; resize:none; overflow-y:auto; max-height:120px; }
+    .chat-input-row textarea:focus { outline:none; border-color:#EE3E4C; }
+    /* 폰에서는 입력창이 한 줄을 통째로 쓰고 버튼이 아래에 나란히 선다 */
+    @media (max-width: 560px) {
+      .chat-input-row { gap:6px; padding:10px; }
+      .chat-input-row textarea { flex:1 1 100%; min-width:0; }
+      .chat-input-row .btn { flex:1 1 auto; min-height:44px; padding:10px 14px; font-size:13px; }
+    }
     .req-strip { display:flex; gap:6px; flex-wrap:wrap; padding:8px 12px; border-top:1px dashed #eee; background:#fff; font-size:12px; }
     .req-strip span { background:#f3f3f3; border-radius:999px; padding:2px 9px; color:#444; }
     .req-strip span.on { background:#fff0f1; color:#C92434; font-weight:700; }
@@ -128,7 +134,7 @@
           <div class="chat-log" id="chatLog" aria-live="polite"></div>
           <div class="req-strip" id="reqStrip" aria-label="파악된 요구조건"></div>
           <div class="chat-input-row">
-            <input type="text" id="chatInput" placeholder="예) 개발자 아닌 직원 300명인데 도구는 열어줬지만 쓰는 사람이 적어요" maxlength="500" aria-label="상담 메시지">
+            <textarea id="chatInput" rows="1" placeholder="예) 개발자 아닌 직원 300명인데 도구는 열어줬지만 쓰는 사람이 적어요&#10;Shift+Enter 로 줄바꿈" maxlength="500" aria-label="상담 메시지"></textarea>
             <button class="btn" id="chatSend" type="button">보내기</button>
             <button class="btn ghost" id="chatFinish" type="button" hidden>✅ 이 조건으로 주제 추천받기</button>
             <button class="btn ghost" id="chatReset" type="button" title="대화를 지우고 새로 시작">↺ 새 상담</button>
@@ -226,7 +232,7 @@
     var GREETING = '안녕하세요, 모두의연구소 AI 기업교육 상담사입니다. 몇 가지 여쭤보고 조직 상황에 맞는 교육 주제를 정리해 추천드리겠습니다. 먼저, 이번 교육은 어떤 분들을 대상으로 생각하고 계신가요? (예: 비개발 실무자 300명, 개발팀 15명, 임원진)';
     async function send(text) {
       text = (text || '').trim(); if (!text) return;
-      render('user', text); state.history.push({ role: 'user', content: text }); $('chatInput').value = ''; $('chatSend').disabled = true;
+      render('user', text); state.history.push({ role: 'user', content: text }); $('chatInput').value = ''; autoGrow(); $('chatSend').disabled = true;
       var typing = document.createElement('div'); typing.className = 'msg sys'; typing.textContent = '상담사가 답변을 작성하고 있습니다…'; $('chatLog').appendChild(typing);
       try {
         var r = await fetch(CONSULT_API + '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: state.history.slice(-16), q_count: state.qCount, requirements: state.reqs }) });
@@ -243,7 +249,18 @@
       } finally { $('chatSend').disabled = false; $('chatInput').focus(); }
     }
     $('chatSend').addEventListener('click', function () { send($('chatInput').value); });
-    $('chatInput').addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); send($('chatInput').value); } });
+    // 입력창 높이를 내용에 맞춘다 (최대 120px 까지, 그 뒤로는 내부 스크롤)
+    function autoGrow() { var t = $('chatInput'); t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, 120) + 'px'; }
+    $('chatInput').addEventListener('input', autoGrow);
+    // 터치 기기에서는 Enter 를 가로채지 않는다 — 가상 키보드에는 Shift 가 없어서
+    // 가로채면 줄바꿈할 방법이 사라진다. 전송은 [보내기] 버튼으로 한다.
+    var ENTER_SENDS = !(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    $('chatInput').addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      if (e.isComposing || e.keyCode === 229) return;   // 한글 조합 중 Enter 는 조합 확정이다
+      if (e.shiftKey || !ENTER_SENDS) return;           // Shift+Enter = 줄바꿈 (기본 동작 그대로)
+      e.preventDefault(); send($('chatInput').value);
+    });
     $('chatReset').addEventListener('click', function () { clearSaved(); location.href = location.pathname; });
     $('chatFinish').addEventListener('click', function () { finishWithReqs(state.reqs, true); });
 
