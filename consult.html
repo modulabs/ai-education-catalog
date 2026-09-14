@@ -23,6 +23,18 @@
     .msg.user { align-self:flex-end; background:#EE3E4C; color:#fff; border-bottom-right-radius:4px; }
     .msg.sys { align-self:center; background:transparent; color:#999; font-size:12.5px; }
     .msg .who { font-size:11px; font-weight:800; color:#C92434; margin-bottom:3px; }
+    /* 답변별 만족도 — 평소엔 흐리게 두고 말풍선에 올리면 또렷해진다. 대화를 방해하지 않는다 */
+    .fb { display:flex; align-items:center; gap:4px; margin-top:7px; flex-wrap:wrap; }
+    .fb-btn { border:1px solid transparent; background:none; border-radius:8px; padding:2px 6px; font-size:14px; line-height:1.2; cursor:pointer; opacity:.4; transition:opacity .12s, border-color .12s; }
+    .msg.bot:hover .fb-btn, .fb-btn:focus-visible { opacity:.85; }
+    .fb-btn[aria-pressed="true"] { opacity:1; border-color:#EE3E4C; background:#fff5f6; }
+    .fb-note { font-size:11.5px; color:#888; margin-left:2px; }
+    .fb-reason { display:flex; gap:5px; flex:1 1 100%; margin-top:5px; }
+    .fb-reason input { flex:1; min-width:140px; padding:6px 9px; border:1.5px solid #ddd; border-radius:8px; font-size:12.5px; font-family:inherit; }
+    .fb-reason input:focus { outline:none; border-color:#EE3E4C; }
+    .fb-reason button { border:1px solid #ddd; background:#fff; border-radius:8px; padding:5px 10px; font-size:12px; font-family:inherit; cursor:pointer; }
+    .fb-overall { display:flex; align-items:center; gap:8px; flex-wrap:wrap; background:#fafafa; border:1px solid #eee; border-radius:12px; padding:11px 15px; margin:0 0 16px; font-size:13.5px; color:#444; }
+    .fb-overall .fb { margin-top:0; }
     .chat-input-row { display:flex; gap:8px; padding:12px; border-top:1px solid #f0f0f2; background:#fafafa; flex-wrap:wrap; }
     .chat-input-row textarea { flex:1; min-width:200px; padding:11px 14px; border:1.5px solid #ddd; border-radius:10px; font-size:14px; font-family:inherit; line-height:1.5; resize:none; overflow-y:auto; max-height:120px; }
     .chat-input-row textarea:focus { outline:none; border-color:#EE3E4C; }
@@ -153,6 +165,10 @@
           <a class="btn ghost" id="toBuilder" href="roadmap.html">🛤 로드맵 빌더에서 조건 조정</a>
           <button class="btn ghost" type="button" id="restart">↺ 처음부터</button>
         </div>
+        <div class="fb-overall no-print" id="fbOverall" hidden>
+          <span>이번 상담은 도움이 되셨나요?</span>
+          <span id="fbOverallSlot"></span>
+        </div>
         <div id="brief"></div>
         <div class="proposal" id="proposal" hidden>
           <div class="who">모두의연구소 상담사 제안 코멘트</div>
@@ -195,12 +211,23 @@
     var CONSULT_API = 'https://modulabs-consult-proxy.modulabs-openclaw.workers.dev';
     var SS_KEY = 'modu_consult_v2';
     var MIN_Q = 4, MAX_Q = 8;
-    var state = { history: [], reqs: {}, qCount: 0, finished: false, apiOk: false, mode: 'chat' };
+    // convId — 이 상담을 서버 기록과 잇는 열쇠. #chatNotice 로 저장을 고지하고 쓴다.
+    // crypto.randomUUID 는 보안 컨텍스트(https·localhost)에만 있다. 없으면 대화 id 가
+    // undefined 가 되고 서버가 형식 검사에서 조용히 버려 피드백이 한 건도 안 쌓인다.
+    function newConvId() {
+      try { if (crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+      var b = new Uint8Array(16);
+      try { crypto.getRandomValues(b); } catch (e) { for (var i = 0; i < 16; i++) b[i] = Math.floor(Math.random() * 256); }
+      b[6] = (b[6] & 0x0f) | 0x40; b[8] = (b[8] & 0x3f) | 0x80;
+      var h = [].map.call(b, function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+      return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
+    }
+    var state = { history: [], reqs: {}, qCount: 0, finished: false, apiOk: false, mode: 'chat', convId: newConvId() };
     var roadmap = null;
 
     // ---------- 세션 저장 (탭 닫으면 사라짐 — 공용 PC 보호)
-    function save() { try { sessionStorage.setItem(SS_KEY, JSON.stringify({ history: state.history, reqs: state.reqs, qCount: state.qCount, finished: state.finished, ts: Date.now() })); } catch (e) {} }
-    function restore() { try { var s = JSON.parse(sessionStorage.getItem(SS_KEY) || 'null'); if (s && Date.now() - s.ts < 6 * 3600e3) { state.history = s.history || []; state.reqs = s.reqs || {}; state.qCount = s.qCount || 0; state.finished = !!s.finished; return true; } } catch (e) {} return false; }
+    function save() { try { sessionStorage.setItem(SS_KEY, JSON.stringify({ history: state.history, reqs: state.reqs, qCount: state.qCount, finished: state.finished, convId: state.convId, ts: Date.now() })); } catch (e) {} }
+    function restore() { try { var s = JSON.parse(sessionStorage.getItem(SS_KEY) || 'null'); if (s && Date.now() - s.ts < 6 * 3600e3) { state.history = s.history || []; state.reqs = s.reqs || {}; state.qCount = s.qCount || 0; state.finished = !!s.finished; if (s.convId) state.convId = s.convId; return true; } } catch (e) {} return false; }
     function clearSaved() { try { sessionStorage.removeItem(SS_KEY); } catch (e) {} }
 
     // ---------- 탭
@@ -214,11 +241,67 @@
     function showBanner(msg, kind) { var b = $('banner'); b.textContent = msg; b.className = 'banner ' + (kind || 'info'); b.hidden = false; }
 
     // ---------- 채팅
-    function render(who, text) {
+    function render(who, text, messageId) {
       var d = document.createElement('div'); d.className = 'msg ' + who;
       if (who === 'bot') { var w = document.createElement('div'); w.className = 'who'; w.textContent = '상담사'; d.appendChild(w); }
       d.appendChild(document.createTextNode(text));
+      if (who === 'bot' && messageId) d.appendChild(feedbackBar(messageId));
       $('chatLog').appendChild(d); $('chatLog').scrollTop = $('chatLog').scrollHeight;
+    }
+
+    /**
+     * 답변별 👍👎.
+     *
+     * 실패해도 화면은 눌린 상태를 유지한다 — 고객에게 "평가가 안 됐다"고 알리는 것보다
+     * 상담 흐름을 안 끊는 쪽이 낫다. 대신 콘솔에 남겨 수집 누락을 사후에 확인할 수 있게 한다.
+     * 마음이 바뀌어 다시 누르면 서버가 UPSERT 로 뒤집는다(중복 행이 생기지 않는다).
+     */
+    function feedbackBar(messageId) {
+      var bar = document.createElement('div'); bar.className = 'fb';
+      var note = document.createElement('span'); note.className = 'fb-note';
+      var btns = {};
+      ['up', 'down'].forEach(function (v) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'fb-btn'; b.dataset.verdict = v;
+        b.textContent = v === 'up' ? '👍' : '👎';
+        b.setAttribute('aria-label', v === 'up' ? '도움이 됐어요' : '아쉬워요');
+        b.addEventListener('click', function () {
+          var on = b.getAttribute('aria-pressed') === 'true';
+          Object.keys(btns).forEach(function (k) { btns[k].setAttribute('aria-pressed', 'false'); });
+          if (on) { note.textContent = ''; return; }   // 같은 버튼을 다시 누르면 해제
+          b.setAttribute('aria-pressed', 'true');
+          note.textContent = v === 'up' ? '고맙습니다.' : '';
+          if (v === 'down') askReason(bar, messageId, note);
+          sendFeedback({ message_id: messageId, verdict: v });
+        });
+        btns[v] = b; bar.appendChild(b);
+      });
+      bar.appendChild(note);
+      return bar;
+    }
+
+    function askReason(bar, messageId, note) {
+      if (bar.querySelector('.fb-reason')) return;
+      var wrap = document.createElement('span'); wrap.className = 'fb-reason';
+      var input = document.createElement('input');
+      input.type = 'text'; input.maxLength = 200; input.placeholder = '어떤 점이 아쉬우셨나요? (선택)';
+      var ok = document.createElement('button'); ok.type = 'button'; ok.textContent = '보내기';
+      function submit() {
+        var t = input.value.trim();
+        wrap.remove(); note.textContent = t ? '의견 고맙습니다.' : '';
+        if (t) sendFeedback({ message_id: messageId, verdict: 'down', reason: t });
+      }
+      ok.addEventListener('click', submit);
+      input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); submit(); } });
+      wrap.appendChild(input); wrap.appendChild(ok); bar.appendChild(wrap); input.focus();
+    }
+
+    function sendFeedback(payload) {
+      payload.conversation_id = state.convId;
+      return fetch(CONSULT_API + '/api/feedback', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+      }).then(function (r) { if (!r.ok) console.warn('피드백 전송 실패', r.status); })
+        .catch(function (e) { console.warn('피드백 전송 실패', e); });
     }
     function updateBadge() {
       $('qBadge').textContent = '질문 ' + state.qCount + '/' + MAX_Q;
@@ -235,11 +318,11 @@
       render('user', text); state.history.push({ role: 'user', content: text }); $('chatInput').value = ''; autoGrow(); $('chatSend').disabled = true;
       var typing = document.createElement('div'); typing.className = 'msg sys'; typing.textContent = '상담사가 답변을 작성하고 있습니다…'; $('chatLog').appendChild(typing);
       try {
-        var r = await fetch(CONSULT_API + '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: state.history.slice(-16), q_count: state.qCount, requirements: state.reqs }) });
+        var r = await fetch(CONSULT_API + '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: state.history.slice(-16), q_count: state.qCount, requirements: state.reqs, conversation_id: state.convId }) });
         var d = await r.json();
         typing.remove();
         if (!r.ok || !d.ok) throw new Error(d.error || ('HTTP ' + r.status));
-        render('bot', d.reply); state.history.push({ role: 'assistant', content: d.reply });
+        render('bot', d.reply, d.message_id); state.history.push({ role: 'assistant', content: d.reply, message_id: d.message_id || null });
         state.reqs = d.requirements || state.reqs; state.qCount = d.q_count || state.qCount;
         if (d.intent === 'summarize' || d.done) { state.finished = true; render('sys', '조건이 정리되었습니다. 아래 버튼을 누르면 요구조건 정리와 추천 주제를 보여드립니다.'); }
         updateBadge(); save();
@@ -266,7 +349,7 @@
 
     function initChat(restored) {
       $('chatLog').innerHTML = '';
-      if (restored && state.history.length) { state.history.forEach(function (m) { render(m.role === 'user' ? 'user' : 'bot', m.content); }); render('sys', '이전 상담을 이어서 진행합니다.'); }
+      if (restored && state.history.length) { state.history.forEach(function (m) { render(m.role === 'user' ? 'user' : 'bot', m.content, m.message_id); }); render('sys', '이전 상담을 이어서 진행합니다.'); }
       else { render('bot', GREETING); state.history.push({ role: 'assistant', content: GREETING }); }
       updateBadge();
     }
@@ -359,6 +442,12 @@
       a.keywords = a.keywords || [];
       roadmap = KB.buildRoadmap(a);
       $('resultWrap').hidden = false;
+      // 대화 전체 만족도. 빠른 선택(위자드)만 쓴 경우엔 평가할 대화가 없으므로 띄우지 않는다
+      // — 메시지 없는 대화 행에 평가만 쌓이면 만족도 지표가 상담 품질을 못 나타낸다.
+      if (state.history.length > 1 && !$('fbOverallSlot').firstChild) {
+        $('fbOverallSlot').appendChild(feedbackBar(null));
+        $('fbOverall').hidden = false;
+      }
       var weak = roadmap.match_quality.level === 'weak';
 
       // ① 요구조건 정리 — 기본값으로 메운 항목이 확정처럼 보이지 않도록 원본 응답을 넘긴다
@@ -439,7 +528,7 @@
       if (roadmap) parts.push(roadmap.narrative.headline + ' / 집합 ' + roadmap.total_hours + 'H / ' + roadmap.stages.map(function (s) { return s.required.name; }).join(' → '));
       var summary = parts.join(' || ');
       try {
-        var r = await fetch(CONSULT_API + '/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ company: company, contact: contact, message: message, summary: summary, requirements: a, roadmap: roadmap ? KB.roadmapForLLM(roadmap) : null, consent: true }) });
+        var r = await fetch(CONSULT_API + '/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ company: company, contact: contact, message: message, summary: summary, requirements: a, roadmap: roadmap ? KB.roadmapForLLM(roadmap) : null, consent: true, conversation_id: state.convId }) });
         var d = await r.json();
         if (!r.ok || !d.ok) throw new Error(d.error || r.status);
         msg.innerHTML = '<span class="lead-ok">상담 요청이 접수되었습니다. 비즈팀이 확인 후 연락드리겠습니다.</span>'; clearSaved();
